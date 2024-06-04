@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+body{
+  background-color: #FFFBF5;
+}
 
 @font-face {
   font-family: 'Gilroy-Bold';
