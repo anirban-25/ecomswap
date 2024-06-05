@@ -17,9 +17,9 @@ export default function RootLayout({
   return (
       <html lang="en" className="=">
         <body className={inter.className}>
-            <AuthRouter>
+            
               <div className=" min-h-screen">{children}</div>
-            </AuthRouter>
+            
         </body>
       </html>
   );
