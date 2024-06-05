@@ -13,8 +13,7 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/utils/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/homePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/java-course-components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/student-dashboard-components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/listPageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
