@@ -12,7 +12,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/utils/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/python-course-components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/homePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/java-course-components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/student-dashboard-components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -21,7 +21,7 @@ const config: Config = {
     screens: {
       "sm": "640px",
       "md": "768px",
-      "lg": "1024px",
+      "lg": "950px",
       "macbook": "1430px",
       "xl": "1280px"
       // => @media (min-width: 640px) { ... }
@@ -82,7 +82,12 @@ const config: Config = {
         {
           "bg-grid": (value: any) => ({
             backgroundImage: `url("${svgToDataUri(
-              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"  fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`
+            )}")`,
+          }),
+          "bg-grid-large": (value: any) => ({
+            backgroundImage: `url("${svgToDataUri(
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"  transform="rotate(30 20 20)"/></svg>`
             )}")`,
           }),
           "bg-grid-small": (value: any) => ({

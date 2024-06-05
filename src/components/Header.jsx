@@ -9,7 +9,7 @@ const Header = () => {
         <div>
           <Image src="/images/logo.png" width={120} height={150} alt="logo" />
         </div>
-        <div className="flex font-gilroy-medium space-x-10">
+        <div className="hidden lg:flex font-gilroy-medium space-x-10">
           <div className=" font-gilroy-bold underline">Home</div>
           <div>Products</div>
           <div>Resources</div>
