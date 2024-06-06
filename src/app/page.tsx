@@ -62,7 +62,7 @@ const page = () => {
   const renderReviews = () => {
     return (
       <div className="mt-10 space-y-5 lg:space-y-0 lg:space-x-10 lg:px-20 lg:flex justify-between">
-        {reviewList.map((review) => (
+        {reviewList.map((review, i) => (
           <div className=" bg-white h-full border-[1px] border-black rounded-xl p-4">
             <div className="h-[100%]">
               <div className="flex items-center space-x-3">

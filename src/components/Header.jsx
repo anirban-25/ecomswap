@@ -15,7 +15,7 @@ const Header = () => {
           <div>Resources</div>
           <div>Pricing</div>
         </div>
-        <div className="flex space-x-3 items-center">
+        <div className="flex space-x-7 items-center">
           <div className="flex items-center">
             <div className="font-gilroy-bold ">View Listings</div>
             <div>

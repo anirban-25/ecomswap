@@ -14,6 +14,7 @@ const config: Config = {
     "./src/utils/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/homePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/listPageComponents/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/sellYourSitePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {

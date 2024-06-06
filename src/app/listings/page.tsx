@@ -1,9 +1,8 @@
 import React from 'react';
 import Header from "@/components/Header";
 import Filters from '@/listPageComponents/Filters';
-import Listings from '@/listPageComponents/Listings'; 
+import Listings from '@/listPageComponents/Listings';
 import BusinessesForSale from '@/listPageComponents/BusinessesForSale';
-
 const listings = [
   {
     id: 1,
@@ -17,7 +16,11 @@ const listings = [
     trafficPercentage: -5,
     type: 'eCommerce',
     industry: 'Home and Garden',
-    monetization: 'eCommerce'
+    monetization: 'eCommerce',
+    location: 'United States',
+    profit: '+25%',
+    revenue: '+25%',
+    traffic: '-5%'
   },
   {
     id: 2,
@@ -31,10 +34,13 @@ const listings = [
     trafficPercentage: -5,
     type: 'eCommerce',
     industry: 'Furniture',
-    monetization: 'eCommerce'
+    monetization: 'eCommerce',
+    location: 'Canada',
+    profit: '+10%',
+    revenue: '+15%',
+    traffic: '+10%'
   },
 ];
-
 const Page = () => {
   return (
     <div className='py-7'>
@@ -51,5 +57,4 @@ const Page = () => {
     </div>
   );
 };
-
 export default Page;
