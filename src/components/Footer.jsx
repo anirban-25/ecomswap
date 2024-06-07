@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="px-20 flex justify-between">
         <div>
           <div>
-            <Image src="/images/logo.png" height={100} width={100} alt="logo" />
+            <Image src="/images/logo.svg" height={100} width={100} alt="logo" />
           </div>
           <div className="text-sm font-gilroy-light mt-5">
             Experience a smooth, simple and hassle free experience.

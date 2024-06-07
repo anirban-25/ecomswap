@@ -13,7 +13,7 @@ const BusinessesForSale = () => {
       }}
     >
       <Image
-        src="/images/bg.png"
+        src="/images/background.svg"
         alt="Purple Background with Building"
         layout="fill"
         objectFit="cover"
