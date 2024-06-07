@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+
+<!--
+ //
+-->
+
+<html lang="zxx">
+  <head>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="images/favicon.png" />
+    <!-- theme meta -->
+    <meta name="theme-name" content="Ecomswap" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- responsive meta -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=5"
+    />
+
+    <!-- title -->
+    <title>Ecomswap</title>
+
+    <!-- noindex robots -->
+    <meta name="robots" content="" />
+    <!-- meta-description -->
+    <meta name="description" content="meta description" />
+    <!-- author from config.json -->
+    <meta name="author" content="{config.metadata.meta_author}" />
+
+    <!-- og-title -->
+    <meta property="og:title" content="" />
+
+    <!-- og-description -->
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/" />
+
+    <!-- twitter-title -->
+    <meta name="twitter:title" content="" />
+
+    <!-- twitter-description -->
+    <meta name="twitter:description" content="" />
+
+    <!-- og-image -->
+    <meta property="og:image" content="" />
+
+    <!-- twitter-image -->
+    <meta name="twitter:image" content="" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- google font css -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- <link
+    href="https://fonts.googleapis.com/css2?family=Lufga:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lufga:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  /> -->
+    <style>
+      @font-face {
+        font-family: "Lufga, sans-serif";
+        src: url("plugins/lufga/LufgaBold.ttf");
+        font-weight: 700;
+      }
+
+      img.number-icon {
+        max-width: 25px;
+        max-height: 25px;
+      }
+      .flexMe {
+        display: flex;
+        column-gap: 10px;
+      }
+      @font-face {
+        font-family: "Lufga, sans-serif";
+        src: url("plugins/lufga/LufgaSemiBold.ttf");
+        font-weight: 600;
+      }
+      @font-face {
+        font-family: "Lufga, sans-serif";
+        src: url("plugins/lufga/LufgaMedium.ttf");
+        font-weight: 500;
+      }
+      @font-face {
+        font-family: "Lufga, sans-serif";
+        src: url("plugins/lufga/LufgaRegular.ttf");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Lufga, sans-serif";
+        src: url("plugins/lufga/LufgaThin.ttf");
+        font-weight: 300;
+      }
+      .card {
+        border: 1px solid #b3b3b3;
+        box-shadow: 2px 4px 2px rgba(128, 102, 0, 0.1);
+      }
+      .ecommerce-radio-div:hover {
+        background-color: #f2f2f2;
+        cursor: pointer;
+      }
+
+      .ecommerce-radio-div {
+        padding: 10px;
+        margin-top: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-width: 1px;
+        --tw-border-opacity: 1;
+        border-color: rgb(204 163 0 / var(--tw-border-opacity));
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      .ecommerce-radio-div.active {
+        --tw-text-opacity: 1;
+        background-color: rgb(255 245 204 / var(--tw-text-opacity));
+        border: 1px solid rgb(91, 82, 0);
+      }
+    </style>
+    <style>
+      body {
+        background-image: url("images/project/body-bg.svg");
+      }
+    </style>
+
+    <!-- styles -->
+
+    <!-- Swiper slider -->
+    <link rel="stylesheet" href="plugins/swiper/swiper-bundle.css" />
+
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="plugins/font-awesome/v6/brands.css" />
+    <link rel="stylesheet" href="plugins/font-awesome/v6/solid.css" />
+    <link rel="stylesheet" href="plugins/font-awesome/v6/fontawesome.css" />
+    <link
+      rel="stylesheet"
+      href="plugins/country-select-js/countrySelect.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .country-select .flag {
+        background-image: url("images/project/country-select-js/flags.png");
+      }
+      .country-select.inside {
+        width: 100%;
+      }
+    </style>
+    <!-- Main Stylesheet -->
+    <link href="styles/main.css" rel="stylesheet" />
+  </head>
+
+  <header class="header">
+    <nav class="navbar container">
+      <!-- logo -->
+      <div class="order-0">
+        <a href="index.html">
+          <img
+            src="images/project/logo.svg"
+            height="30"
+            width="147"
+            alt="logo"
+          />
+        </a>
+      </div>
+      <!-- navbar toggler -->
+      <input id="nav-toggle" type="checkbox" class="hidden" />
+      <label
+        id="show-button"
+        for="nav-toggle"
+        class="order-1 flex cursor-pointer items-center lg:order-1 lg:hidden"
+      >
+        <svg class="h-6 fill-current" viewBox="0 0 20 20">
+          <title>Menu Open</title>
+          <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+        </svg>
+      </label>
+      <label
+        id="hide-button"
+        for="nav-toggle"
+        class="order-2 hidden cursor-pointer items-center lg:order-1"
+      >
+        <svg class="h-6 fill-current" viewBox="0 0 20 20">
+          <title>Menu Close</title>
+          <polygon
+            points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
+            transform="rotate(45 10 10)"
+          ></polygon>
+        </svg>
+      </label>
+      <!-- /navbar toggler -->
+      <ul
+        id="nav-menu"
+        class="navbar-nav order-2 hidden w-full flex-[0_0_100%] lg:order-1 lg:flex lg:w-auto lg:flex-auto lg:justify-center lg:space-x-5"
+      >
+        <li class="nav-item">
+          <a href="index.html" class="nav-link active">Home</a>
+        </li>
+        <li class="nav-item nav-dropdown group relative">
+          <span class="nav-link inline-flex items-center">
+            Products
+            <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+              <path
+                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+              />
+            </svg>
+          </span>
+          <ul
+            class="nav-dropdown-list hidden group-hover:block lg:invisible lg:absolute lg:block lg:opacity-0 lg:group-hover:visible lg:group-hover:opacity-100"
+          >
+            <li class="nav-dropdown-item">
+              <a href="career.html" class="nav-dropdown-link">Career</a>
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="career-single.html" class="nav-dropdown-link"
+                >Career Single</a
+              >
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="integrations.html" class="nav-dropdown-link"
+                >Integrations</a
+              >
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="integration-single.html" class="nav-dropdown-link"
+                >Integration Single</a
+              >
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="pricing.html" class="nav-dropdown-link">Pricing</a>
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="changelogs.html" class="nav-dropdown-link">Changelogs</a>
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="terms-conditions.html" class="nav-dropdown-link"
+                >Terms & Conditions</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item nav-dropdown group relative">
+          <span class="nav-link inline-flex items-center">
+            Resources
+            <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+              <path
+                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+              />
+            </svg>
+          </span>
+          <ul
+            class="nav-dropdown-list hidden group-hover:block lg:invisible lg:absolute lg:block lg:opacity-0 lg:group-hover:visible lg:group-hover:opacity-100"
+          >
+            <li class="nav-dropdown-item">
+              <a href="career.html" class="nav-dropdown-link">Career</a>
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="career-single.html" class="nav-dropdown-link"
+                >Career Single</a
+              >
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="integrations.html" class="nav-dropdown-link"
+                >Integrations</a
+              >
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="integration-single.html" class="nav-dropdown-link"
+                >Integration Single</a
+              >
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="pricing.html" class="nav-dropdown-link">Pricing</a>
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="changelogs.html" class="nav-dropdown-link">Changelogs</a>
+            </li>
+            <li class="nav-dropdown-item">
+              <a href="terms-conditions.html" class="nav-dropdown-link"
+                >Terms & Conditions</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="pricing.html" class="nav-link">Pricing</a>
+        </li>
+      </ul>
+      <div
+        class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex"
+      >
+        <a
+          class="align-items-center me-6 flex font-bold text-dark"
+          href="listing.html"
+        >
+          <span class="pe-2">View listings</span>
+        </a>
+        <a class="btn btn-dark btn-sm" href="#">Sell Now</a>
+      </div>
+    </nav>
+  </header>
+
+  <body>
+    <section class="inner-page-banner py-8 bg-gradientMe">
+      <div class="container">
+        <div
+          class="page-hero-content mx-auto"
+          style="display: flex; flex-direction: column; align-items: center"
+        >
+          <img
+            src="images/project/Sell Your Site.png"
+            height="120"
+            width="207"
+            alt="logo"
+          />
+        </div>
+      </div>
+    </section>
+    <div
+      style="
+        border: 1px dotted rgb(44, 43, 0);
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-bottom: 20px;
+      "
+    ></div>
+    <section class="section pt-8">
+      <div
+        class="container sell-site-form"
+        id="accordion"
+        data-accordion="collapse"
+        data-active-classes="bg-white"
+        data-inactive-classes="text-gray-500"
+      >
+        <div class="row">
+          <div class="md:col-8 mx-auto">
+            <div class="card border">
+              <div class="form-sec">
+                <h2
+                  class="text-xl font-semibold flex justify-between cursor-pointer"
+                  data-accordion-target="#BusinessOverview"
+                  aria-expanded="true"
+                  aria-controls="BusinessOverview"
+                >
+                  <div class="flexMe">
+                    <img
+                      src="images/project/one.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />
+                    <div style="margin-right: 2px"></div>
+                    <img
+                      src="images/project/business_overview.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />Business Overview
+                  </div>
+                  <i
+                    data-accordion-icon=""
+                    class="fa-solid fa-chevron-down rotate-180 text-base mt-1"
+                  ></i>
+                </h2>
+                <ul class="mt-4" id="BusinessOverview">
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 pt-4">
+                      Business Type
+                    </h3>
+                    <ul class="grid w-full gap-4 md:grid-cols-3 ratio-list">
+                      <li>
+                        <input
+                          type="radio"
+                          id="Shopify"
+                          name="type_of_business"
+                          value="Shopify"
+                          class="hidden peer"
+                          required
+                        />
+                        <label
+                          for="Shopify"
+                          class="redio-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Shopify</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="radio"
+                          id="E-commerce"
+                          name="type_of_business"
+                          value="E-commerce"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="E-commerce"
+                          class="redio-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">E-commerce</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="radio"
+                          id="Amazon-FBA"
+                          name="type_of_business"
+                          value="Amazon-FBA"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Amazon-FBA"
+                          class="redio-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Amazon FBA</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="radio"
+                          id="SaaS"
+                          name="type_of_business"
+                          value="SaaS"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="SaaS"
+                          class="redio-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">SaaS</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="radio"
+                          id="Content"
+                          name="type_of_business"
+                          value="Content"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Content"
+                          class="redio-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Content</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="radio"
+                          id="Others"
+                          name="type_of_business"
+                          value="Others"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Others"
+                          class="redio-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Others</div>
+                          </div>
+                        </label>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    id="ecommerce-divs-list"
+                    class="hidden ecommerce-divs-list-box"
+                  >
+                    <h3
+                      class="text-base font-semibold"
+                      style="text-align: center"
+                    >
+                      How do you make money?
+                    </h3>
+                    <p style="text-align: center; margin-bottom: 8px">
+                      Check any that apply
+                    </p>
+                    <div class="ecommerce-radio-divs">
+                      <div
+                        style="
+                          display: flex;
+                          padding: 6px;
+                          border-radius: 5px;
+                          align-items: center;
+                        "
+                        class="ecommerce-box ecommerce-radio-div"
+                        id="div1"
+                      >
+                        <input
+                          type="radio"
+                          id="option1"
+                          name="ecommerce-option"
+                          value="Shipping physical products"
+                          style="margin-right: 10px"
+                        />
+                        <label
+                          for="option1"
+                          style="
+                            display: flex;
+                            align-items: center;
+                            cursor: pointer;
+                          "
+                        >
+                          <img
+                            src="/theme/images/project/box.png"
+                            style="
+                              width: 40px;
+                              height: 40px;
+                              margin-right: 10px;
+                            "
+                          />
+                          <div>
+                            <h3 class="text-base">
+                              Shipping physical products
+                            </h3>
+                            <div>
+                              Orders are fulfilled and shipped from your home,
+                              business, warehouse, or distribution center.
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                      <div
+                        style="
+                          display: flex;
+                          padding: 6px;
+                          border-radius: 5px;
+                          align-items: center;
+                        "
+                        class="ecommerce-box ecommerce-radio-div"
+                        id="div2"
+                      >
+                        <input
+                          type="radio"
+                          id="option2"
+                          name="ecommerce-option"
+                          value="Shipping physical products"
+                          style="margin-right: 10px"
+                        />
+                        <label
+                          for="option2"
+                          style="
+                            display: flex;
+                            align-items: center;
+                            cursor: pointer;
+                          "
+                        >
+                          <img
+                            src="/theme/images/project/product.png"
+                            style="
+                              width: 40px;
+                              height: 40px;
+                              margin-right: 10px;
+                            "
+                          />
+                          <div>
+                            <h3 class="text-base">Shipping digital products</h3>
+                            <div>
+                              Products are digital (eBooks, courses, etc.).
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                      <div
+                        style="
+                          display: flex;
+                          padding: 6px;
+                          border-radius: 5px;
+                          align-items: center;
+                        "
+                        class="ecommerce-box ecommerce-radio-div"
+                        id="div3"
+                      >
+                        <input
+                          type="radio"
+                          id="option3"
+                          name="ecommerce-option"
+                          value="Shipping physical products"
+                          style="margin-right: 10px"
+                        />
+                        <label
+                          for="option3"
+                          style="
+                            display: flex;
+                            align-items: center;
+                            cursor: pointer;
+                          "
+                        >
+                          <img
+                            src="/theme/images/project/dropshipping.png"
+                            style="
+                              width: 40px;
+                              height: 40px;
+                              margin-right: 10px;
+                            "
+                          />
+                          <div>
+                            <h3 class="text-base">Dropshipping</h3>
+                            <div>
+                              Orders are fulfilled and shipped directly from a
+                              third-party logistics company (3PL), including
+                              Amazon FBA.
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                      <div
+                        style="
+                          display: flex;
+                          padding: 6px;
+                          border-radius: 5px;
+                          align-items: center;
+                        "
+                        class="ecommerce-box ecommerce-radio-div"
+                        id="div4"
+                      >
+                        <input
+                          type="radio"
+                          id="option4"
+                          name="ecommerce-option"
+                          value="Shipping physical products"
+                          style="margin-right: 10px"
+                        />
+                        <label
+                          for="option4"
+                          style="
+                            display: flex;
+                            align-items: center;
+                            cursor: pointer;
+                          "
+                        >
+                          <img
+                            src="/theme/images/project/printer.png"
+                            style="
+                              width: 40px;
+                              height: 40px;
+                              margin-right: 10px;
+                            "
+                          />
+                          <div>
+                            <h3 class="text-base">Print-on-demand</h3>
+                            <div>
+                              Orders are fulfilled and shipped from a printing
+                              company such as Printify or Amazon.
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 mt-8">
+                      Primary Source of User Acquisition
+                    </h3>
+                    <ul class="grid w-full gap-4 md:grid-cols-3 checkbox-list">
+                      <li>
+                        <input
+                          type="checkbox"
+                          id="SEO"
+                          value="SEO"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="SEO"
+                          class="checkbox-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">SEO</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="checkbox"
+                          id="Social-Media"
+                          value="Social-Media"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Social-Media"
+                          class="checkbox-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Social Media</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="checkbox"
+                          id="Paid-Ads"
+                          value="Paid-Ads"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Paid-Ads"
+                          class="checkbox-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Paid Ads</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="checkbox"
+                          id="Affiliate-Marketing"
+                          value="Affiliate-Marketing"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Affiliate-Marketing"
+                          class="checkbox-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Influencer Marketing</div>
+                          </div>
+                        </label>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3 mt-8">
+                      Brief Description of your Business
+                    </h3>
+                    <textarea
+                      id="message"
+                      rows="4"
+                      class="textarea-style"
+                      placeholder="Describe in about 200 words.."
+                    ></textarea>
+                  </li>
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3 mt-8">
+                      Website URL
+                    </h3>
+                    <div class="relative mb-6">
+                      <div
+                        class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                      >
+                        <svg
+                          height="24"
+                          width="24"
+                          viewBox="0 0 24 24"
+                          xml:space="preserve"
+                        >
+                          <g>
+                            <path
+                              d="M5.217,14.999c-0.325-0.016-0.6-0.235-0.688-0.543L3.75,11.73l-0.779,2.726c-0.088,0.309-0.363,0.527-0.683,0.543 C2.282,14.999,2.258,15,2.252,15c-0.31,0-0.584-0.185-0.698-0.472l-0.856-2.141C0.235,11.231,0,10.013,0,8.767V6.75 C0,6.336,0.336,6,0.75,6S1.5,6.336,1.5,6.75v2.017c0,1.054,0.199,2.085,0.59,3.063l0.041,0.104l0.897-3.14 C3.12,8.474,3.417,8.25,3.75,8.25s0.63,0.224,0.721,0.544l0.897,3.14l0.041-0.104C5.801,10.852,6,9.821,6,8.767V6.75 C6,6.336,6.336,6,6.75,6S7.5,6.336,7.5,6.75v2.017c0,1.246-0.235,2.464-0.698,3.621l-0.856,2.141 C5.832,14.815,5.221,15,5.217,14.999z"
+                            ></path>
+                            <path
+                              d="M13.467,14.999c-0.325-0.016-0.599-0.234-0.688-0.543L12,11.73l-0.779,2.726c-0.088,0.309-0.363,0.527-0.683,0.543 c-0.006,0-0.03,0.001-0.036,0.001c-0.31,0-0.584-0.185-0.698-0.472l-0.856-2.141c-0.463-1.156-0.698-2.375-0.698-3.62V6.75 C8.25,6.336,8.586,6,9,6s0.75,0.336,0.75,0.75v2.017c0,1.054,0.199,2.085,0.59,3.063l0.041,0.104l0.897-3.14 C11.37,8.474,11.667,8.25,12,8.25c0.333,0,0.629,0.224,0.721,0.544l0.897,3.14l0.042-0.104c0.391-0.979,0.59-2.01,0.59-3.064V6.75 C14.25,6.336,14.586,6,15,6s0.75,0.336,0.75,0.75v2.017c0,1.246-0.235,2.464-0.698,3.621l-0.856,2.141 C14.082,14.815,13.809,15,13.5,15C13.495,15,13.471,15,13.467,14.999z"
+                            ></path>
+                            <path
+                              d="M21.717,14.999c-0.325-0.016-0.599-0.234-0.688-0.543L20.25,11.73l-0.779,2.726c-0.088,0.309-0.363,0.527-0.683,0.543 c-0.006,0-0.029,0.001-0.035,0.001c-0.305,0-0.586-0.189-0.699-0.471l-0.856-2.141c-0.463-1.156-0.698-2.375-0.698-3.62V6.75 C16.5,6.336,16.836,6,17.25,6S18,6.336,18,6.75v2.017c0,1.054,0.199,2.085,0.59,3.063l0.042,0.104l0.897-3.14 c0.092-0.32,0.388-0.544,0.721-0.544s0.629,0.224,0.721,0.544l0.897,3.14l0.042-0.104c0.391-0.979,0.59-2.01,0.59-3.064V6.75 C22.5,6.336,22.836,6,23.25,6S24,6.336,24,6.75v2.017c0,1.246-0.235,2.464-0.698,3.621l-0.856,2.141 C22.332,14.815,22.059,15,21.75,15C21.745,15,21.721,15,21.717,14.999z"
+                            ></path>
+                            <path
+                              d="M0.75,1.5C0.336,1.5,0,1.164,0,0.75S0.336,0,0.75,0h22.5C23.664,0,24,0.336,24,0.75S23.664,1.5,23.25,1.5H0.75z"
+                            ></path>
+                            <path
+                              d="M6.75,24C6.336,24,6,23.664,6,23.25s0.336-0.75,0.75-0.75h1.615l0.5-3H0.75C0.336,19.5,0,19.164,0,18.75S0.336,18,0.75,18 h22.5c0.414,0,0.75,0.336,0.75,0.75s-0.336,0.75-0.75,0.75h-8.115l0.5,3h1.615c0.414,0,0.75,0.336,0.75,0.75S17.664,24,17.25,24 H6.75z M14.115,22.5l-0.5-3h-3.229l-0.5,3H14.115z"
+                            ></path>
+                          </g>
+                        </svg>
+                      </div>
+                      <input
+                        type="text"
+                        id="input-group-1"
+                        class="url-input"
+                        placeholder="http://"
+                      />
+                    </div>
+                  </li>
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3 mt-8">
+                      Location of the Business
+                    </h3>
+                    <form>
+                      <div class="form-item">
+                        <input
+                          id="country_selector"
+                          class="px-3 py-2 border border-yellow-200 rounded w-full"
+                          type="text"
+                        />
+                        <label for="country_selector" style="display: none"
+                          >Select a country here...</label
+                        >
+                      </div>
+
+                      <button type="submit" style="display: none">
+                        Submit
+                      </button>
+                    </form>
+                  </li>
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3 mt-8">
+                      When was the business first started?
+                    </h3>
+                    <div class="relative w-full">
+                      <div
+                        class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                      >
+                        <svg
+                          class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                          />
+                        </svg>
+                      </div>
+                      <input
+                        datepicker
+                        type="text"
+                        class="px-3 py-2 border border-yellow-200 rounded w-full ps-10 p-2.5"
+                        placeholder="Select date"
+                      />
+                    </div>
+                  </li>
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3 mt-8">
+                      Choose an Industry
+                    </h3>
+                    <select
+                      id="default"
+                      class="px-3 py-2 border border-yellow-200 rounded w-full"
+                    >
+                      <div class="p-4">
+                        <option value="Automotive">Automotive</option>
+                        <option value="Business">Business</option>
+                        <option value="Design and Style">
+                          Design and Style
+                        </option>
+                        <option value="Education">Education</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Food and Drink">Food and Drink</option>
+                        <option value="General Knowledge">
+                          General Knowledge
+                        </option>
+                        <option value="Health and Beauty">
+                          Health and Beauty
+                        </option>
+                        <option value="Hobbies and Games">
+                          Hobbies and Games
+                        </option>
+                        <option value="Home and Garden">Home and Garden</option>
+                        <option value="Internet">Internet</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Sports and Outdoor">
+                          Sports and Outdoor
+                        </option>
+                        <option value="Travel">Travel</option>
+                      </div>
+                    </select>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-6">
+          <div class="md:col-8 mx-auto">
+            <div class="card border">
+              <div class="form-sec">
+                <h2
+                  id="accordion-flush-heading-1"
+                  class="text-xl font-semibold flex justify-between cursor-pointer"
+                  data-accordion-target="#FinancialInformation"
+                  aria-expanded="false"
+                  aria-controls="FinancialInformation"
+                >
+                  <div class="flexMe">
+                    <img
+                      src="images/project/two.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />
+                    <div style="margin-right: 2px"></div>
+                    <img
+                      src="images/project/financial_information.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />Financial Information
+                  </div>
+                  <i
+                    data-accordion-icon=""
+                    class="fa-solid fa-chevron-down rotate-180 text-base mt-1"
+                  ></i>
+                </h2>
+                <ul
+                  class="mt-4 hidden"
+                  id="FinancialInformation"
+                  aria-labelledby="accordion-flush-heading-1"
+                >
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3">
+                      Trailing Total Revenue (TTM) in the Last 12 Months
+                    </h3>
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"
+                      >
+                        <i class="fa-solid fa-dollar-sign"></i>
+                      </div>
+                      <input
+                        type="text"
+                        class="px-3 py-2 border border-yellow-200 rounded w-full ps-8 p-2.5"
+                        placeholder="12345"
+                        pattern="/^[0-9]+$/"
+                        required
+                      />
+                    </div>
+                  </li>
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3 mt-8">
+                      Net Profit in the Last 12 Months
+                    </h3>
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"
+                      >
+                        <i class="fa-solid fa-dollar-sign"></i>
+                      </div>
+                      <input
+                        type="text"
+                        class="px-3 py-2 border border-yellow-200 rounded w-full ps-8 p-2.5"
+                        placeholder="12345"
+                        pattern="/^[0-9]+$/"
+                        required
+                      />
+                    </div>
+                  </li>
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3 mt-8">
+                      Upload your Excel file of Profit and Loss (PnL) in a Given
+                      Format (<a href="#" target="_blank" class="text-primary"
+                        >Sample file</a
+                      >)
+                    </h3>
+                    <div class="relative">
+                      <input
+                        class="block w-full text-lg text-gray-900 border border-yellow-200 rounded-lg cursor-pointer"
+                        id="large_size"
+                        type="file"
+                      />
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-6">
+          <div class="md:col-8 mx-auto">
+            <div class="card border">
+              <div class="form-sec">
+                <h2
+                  class="text-xl font-semibold flex justify-between cursor-pointer"
+                  data-accordion-target="#AnalyticsTools"
+                  aria-expanded="false"
+                  aria-controls="AnalyticsTools"
+                >
+                  <div class="flexMe">
+                    <img
+                      src="images/project/three.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />
+                    <div style="margin-right: 2px"></div>
+                    <img
+                      src="images/project/analytics_and_tools.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />
+                    Analytics and Tools
+                  </div>
+                  <i
+                    data-accordion-icon=""
+                    class="fa-solid fa-chevron-down rotate-180 text-base mt-1"
+                  ></i>
+                </h2>
+                <ul class="mt-4 hidden" id="AnalyticsTools">
+                  <li>
+                    <h3 class="text-base font-semibold pb-3">
+                      Do you currently have either Google Analytics or Clicky
+                      installed?
+                    </h3>
+                    <ul class="grid w-full gap-4 md:grid-cols-3 ratio-list">
+                      <li>
+                        <input
+                          type="radio"
+                          id="No"
+                          name="type_of_business"
+                          value="No"
+                          class="hidden peer"
+                          required
+                        />
+                        <label
+                          for="No"
+                          class="redio-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full font-semibold">No</div>
+                          </div>
+                        </label>
+                      </li>
+
+                      <li>
+                        <input
+                          type="radio"
+                          id="Yes"
+                          name="type_of_business"
+                          value="Yes"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Yes"
+                          class="redio-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full font-semibold">Yes</div>
+                          </div>
+                        </label>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <p class="text-sm mt-2 hidden" id="thank-you-message">
+                    <b>Note-</b>Please share the view access details with
+                    <a class="text-primary" href="#">admin@ecomswap.io</a><br />
+                    Watch this sample
+                    <a
+                      href="https://www.youtube.com/watch?v=_zzPxdERKJg&ab_channel=SchwebDesign"
+                      target="_blank"
+                      style="
+                        color: rgb(35, 92, 196);
+                        text-decoration: underline;
+                      "
+                      >video</a
+                    >
+                  </p>
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 mt-8">
+                      Which payment processors do you use?
+                    </h3>
+                    <ul class="grid w-full gap-4 md:grid-cols-3 checkbox-list">
+                      <li>
+                        <input
+                          type="checkbox"
+                          id="PayPal"
+                          value="PayPal"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="PayPal"
+                          class="checkbox-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">PayPal</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="checkbox"
+                          id="Shopify-payments"
+                          value="Shopify-payments"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Shopify-payments"
+                          class="checkbox-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Shopify-payments</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="checkbox"
+                          id="Klarna"
+                          value="Klarna"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Klarna"
+                          class="checkbox-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Klarna</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="checkbox"
+                          id="Stripe"
+                          value="Stripe"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Stripe"
+                          class="checkbox-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Stripe</div>
+                          </div>
+                        </label>
+                      </li>
+                      <li>
+                        <input
+                          type="checkbox"
+                          id="Other"
+                          value="Other"
+                          class="hidden peer"
+                        />
+                        <label
+                          for="Other"
+                          class="checkbox-input peer-checked:border-yellow-600 peer-checked:text-black peer-checked:bg-yellow"
+                        >
+                          <div class="block">
+                            <div class="w-full">Other</div>
+                          </div>
+                        </label>
+                      </li>
+                    </ul>
+                  </li>
+                  <b>Note-</b
+                  >Please share the view access details with
+                  <a class="text-primary" href="#">admin@ecomswap.io</a>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-6">
+          <div class="md:col-8 mx-auto">
+            <div class="card border">
+              <div class="form-sec">
+                <h2
+                  class="text-xl font-semibold flex justify-between cursor-pointer"
+                  data-accordion-target="#BusinessDescription"
+                  aria-expanded="false"
+                  aria-controls="BusinessDescription"
+                >
+                  <div class="flexMe">
+                    <img
+                      src="images/project/four.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />
+                    <div style="margin-right: 2px"></div>
+                    <img
+                      src="images/project/business_description.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />Business Description
+                  </div>
+                  <i
+                    data-accordion-icon=""
+                    class="fa-solid fa-chevron-down rotate-180 text-base mt-1"
+                  ></i>
+                </h2>
+                <ul class="mt-4 hidden" id="BusinessDescription">
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3">
+                      Detailed Business Description (200 words)
+                    </h3>
+                    <textarea
+                      id="message"
+                      rows="4"
+                      cols="10"
+                      class="textarea-style"
+                      placeholder="Write your thoughts here..."
+                    ></textarea>
+                  </li>
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 mt-8">
+                      Use bullet points to describe future business
+                      opportunities
+                    </h3>
+                    <textarea
+                      id="bulletPoints"
+                      rows="4"
+                      cols="10"
+                      class="textarea-style"
+                      placeholder="1.Expanding to paid advertisement 
+2.Improve SEO
+3.Improve Retention rates"
+                    ></textarea>
+                  </li>
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 mt-8">
+                      Risks associated with business
+                    </h3>
+                    <textarea
+                      id="riskPoints"
+                      rows="4"
+                      cols="10"
+                      class="textarea-style"
+                      placeholder="1.Due to constant changes in technology, competition, and the market as a whole, the software could become less relevant.
+2.Subscription services require customer service and the ability to stay on top of the subscribers requests."
+                    ></textarea>
+                  </li>
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 mt-8">
+                      Skills required to run this business
+                    </h3>
+                    <textarea
+                      id="Skills"
+                      rows="4"
+                      cols="10"
+                      class="textarea-style"
+                      placeholder="1.Completing inventory management
+2.Managing warehouse employee to fulfil FBM orders"
+                    ></textarea>
+                  </li>
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 mt-8">
+                      What support can you offer the new owner after the sale?
+                    </h3>
+                    <textarea
+                      id="support"
+                      rows="4"
+                      cols="10"
+                      class="textarea-style"
+                      placeholder="1.The Seller is willing to offer at least 30 days of email support and/or calls to ensure a smooth transition for the Buyer."
+                    ></textarea>
+                  </li>
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 mt-8">
+                      Reason for Sale
+                    </h3>
+                    <textarea
+                      id="support"
+                      rows="4"
+                      cols="10"
+                      class="textarea-style"
+                      placeholder="1.The Seller would like to explore other opportunities."
+                    ></textarea>
+                  </li>
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 mt-8">
+                      Which Countries do you target?
+                    </h3>
+                    <input
+                      type="text"
+                      name="opportunities"
+                      class="px-3 py-2 border border-yellow-200 rounded w-full"
+                      placeholder="Example - USA, Canada etc"
+                    />
+                  </li>
+                  <li>
+                    <h3 class="text-base font-semibold pb-3 mt-8">
+                      Social Media Profile Links
+                    </h3>
+                    <input
+                      type="text"
+                      name="opportunities"
+                      class="px-3 py-2 border border-yellow-200 rounded w-full"
+                      placeholder="Social Media Profile Links..."
+                    />
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-6">
+          <div class="md:col-8 mx-auto">
+            <div class="card border">
+              <div class="form-sec">
+                <h2
+                  class="text-xl font-semibold flex justify-between cursor-pointer"
+                  data-accordion-target="#AskingPrice"
+                  aria-expanded="false"
+                  aria-controls="AskingPrice"
+                >
+                  <div class="flexMe">
+                    <img
+                      src="images/project/five.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />
+                    <div style="margin-right: 2px"></div>
+                    <img
+                      src="images/project/asking_price.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />Asking Price
+                  </div>
+                  <i
+                    data-accordion-icon=""
+                    class="fa-solid fa-chevron-down rotate-180 text-base mt-1"
+                  ></i>
+                </h2>
+                <ul class="mt-4 hidden" id="AskingPrice">
+                  <li>
+                    <h3 for="message" class="text-base font-semibold pb-3">
+                      What’s your expected Asking Price?
+                    </h3>
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"
+                      >
+                        <i class="fa-solid fa-dollar-sign"></i>
+                      </div>
+                      <input
+                        type="text"
+                        class="px-3 py-2 border border-yellow-200 rounded w-full ps-8 p-2.5"
+                        placeholder="12345"
+                        pattern="/^[0-9]+$/"
+                        required
+                      />
+                    </div>
+                    <p class="text-base pt-2">
+                      <b>Note:</b> Please note that the amount you're asking for
+                      may not be the same as the amount we will list your
+                      startup for. We will contact you in case of any changes.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-6">
+          <div class="md:col-8 mx-auto">
+            <div class="card border">
+              <div class="form-sec">
+                <h2
+                  class="text-xl font-semibold flex justify-between cursor-pointer"
+                  data-accordion-target="#PersonalInfo"
+                  aria-expanded="false"
+                  aria-controls="PersonalInfo"
+                >
+                  <div class="flexMe">
+                    <img
+                      src="images/project/six.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />
+                    <div style="margin-right: 2px"></div>
+                    <img
+                      src="images/project/personal_information.png"
+                      class="number-icon"
+                      alt="Numbers Icon"
+                    />Personal Information
+                  </div>
+                  <i
+                    data-accordion-icon=""
+                    class="fa-solid fa-chevron-down rotate-180 text-base mt-1"
+                  ></i>
+                </h2>
+                <ul class="mt-4 hidden" id="PersonalInfo">
+                  <li>
+                    <h3 class="text-base font-semibold pb-2">
+                      Personal Information
+                    </h3>
+                    <form action="">
+                      <div class="mb-4">
+                        <label for="FullName">Full Name</label>
+                        <input
+                          id="FullName"
+                          type="text"
+                          name="FullName"
+                          class="px-3 py-2 border border-yellow-200 rounded w-full"
+                          placeholder="Enter Full Name"
+                        />
+                      </div>
+                      <div class="mb-4">
+                        <label for="Email">Email Address</label>
+                        <input
+                          id="Email"
+                          type="text"
+                          name="Email"
+                          class="px-3 py-2 border border-yellow-200 rounded w-full"
+                          placeholder="Enter Email Address"
+                        />
+                      </div>
+                      <div class="mb-4">
+                        <label for="phone_code">Phone Number</label>
+                        <div class="phone_code">
+                          <input
+                            type="text"
+                            id="phone_code"
+                            name="Phone"
+                            class="px-3 py-2 border border-yellow-200 rounded w-full"
+                            placeholder="Enter Phone Number"
+                          />
+                        </div>
+                      </div>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="footer pt-16">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 mt-12 md:col-4 lg:col-3">
+            <a href="index.html">
+              <img src="images/project/logo.svg" alt="" />
+            </a>
+            <p class="mt-6">
+              Experience a smooth, simple and hassle free experience.
+            </p>
+          </div>
+          <div class="md:col-8 lg:col-9">
+            <div class="row">
+              <div class="col-6 mt-12 md:col-3 lg:col">
+                <h6>Sellers</h6>
+                <ul>
+                  <li>
+                    <a href="#">List your Startup</a>
+                  </li>
+                  <li>
+                    <a href="#">Pricing</a>
+                  </li>
+                  <li>
+                    <a href="#">Get help Selling</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-6 mt-12 md:col-3 lg:col">
+                <h6>Buyers</h6>
+                <ul>
+                  <li>
+                    <a href="#">Browse Startups</a>
+                  </li>
+                  <li>
+                    <a href="#">Pricing</a>
+                  </li>
+                  <li>
+                    <a href="#">Instant Slack Alerts</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-6 mt-12 md:col-3 lg:col">
+                <h6>Company</h6>
+                <ul>
+                  <li>
+                    <a href="about.html">About Us</a>
+                  </li>
+                  <li>
+                    <a href="#">Testimonials</a>
+                  </li>
+                  <li>
+                    <a href="#">Legal</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-6 mt-12 md:col-3 lg:col">
+                <h6>Resources</h6>
+                <ul>
+                  <li>
+                    <a href="#">Help Center</a>
+                  </li>
+                  <li>
+                    <a href="#">Blog</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-6 mt-12 md:col-3 lg:col">
+                <h6>Contact Us</h6>
+                <ul>
+                  <li>
+                    <a href="#">support@ecomswap.com</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container mt-16">
+        <div
+          class="footer-copyright mx-auto flex justify-between border-t-2 py-10"
+        >
+          <p>© 2077 Untitled UI. All rights reserved.</p>
+          <ul class="social-icons">
+            <li>
+              <a href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <path
+                    d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                  />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <path
+                    d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+                  />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <path
+                    d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"
+                  />
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="plugins/swiper/swiper-bundle.js"></script>
+    <script src="plugins/shufflejs/shuffle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="plugins/country-select-js/countrySelect.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+
+    <!-- Main Script -->
+    <script src="scripts/main.js"></script>
+  </body>
+</html>

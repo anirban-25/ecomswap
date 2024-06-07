@@ -15,6 +15,7 @@ const config: Config = {
     "./src/homePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/listPageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/sellYourSitePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/fillUpFormPageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
