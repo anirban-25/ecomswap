@@ -18,6 +18,7 @@
     "@emotion/styled": "^11.11.5",
     "@heroicons/react": "^1.0.6",
     "@mui/material": "^5.15.19",
+    "@material-tailwind/react": "^2.1.9",
     "@stripe/stripe-js": "^3.2.0",
     "@tsparticles/engine": "^3.3.0",
     "@tsparticles/react": "^3.0.0",
@@ -40,6 +41,7 @@
     "nextjs-google-analytics": "^2.3.3",
     "raw-body": "^2.5.2",
     "react": "^18",
+    "react-datepicker": "^6.9.0",
     "react-dom": "^18",
     "react-firebase-hooks": "^5.1.1",
     "react-icons": "^5.0.1",
@@ -50,7 +52,8 @@
     "stripe": "^14.23.0",
     "swr": "1.1.2",
     "tailwind-merge": "^2.2.1",
-    "unfetch": "^5.0.0"
+    "unfetch": "^5.0.0",
+    "use-react-countries": "^2.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",

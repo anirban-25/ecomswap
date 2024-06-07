@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-
+const withMT = require("@material-tailwind/react/utils/withMT");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 const svgToDataUri = require("mini-svg-data-uri");
@@ -7,7 +7,7 @@ const colors = require("tailwindcss/colors");
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
-const config: Config = {
+const config: Config = withMT({
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -15,6 +15,9 @@ const config: Config = {
     "./src/homePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/listPageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/sellYourSitePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/fillUpFormPageComponents/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -105,7 +108,7 @@ const config: Config = {
       );
     },
   ],
-};
+});
 export default config;
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
