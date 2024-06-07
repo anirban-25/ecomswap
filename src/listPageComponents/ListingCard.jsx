@@ -1,13 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 
+
 const ListingCard = ({ listing }) => {
-  const { title, description, price, thumbnailUrl, verified, topRated, isNew, monthlyNetProfit, monthlyRevenue, monthlyMultiple, type, industry, monetization, location, profit, revenue, traffic } = listing;
+  const { description, price, thumbnailUrl, verified, topRated, isNew, monthlyNetProfit, monthlyRevenue, monthlyMultiple, type, industry, monetization, location, profit, revenue, traffic } = listing;
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4 flex h-auto relative w-full mx-auto">
       <div className="relative">
-        <Image src={thumbnailUrl} alt={title} width={194} height={340} className="rounded-lg h-full" />
+        <Image src={thumbnailUrl} alt={`${type} | ${industry}`} width={194} height={340} className="rounded-lg h-full" />
       </div>
       <div className="absolute top-4 right-4 flex items-center space-x-9">
         <div className="flex flex-col items-center">
@@ -63,7 +64,7 @@ const ListingCard = ({ listing }) => {
       </div>
       <div className="flex flex-col ml-4 w-full">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-gilroy-bold">{title}</h3>
+          <h3 className="text-lg font-gilroy-bold">{`${type} | ${industry}`}</h3>
         </div>
         <div className="flex items-center mt-2 space-x-2">
           {isNew && (
@@ -82,6 +83,8 @@ const ListingCard = ({ listing }) => {
             <div className="flex items-center bg-white border border-gray-300 px-4 py-2 rounded-full text-s italic">
               <img src="/images/tick.svg" alt="Verified" className="w-4 h-4 mr-2" />
               Verified Listing
+              <img src="/images/dollar.svg" alt="dollar" className="w-6 h-6 ml-4" />
+              <img src="/images/googleanalytics.svg" alt="dollar" className="w-6 h-6 ml-2" />
             </div>
           )}
           {location && (
@@ -114,7 +117,7 @@ const ListingCard = ({ listing }) => {
           <div>
             <div className="flex items-center">
               <img src="/images/monetization.png" alt="icon" className="w-4 h-4 mr-1" />
-              <p className="text-[14px] text-gray-500 ml-1">Monetization</p>
+              <p className="text-[14px] text-gray-500 ml-1">User Acquisition</p>
             </div>
             <p className="font-gilroy-bold ml-1">{monetization}</p>
           </div>
@@ -124,7 +127,7 @@ const ListingCard = ({ listing }) => {
               <img src="/images/monthlynet.png" alt="icon" className="w-4 h-4 mr-1" />
               <p className="text-[14px] text-gray-500 ml-1">Monthly Net Profit</p>
             </div>
-            <p className="font-gilroy-bold ml-1">${monthlyNetProfit.toLocaleString()}</p>
+            <p className="font-gilroy-bold ml-1">${monthlyNetProfit}</p>
           </div>
           <hr style={{ width: '1px', height: '40px', backgroundColor: '#D7D7D7', border: 'none', margin: '0 16px' }} />
           <div>
@@ -132,7 +135,7 @@ const ListingCard = ({ listing }) => {
               <img src="/images/monthlynet.png" alt="icon" className="w-4 h-4 mr-1" />
               <p className="text-[14px] text-gray-500 ml-1">Monthly Revenue</p>
             </div>
-            <p className="font-gilroy-bold ml-1">${monthlyRevenue.toLocaleString()}</p>
+            <p className="font-gilroy-bold ml-1">${monthlyRevenue}</p>
           </div>
           <hr style={{ width: '1px', height: '40px', backgroundColor: '#D7D7D7', border: 'none', margin: '0 16px' }} />
           <div>
@@ -140,7 +143,7 @@ const ListingCard = ({ listing }) => {
               <img src="/images/monthlynet.png" alt="icon" className="w-4 h-4 mr-1" />
               <p className="text-[14px] text-gray-500 ml-1">Monthly Multiple</p>
             </div>
-            <p className="font-gilroy-bold ml-1">${monthlyMultiple.toLocaleString()}x</p>
+            <p className="font-gilroy-bold ml-1">${monthlyMultiple}x</p>
           </div>
         </div>
         <div className="flex justify-between mt-4">
@@ -152,7 +155,7 @@ const ListingCard = ({ listing }) => {
               Estimated Price
             </div>
             <div className="flex items-center mt-2">
-              <p className="font-gilroy-bold text-[24px]">${price.toLocaleString()}</p>
+              <p className="font-gilroy-bold text-[24px]">${price}</p>
             </div>
           </div>
         

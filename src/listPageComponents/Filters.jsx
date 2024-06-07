@@ -1,41 +1,90 @@
 "use client"
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import { FaShopify, FaStore, FaAmazon, FaFileAlt, FaCloud } from 'react-icons/fa'; 
 
 const Filters = () => {
   const [showPriceRange, setShowPriceRange] = useState(false);
+  const [showSortOptions, setShowSortOptions] = useState(false);
+  const [showAssetTypes, setShowAssetTypes] = useState(false);
+  
 
   const togglePriceRange = () => {
     setShowPriceRange(!showPriceRange);
   };
+  const toggleSortOptions = () => {
+    setShowSortOptions(!showSortOptions);
+  };
+
+  const toggleAssetTypes = () => {
+    setShowAssetTypes(!showAssetTypes);
+  };
+
+  const assetTypes = [
+    { value: 'shopify', label: 'Shopify Store', icon: <FaShopify /> },
+    { value: 'ecommerce', label: 'eCommerce', icon: <FaStore /> },
+    { value: 'saas', label: 'SaaS', icon: <FaCloud /> },
+    { value: 'content', label: 'Content', icon: <FaFileAlt /> },
+    { value: 'amazon', label: 'Amazon FBA', icon: <FaAmazon /> },
+    { value: 'others', label: 'Others', icon: <FaCloud /> },
+  ];
 
   return (
     <div className="flex items-center justify-between space-x-4 font-gilroy-light w-full">
       <div className="flex items-center space-x-4">
         <div className="relative">
-          <select
-            id="assetType"
-            name="assetType"
-            className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 pr-8 focus:outline-none"
+          <div
+            className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer"
+            onClick={toggleAssetTypes}
           >
-            <option value="all">Asset Type</option>
-            <option value="website">Website</option>
-            <option value="app">App</option>
-          </select>
-          <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+            Asset Type
+            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
             <svg
-              className="h-4 w-4 text-black"
+              className="h-6 w-6 text-gray-500 inline ml-2"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path
-                fillRule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clipRule="evenodd"
+                d="M6 9l6 6 6-6"
               />
             </svg>
+            </div>
           </div>
+          {showAssetTypes && (
+            <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-64 z-10 grid grid-cols-2 gap-4">
+              {assetTypes.map((assetType) => (
+                <div
+                  key={assetType.value}
+                  className="flex flex-col items-center justify-center cursor-pointer"
+                  onClick={toggleAssetTypes}
+                >
+                  {assetType.icon}
+                  <span className="text-sm mt-1">{assetType.label}</span>
+                </div>
+              ))}
+              <div className="col-span-2 flex justify-between mt-4">
+                <button
+                  type="button"
+                  className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
+                  onClick={toggleAssetTypes}
+                >
+                  Clear
+                </button>
+                <button
+                  type="button"
+                  className="bg-[#190041] text-white rounded-full px-4 py-2"
+                  onClick={toggleAssetTypes}
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="relative">
@@ -45,18 +94,20 @@ const Filters = () => {
           >
             Price
             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-              <svg
-                className="h-4 w-4 text-black"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
+            <svg
+              className="h-6 w-6 text-gray-500 inline ml-2"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path
+                d="M6 9l6 6 6-6"
+              />
+            </svg>
             </div>
           </div>
           {showPriceRange && (
@@ -108,23 +159,25 @@ const Filters = () => {
             <option value="all">More</option>
           </select>
           <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-            <svg
-              className="h-4 w-4 text-black"
+          <svg
+              className="h-6 w-6 text-gray-500 inline ml-2"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path
-                fillRule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clipRule="evenodd"
+                d="M6 9l6 6 6-6"
               />
             </svg>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-8 ml-4">
         <div className="relative">
           <FaSearch className="absolute left-3 top-3 text-gray-500" />
           <input
@@ -135,36 +188,56 @@ const Filters = () => {
         </div>
 
         <div className="relative">
-          <label htmlFor="sortBy" className="font-gilroy-bold mr-2">Sort By:</label>
-          <select
-            id="sortBy"
-            name="sortBy"
-            className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 focus:outline-none"
+          <button
+            className="font-gilroy-bold bg-transparent border-2 border-#D8D8D8 rounded-full pl-8 px-4 py-2 pr-8 focus:outline-none"
+            onClick={toggleSortOptions}
           >
-            <option value="default">Default</option>
-            <option value="newestListed">Date Listed: Newest</option>
-            <option value="oldestListed">Date Listed: Oldest</option>
-            <option value="lowToHigh">Asking Price: Low to High</option>
-            <option value="highToLow">Asking Price: High to Low</option>
-            <option value="revLowToHigh">Annual Revenue: Low to High</option>
-            <option value="revHighToLow">Annual Revenue: High to Low</option>
-            <option value="profitLowToHigh">Annual Profit: Low to High</option>
-            <option value="profitHighToLow">Annual Profit: High to Low</option>
-          </select>
-          <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+            Sort By
             <svg
-              className="h-4 w-4 text-black"
+              className="h-6 w-6 text-gray-500 inline ml-2"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path
-                fillRule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clipRule="evenodd"
+                d="M6 9l6 6 6-6"
               />
             </svg>
-          </div>
+          </button>
+          {showSortOptions && (
+            <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-64 z-10">
+              <ul className="space-y-2">
+                <li><button className="w-full text-left">Date Listed: Newest</button></li>
+                <li><button className="w-full text-left">Date Listed: Oldest</button></li>
+                <li><button className="w-full text-left">Asking Price: Low to High</button></li>
+                <li><button className="w-full text-left">Asking Price: High to Low</button></li>
+                <li><button className="w-full text-left">Annual Revenue: Low to High</button></li>
+                <li><button className="w-full text-left">Annual Revenue: High to Low</button></li>
+                <li><button className="w-full text-left">Annual Profit: Low to High</button></li>
+                <li><button className="w-full text-left">Annual Profit: High to Low</button></li>
+              </ul>
+              <div className="flex justify-between mt-4">
+                <button
+                  type="button"
+                  className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
+                  onClick={toggleSortOptions}
+                >
+                  Clear
+                </button>
+                <button
+                  type="button"
+                  className="bg-[#190041] text-white rounded-full px-4 py-2"
+                  onClick={toggleSortOptions}
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
