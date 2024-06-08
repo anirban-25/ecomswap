@@ -28,21 +28,19 @@ const Filters = ({ onApplyFilters }) => {
 
   const handleClear = () => {
     setSelectedAssetTypes([]);
+    setMinPrice(0);
+    setMaxPrice(2000000);
   };
 
   const handleApply = () => {
-    onApplyFilters(selectedAssetTypes);
+    onApplyFilters(selectedAssetTypes, minPrice, maxPrice);
     setShowAssetTypes(false);
-
-    onApplyFilters(minPrice, maxPrice);
     setShowPriceRange(false);
   };
 
   const handleClickOutside = (event) => {
-    if (!event.target.closest('.dropdown-container')) {
+    if (!dropdownRef.current.contains(event.target)) {
       setShowAssetTypes(false);
-    }
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setShowPriceRange(false);
     }
   };
@@ -88,62 +86,62 @@ const Filters = ({ onApplyFilters }) => {
   ];
 
   return (
-    <div className="flex items-center justify-between space-x-4 font-gilroy-light w-full dropdown-container">
-  <div className="flex items-center space-x-4">
-    <div className="relative">
-      <div
-        className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer"
-        onClick={toggleAssetTypes}
-      >
-        Asset Type
-        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-          <svg
-            className="h-6 w-6 text-gray-500 inline ml-2"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+    <div className="flex items-center justify-between space-x-4 font-gilroy-light w-full dropdown-container" ref={dropdownRef}>
+      <div className="flex items-center space-x-4">
+        <div className="relative">
+          <div
+            className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer"
+            onClick={toggleAssetTypes}
           >
-            <path d="M6 9l6 6 6-6" />
-          </svg>
-        </div>
-      </div>
-      {showAssetTypes && (
-        <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-80 z-10 grid grid-cols-3 gap-2">
-          {assetTypes.map((assetType) => (
-            <div
-              key={assetType.value}
-              className={`flex flex-col items-center justify-center cursor-pointer border-2 rounded-lg p-3 ${
-                selectedAssetTypes.includes(assetType.value) ? 'border-gray-500' : 'border-#7850FF'
-              }`}
-              onClick={() => handleAssetTypeClick(assetType.value)}
-            >
-              {assetType.icon}
-              <span className="text-sm mt-1">{assetType.label}</span>
+            Asset Type
+            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <svg
+                className="h-6 w-6 text-gray-500 inline ml-2"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
             </div>
-          ))}
-          <div className="col-span-3 flex justify-between mt-4">
-            <button
-              type="button"
-              className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
-              onClick={handleClear}
-            >
-              Clear
-            </button>
-            <button
-              type="button"
-              className="bg-[#190041] text-white rounded-full px-4 py-2"
-              onClick={handleApply}
-            >
-              Apply
-            </button>
           </div>
+          {showAssetTypes && (
+            <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-80 z-10 grid grid-cols-3 gap-2">
+              {assetTypes.map((assetType) => (
+                <div
+                  key={assetType.value}
+                  className={`flex flex-col items-center justify-center cursor-pointer border-2 rounded-lg p-3 ${
+                    selectedAssetTypes.includes(assetType.value) ? 'border-gray-500' : 'border-#7850FF'
+                  }`}
+                  onClick={() => handleAssetTypeClick(assetType.value)}
+                >
+                  {assetType.icon}
+                  <span className="text-sm mt-1">{assetType.label}</span>
+                </div>
+              ))}
+              <div className="col-span-3 flex justify-between mt-4">
+                <button
+                  type="button"
+                  className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
+                  onClick={handleClear}
+                >
+                  Clear
+                </button>
+                <button
+                  type="button"
+                  className="bg-[#190041] text-white rounded-full px-4 py-2"
+                  onClick={handleApply}
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
 
         
 
