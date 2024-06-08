@@ -2,13 +2,14 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { TbWorldWww } from "react-icons/tb";
+import ReactPhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import {
   FaArrowAltCircleDown,
   FaArrowAltCircleUp,
   FaDollarSign,
 } from "react-icons/fa";
-
-import { useCountries } from "use-react-countries";
+import ReactFlagsSelect from "react-flags-select";
 import {
   Select,
   Option,
@@ -21,31 +22,63 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const FillForm = () => {
   const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
-  const [businessClicked, setbusinessClicked] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [businessClicked, setbusinessClicked] = useState(true);
   const [businessDescriptionClicked, setBusinessDescriptionClicked] =
     useState(false);
   const [financialClicked, setfinancialClicked] = useState(false);
+  const [infoClicked, setinfoClicked] = useState(false);
   const [analyticsClicked, setanalyticsClicked] = useState(false);
+  const [risksAssociated, setRisksAssociated] = useState("");
+
+  const [skillsRequired, setSkillsRequired] = useState("");
+  const [skillsRequiredError, setSkillsRequiredError] = useState("");
+  const [countriesTarget, setCountriesTarget] = useState("");
+  const [socialMedias, setSocialMedias] = useState("");
+  const [support, setSupport] = useState("");
+  const [reasonForSale, setReasonForSale] = useState("");
   const [businessDescClicked, setbusinessDescClicked] = useState(false);
   const [analyticsError, setAnalyticsError] = useState(false);
   const [processorError, setProcessorError] = useState(false);
   const [secondNext, setSecondNext] = useState(false);
   const [thirdNext, setThirdNext] = useState(false);
-  const [priceClicked, setpriceClicked] = useState(false);
-  const [infoClicked, setinfoClicked] = useState(false);
   const [netProfitError, setNetProfitError] = useState("");
   const [revenueError, setRevenueError] = useState("");
   const [firstNext, setFirstNext] = useState(false);
+  const [fourthNext, setFourthNext] = useState(false);
+  const [fifthNext, setFifthNext] = useState(false);
+  const [sixthNext, setSixthNext] = useState(false);
   const [selectedBusiness, setSelectedBusiness] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectedSource, setSelectedSource] = useState("");
+  const [detailedBusinessDescription, setDetailedBusinessDescription] =
+    useState("");
+  const [
+    bulletDetailedBusinessDescription,
+    setBulletDetailedBusinessDescription,
+  ] = useState("");
+  const [
+    detailedBusinessDescriptionError,
+    setDetailedBusinessDescriptionError,
+  ] = useState("");
+  const [
+    bulletDetailedBusinessDescriptionError,
+    setBulletDetailedBusinessDescriptionError,
+  ] = useState("");
   const [selectedAnalytics, setSelectedAnalytics] = useState("");
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
   const [dateError, setdateError] = useState("");
   const [checkUrl, setCheckUrl] = useState("");
   const [error, setError] = useState("");
+  const [askingPrice, setAskingPrice] = useState("");
+  const [askingPriceError, setAskingPriceError] = useState("");
+  const [askingPriceClicked, setAskingPriceClicked] = useState(false);
+
   const [sourceError, setSourceError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [industryError, setIndustryError] = useState("");
@@ -76,6 +109,30 @@ const FillForm = () => {
       setanalyticsClicked(!analyticsClicked);
     }
   };
+  const handleFourthFormChange = () => {
+    if (thirdNext) {
+      setbusinessDescClicked(!businessDescClicked);
+    }
+  };
+  const handlePhoneChange = (value) => {
+    setPhoneNumber(value);
+  };
+  const handleFifthFormChange = () => {
+    if (fourthNext) {
+      setAskingPriceClicked(!askingPriceClicked);
+    }
+  };
+  const handleSixthFormChange = () => {
+    if (fifthNext) {
+      setinfoClicked(!infoClicked);
+    }
+  };
+  const handleThirdFormFirstChange = (e) => {
+    setDetailedBusinessDescription(e.target.value);
+  };
+  const handleThirdFormSecondChange = (e) => {
+    setBulletDetailedBusinessDescription(e.target.value);
+  };
   const firstNextClick = () => {
     if (
       selectedBusiness &&
@@ -85,6 +142,7 @@ const FillForm = () => {
       selectedIndustry
     ) {
       setFirstNext(true);
+      setfinancialClicked(true);
       setBusinessError("");
       setDescriptionError("");
       setSourceError("");
@@ -127,6 +185,7 @@ const FillForm = () => {
   const secondNextClick = () => {
     if (revenue && netprofit) {
       setSecondNext(true);
+      setanalyticsClicked(true);
       setRevenueError("");
       setNetProfitError("");
     } else {
@@ -147,6 +206,7 @@ const FillForm = () => {
   const thirdNextClick = () => {
     if (selectedAnalytics && selectedProcessors.length > 0) {
       setThirdNext(true);
+      setbusinessDescClicked(true);
       setAnalyticsError("");
       setProcessorError("");
     } else {
@@ -162,6 +222,75 @@ const FillForm = () => {
       }
     }
   };
+  const fourthNextClick = () => {
+    if (
+      bulletDetailedBusinessDescription &&
+      detailedBusinessDescription &&
+      skillsRequired
+    ) {
+      setFourthNext(true);
+      setAskingPriceClicked(true);
+      setBulletDetailedBusinessDescriptionError("");
+      setDetailedBusinessDescriptionError("");
+      setSkillsRequiredError("");
+    } else {
+      if (!bulletDetailedBusinessDescription) {
+        setBulletDetailedBusinessDescriptionError("This field is required");
+      } else {
+        setBulletDetailedBusinessDescriptionError("");
+      }
+      if (!detailedBusinessDescription) {
+        setDetailedBusinessDescriptionError("This field is required");
+      } else {
+        setDetailedBusinessDescriptionError("");
+      }
+      if (!skillsRequired) {
+        setSkillsRequiredError("Please mention the skills required");
+      } else {
+        setSkillsRequiredError("");
+      }
+    }
+  };
+  const fifthNextClick = () => {
+    if (askingPrice) {
+      setFifthNext(true);
+      setinfoClicked(true);
+      setAskingPriceError("");
+    } else {
+      if (!askingPrice) {
+        setAskingPriceError("Please enter your asking price");
+      } else {
+        setAskingPriceError("");
+      }
+    }
+  };
+  const sixthNextClick = () => {
+    if (name && email && phoneNumber) {
+      setSixthNext(true);
+      setNameError("");
+      setEmailError("");
+      setPhoneNumberError("");
+    } else {
+      if (!name) {
+        setNameError("Please enter your name");
+      } else {
+        setNameError("");
+      }
+      if (!email) {
+        setEmailError("Please enter your email");
+      } else {
+        setEmailError("");
+      }
+      if (!phoneNumber) {
+        setPhoneNumberError("Please enter your phone number");
+      } else {
+        setPhoneNumberError("");
+      }
+    }
+  };
+  const handleAskingPriceChange = (e) => {
+    setAskingPrice(e.target.value);
+  };
   const handleNetProfitChange = (e) => {
     setNetprofit(e.target.value);
   };
@@ -171,16 +300,8 @@ const FillForm = () => {
   const handleIndustryChange = (value) => {
     setSelectedIndustry(value);
   };
-  const { countries } = useCountries();
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState("US");
 
-  const handleCountryChange = (value) => {
-    setSelectedCountry(value);
-  };
-
-  if (!countries) {
-    return <div>Loading...</div>; // Add a loading state in case countries are not loaded yet
-  }
   const handleDateChange = (selectedDate) => {
     setDate(selectedDate);
   };
@@ -220,8 +341,20 @@ const FillForm = () => {
   const isEcommerceVisible =
     selectedBusiness === "Shopify" || selectedBusiness === "E-commerce";
   useEffect(() => {
+    if (!askingPrice) {
+      setinfoClicked(false);
+      setFifthNext(false);
+    }
+    if (
+      !detailedBusinessDescription ||
+      !bulletDetailedBusinessDescription ||
+      !skillsRequired
+    ) {
+      setAskingPriceClicked(false);
+      setFourthNext(false);
+    }
     if (selectedProcessors.length === 0 || !selectedAnalytics) {
-      setBusinessDescriptionClicked(false);
+      setbusinessDescClicked(false);
       setThirdNext(false);
     }
     if (!revenue || !netprofit) {
@@ -248,12 +381,47 @@ const FillForm = () => {
     netprofit,
     description,
     selectedSource,
+    detailedBusinessDescription,
+    bulletDetailedBusinessDescription,
+    skillsRequired,
+    askingPrice,
   ]);
+  const [formError, setFormError] = useState("");
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (
+      !name ||
+      !email ||
+      !phoneNumber ||
+      !selectedBusiness ||
+      !selectedIndustry ||
+      !skillsRequired ||
+      !selectedAnalytics ||
+      !date ||
+      !selectedProcessors ||
+      !revenue ||
+      !netprofit ||
+      !description ||
+      !selectedSource ||
+      !detailedBusinessDescription ||
+      !bulletDetailedBusinessDescription ||
+      !askingPrice
+    ) {
+      setFormError("Please fill out all required fields.");
+    } else {
+      setFormError("");
+      // Handle form submission
+      console.log("Form submitted with:", { name, email, phoneNumber });
+    }
+  };
   return (
     <div>
       <div className="flex items-center justify-center">
         <div className=" p-8  min-w-[55rem] ">
-          <form onSubmit={() => {}} className="space-y-4 w-full justify-center">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 w-full justify-center"
+          >
             {/*first form */}
             <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
               <div
@@ -303,15 +471,15 @@ const FillForm = () => {
                             id={type}
                             name="type_of_business"
                             value={type}
-                            className="hidden peer"
+                            className="hidden"
                             required
                             onChange={handleSelection}
                           />
                           <label
                             htmlFor={type}
-                            className={`  rounded-xl block p-2 px-4 border cursor-pointer ${
+                            className={`rounded-xl block p-2 px-4 border cursor-pointer ${
                               selectedBusiness === type
-                                ? "font-gilroy-bold text-black bg-[#FFFBF5] border-black "
+                                ? "font-gilroy-bold text-black bg-[#FFFBF5] border-black"
                                 : "text-gray-600 font-gilroy-medium border-gray-400"
                             }`}
                           >
@@ -481,7 +649,16 @@ const FillForm = () => {
                       </p>
                     )}
                   </div>
-
+                  <div className="font-semibold mt-7 mb-3">
+                    Location of the Business
+                  </div>
+                  <ReactFlagsSelect
+                    selected={selectedCountry}
+                    onSelect={(code) => setSelectedCountry(code)}
+                    searchable
+                    searchPlaceholder="Search for a country"
+                    className="w-full"
+                  />
                   <div>
                     <li className="mt-8 list-none">
                       <h3
@@ -839,33 +1016,338 @@ const FillForm = () => {
             <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
               <div
                 className="flex  w-full cursor-pointer items-center justify-between"
-                onClick={() => handleThirdFormChange()}
+                onClick={() => handleFourthFormChange()}
               >
                 <div className="flex space-x-3">
                   <Image
-                    src="/images/three.png"
+                    src="/images/four.png"
                     height={30}
                     width={30}
                     alt="number"
                   />
                   <div
                     className={`text-2xl font-gilroy-bold  ${
-                      analyticsClicked ? "text-black" : "text-gray-500"
+                      businessDescClicked ? "text-black" : "text-gray-500"
                     }`}
                   >
                     {" "}
-                    Analytics and Tools
+                    Business Description
                   </div>
                 </div>
                 <div>
-                  {analyticsClicked ? (
+                  {businessDescClicked ? (
                     <FaArrowAltCircleUp size={30} />
                   ) : (
                     <FaArrowAltCircleDown size={30} />
                   )}
                 </div>
               </div>
+              {businessDescClicked && (
+                <div className="mt-7">
+                  <div>
+                    <div className="font-semibold mb-5">
+                      Detailed Business Description (200 words)
+                    </div>
+                    <Textarea
+                      color="blue"
+                      label="Describe in about 200 words"
+                      rows={3}
+                      value={detailedBusinessDescription}
+                      onChange={handleThirdFormFirstChange}
+                      className="w-full p-3 border-2 border-gray-300 resize-y focus:border-blue-500 focus:outline-none"
+                    />
+                  </div>
+                  {detailedBusinessDescriptionError && (
+                    <div className="text-red-500 font-gilroy-medium  mt-4">
+                      {detailedBusinessDescriptionError}
+                    </div>
+                  )}
+                  <div>
+                    <div className="font-semibold mb-5 mt-7">
+                      Use bullet points to describe future business
+                      opportunities
+                    </div>
+                    <Textarea
+                      color="blue"
+                      label="Describe in points"
+                      rows={3}
+                      value={bulletDetailedBusinessDescription}
+                      placeholder="
+                    1.Expanding to paid advertisement 
+                    2.Improve SEO
+                    3.Improve Retention rates"
+                      onChange={handleThirdFormSecondChange}
+                      className="w-full p-3 pt-8 focus:pt-3 border-2 border-gray-300 resize-y focus:border-blue-500 focus:outline-none"
+                    />
+                  </div>
+                  {bulletDetailedBusinessDescriptionError && (
+                    <div className="text-red-500 font-gilroy-medium  mt-4">
+                      {bulletDetailedBusinessDescriptionError}
+                    </div>
+                  )}
+                  <div className="font-semibold mb-5 mt-7">
+                    Risks associated with business
+                  </div>
+                  <Textarea
+                    color="blue"
+                    label="Bullet out the Risks"
+                    rows={3}
+                    value={risksAssociated}
+                    placeholder="1.Due to constant changes in technology, competition, and the market as a whole, the software could become less relevant.
+                    2.Subscription services require customer service and the ability to stay on top of the subscribers requests."
+                    onChange={(event) => setRisksAssociated(event.target.value)}
+                    className="w-full p-3 pt-8 focus:pt-3 border-2 border-gray-300 resize-y focus:border-blue-500 focus:outline-none"
+                  />
+                  <div className="font-semibold mb-5 mt-7">
+                    Skills required to run this business
+                  </div>
+                  <Textarea
+                    color="blue"
+                    label="Describe the skills needed"
+                    rows={3}
+                    value={skillsRequired}
+                    placeholder="1.Completing inventory management
+                    2.Managing warehouse employee to fulfil FBM orders"
+                    onChange={(event) => setSkillsRequired(event.target.value)}
+                    className="w-full p-3 pt-8 focus:pt-3 border-2 border-gray-300 resize-y focus:border-blue-500 focus:outline-none"
+                  />
+                  {skillsRequiredError && (
+                    <div className="text-red-500 font-gilroy-medium  mt-4">
+                      {skillsRequiredError}
+                    </div>
+                  )}
+                  <div className="font-semibold mb-5 mt-7">
+                    What support can you offer the new owner after the sale?
+                  </div>
+                  <Textarea
+                    color="blue"
+                    label="Your support in brief"
+                    rows={3}
+                    value={support}
+                    placeholder="1.The Seller is willing to offer at least 30 days of email support and/or calls to ensure a smooth transition for the Buyer."
+                    onChange={(event) => setSupport(event.target.value)}
+                    className="w-full p-3 pt-8 focus:pt-3 borderr-2 border-gray-300 resize-y focus:border-blue-500 focus:outline-none"
+                  />
+
+                  <div className="font-semibold mb-5 mt-7">
+                    Countries Target
+                  </div>
+                  <Input
+                    color="blue"
+                    value={countriesTarget}
+                    onChange={(e) => setCountriesTarget(e.target.value)}
+                    label="Countires :"
+                    placeholder="Example: USA, Canada etc.."
+                    type="text"
+                  />
+                  <div className="font-semibold mb-5 mt-7">Social Medias</div>
+                  <Input
+                    color="blue"
+                    value={socialMedias}
+                    onChange={(e) => setSocialMedias(e.target.value)}
+                    label="Social Media Links :"
+                    placeholder="Social Media Profile Links"
+                    type="text"
+                  />
+
+                  <div className="w-full mt-8 cursor-pointer flex justify-end px-2 ">
+                    <Button
+                      variant="gradient"
+                      onClick={() => {
+                        fourthNextClick();
+                      }}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
+
+            {/*fifth form */}
+            <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
+              <div
+                className="flex  w-full cursor-pointer items-center justify-between"
+                onClick={() => handleFifthFormChange()}
+              >
+                <div className="flex space-x-3">
+                  <Image
+                    src="/images/five.png"
+                    height={30}
+                    width={30}
+                    alt="number"
+                  />
+                  <div
+                    className={`text-2xl font-gilroy-bold  ${
+                      askingPriceClicked ? "text-black" : "text-gray-500"
+                    }`}
+                  >
+                    {" "}
+                    Asking Price
+                  </div>
+                </div>
+                <div>
+                  {askingPriceClicked ? (
+                    <FaArrowAltCircleUp size={30} />
+                  ) : (
+                    <FaArrowAltCircleDown size={30} />
+                  )}
+                </div>
+              </div>
+              {askingPriceClicked && (
+                <div className="mt-7">
+                  <div className=" font-semibold ">
+                    What&apos;s your expected Asking Price?
+                  </div>
+                  <div className="flex items-center space-x-3 mt-5">
+                    <FaDollarSign size={20} />
+                    <Input
+                      color="blue"
+                      value={askingPrice}
+                      onChange={handleAskingPriceChange}
+                      label="Amount in Dollars"
+                      type="number"
+                    />
+                  </div>
+                  {askingPriceError && (
+                    <p className="text-red-500 font-gilroy-medium  mt-4">
+                      {askingPriceError}
+                    </p>
+                  )}
+                  <div className=" font-gilroy-medium text-gray-600 max-w-[40rem] mt-5">
+                    Note: Please note that the amount you're asking for may not
+                    be the same as the amount we will list your startup for. We
+                    will contact you in case of any changes.
+                  </div>
+                  <div className="w-full mt-8 cursor-pointer flex justify-end px-2 ">
+                    <Button
+                      variant="gradient"
+                      onClick={() => {
+                        fifthNextClick();
+                      }}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/*sixth form */}
+            <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
+              <div
+                className="flex  w-full cursor-pointer items-center justify-between"
+                onClick={() => handleSixthFormChange()}
+              >
+                <div className="flex space-x-3">
+                  <Image
+                    src="/images/five.png"
+                    height={30}
+                    width={30}
+                    alt="number"
+                  />
+                  <div
+                    className={`text-2xl font-gilroy-bold  ${
+                      infoClicked ? "text-black" : "text-gray-500"
+                    }`}
+                  >
+                    {" "}
+                    Personal Information
+                  </div>
+                </div>
+                <div>
+                  {infoClicked ? (
+                    <FaArrowAltCircleUp size={30} />
+                  ) : (
+                    <FaArrowAltCircleDown size={30} />
+                  )}
+                </div>
+              </div>
+              {infoClicked && (
+                <div>
+                  <div className=" font-semibold mt-7">
+                    Personal Information
+                  </div>
+                  <div className="mt-5 mb-3 font-gilroy-medium text-gray-500">
+                    Name
+                  </div>
+                  <Input
+                    color="blue"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    label="Enter your Name"
+                    type="text"
+                  />
+                  {nameError && (
+                    <div className="text-red-500 font-gilroy-medium  mt-4">
+                      {nameError}
+                    </div>
+                  )}
+                  <div className="flex justify-between">
+                    <div>
+                      <div className="mt-5 mb-3 font-gilroy-medium text-gray-500">
+                        Email ID
+                      </div>
+                      <Input
+                        color="blue"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        label="Enter your Email Address"
+                        className="min-w-[20rem]"
+                        type="email"
+                      />
+                      {emailError && (
+                        <div className="text-red-500 font-gilroy-medium  mt-4">
+                          {emailError}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <div className="mt-5 mb-3 font-gilroy-medium text-gray-500">
+                        Phone Number
+                      </div>
+                      <div className="w-full">
+                        {selectedCountry && (
+                          <ReactPhoneInput
+                            country={selectedCountry.toLowerCase()}
+                            value={phoneNumber}
+                            onChange={handlePhoneChange}
+                            placeholder="Enter phone number"
+                            containerClass="w-full mb-4 "
+                            inputClass="w-full border border-gray-300 p-2 rounded-md"
+                            dropdownClass="country-dropdown"
+                          />
+                        )}
+                      </div>
+                      {phoneNumberError && (
+                        <div className="text-red-500 font-gilroy-medium  mt-4">
+                          {phoneNumberError}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="w-full mt-8 cursor-pointer flex justify-end px-2 ">
+                    <Button
+                      variant="gradient"
+                      onClick={() => {
+                        sixthNextClick();
+                      }}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+            {sixthNext && (
+              <button
+                type="submit"
+                className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Submit
+              </button>
+            )}
+            {formError && <p className="text-red-500 text-xs italic">{formError}</p>}
           </form>
         </div>
       </div>
