@@ -6,6 +6,9 @@ const page = () => {
 
   return (
     <div>
+      <div className="h-screen w-full fixed left-0  -z-20 bg-grid-large-gray-200/[0.6]  flex items-center justify-center">
+        {/* Radial gradient for the container to give a faded look */}
+      </div>
       <div className=" py-7 px-10">
         <Header />
       </div>

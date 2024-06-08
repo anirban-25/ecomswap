@@ -9,7 +9,7 @@ const ListingCard = ({ listing }) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-4 flex h-auto relative w-full mx-auto">
       <div className="relative">
-        <Image src={thumbnailUrl} alt={`${type} | ${industry}`} width={194} height={340} className="rounded-lg h-full" />
+        <Image src={thumbnailUrl} alt={`${type} | ${industry}`} width={254} height={560} className="rounded-lg h-full" />
       </div>
       <div className="absolute top-4 right-4 flex items-center space-x-9">
         <div className="flex flex-col items-center">
@@ -156,13 +156,13 @@ const ListingCard = ({ listing }) => {
               Estimated Price
             </div>
             <div className="flex items-center mt-2">
-              <p className="font-gilroy-bold text-[24px]">${price}</p>
+              <p className="font-gilroy-bold text-[24px] text-[#7850FF]">${price}</p>
             </div>
           </div>
         
         <div className="flex items-center justify-end mt-4">
-          <button className="bg-[#190041] text-white px-8 py-3 rounded-full font-gilroy-bold flex items-center justify-center text-[20px]">
-            View Listing <span className="ml-2">&#8594;</span>
+          <button className="bg-[#190041] text-white px-8 py-3 rounded-full font-gilroy-bold flex items-center justify-center ] text-base">
+            View Listing <span className="ml-2 ">&#8594;</span>
           </button>
         </div>
         </div>

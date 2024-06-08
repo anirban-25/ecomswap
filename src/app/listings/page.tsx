@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Filters from '@/listPageComponents/Filters';
 import Listings from '@/listPageComponents/Listings';
@@ -51,7 +51,7 @@ const listings: Listing[] = [
   {
     id: 2,
     description: 'anirban is a hater',
-    price: 334133222,
+    price: 10,
     thumbnailUrl: "/images/furniture.png",
     verified: true,
     topRated: true,
@@ -64,14 +64,14 @@ const listings: Listing[] = [
     industry: 'Furniture',
     monetization: 'eCommerce',
     location: 'Canada',
-    profit: '+10%',
-    revenue: '+15%',
+    profit: '+19%',
+    revenue: '-15%',
     traffic: '-10%'
   },
   {
     id: 3,
     description: 'anirban is a loser',
-    price: 334133222,
+    price: 35,
     thumbnailUrl: "/images/Rectangle 1316.png",
     verified: true,
     topRated: true,
@@ -94,26 +94,31 @@ const Page = () => {
   const [filteredListings, setFilteredListings] = useState<Listing[]>(listings);
 
   const handleApplyFilters = (selectedAssetTypes: string[], minPrice: number, maxPrice: number) => {
-    if (selectedAssetTypes.length === 0) {
-      setFilteredListings(listings);
-    } else {
-      const filtered = listings.filter((listing) =>
-        selectedAssetTypes.includes(listing.type.toLowerCase())
-      );
-      setFilteredListings(filtered);
-    }
-    const filtered = listings.filter(
-      (listing) => listing.price >= minPrice && listing.price <= maxPrice
-    );
+    console.log(selectedAssetTypes)
+    console.log(minPrice, maxPrice);
+    const filtered = listings.filter((listing) => {
+      const matchesType = selectedAssetTypes.length === 0 || selectedAssetTypes.includes(listing.type.toLowerCase());
+      const matchesPrice = listing.price >= minPrice && listing.price <= maxPrice;
+      console.log(matchesType, matchesPrice)
+      return matchesType && matchesPrice;
+    });
+    console.log(filtered)
     setFilteredListings(filtered);
-    
-  };
+};
+
+useEffect(() => {
+  console.log(filteredListings)
+}, [filteredListings])
 
   return (
     <div className="py-7">
+      <div className="h-screen w-full fixed left-0  -z-20 bg-grid-large-gray-200/[0.6]  flex items-center justify-center">
+        {/* Radial gradient for the container to give a faded look */}
+      </div>
       <div className="px-10">
         <Header />
       </div>
+      
       <BusinessesForSale />
       <div className="px-20">
         <Filters onApplyFilters={handleApplyFilters} />

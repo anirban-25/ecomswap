@@ -1241,7 +1241,7 @@ const FillForm = () => {
               >
                 <div className="flex space-x-3">
                   <Image
-                    src="/images/five.png"
+                    src="/images/six.png"
                     height={30}
                     width={30}
                     alt="number"
