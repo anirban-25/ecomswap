@@ -10,8 +10,11 @@ import {
 } from "react-icons/fa";
 import { MdAddBox } from "react-icons/md";
 import PropTypes from "prop-types";
+import Slider from "react-slider";
 
 const Filters = ({ onApplyFilters }) => {
+  const [values, setValues] = useState([0, 100]);
+  const handleChange = (newValues) => setValues(newValues);
   const [showAssetTypes, setShowAssetTypes] = useState(false);
   const [selectedAssetTypes, setSelectedAssetTypes] = useState([]);
   const [showPriceRange, setShowPriceRange] = useState(false);
@@ -40,7 +43,7 @@ const Filters = ({ onApplyFilters }) => {
   };
 
   const handleApply = () => {
-    onApplyFilters(selectedAssetTypes, minPrice, maxPrice);
+    onApplyFilters(selectedAssetTypes, values[0], values[1]);
     setShowAssetTypes(false);
     setShowPriceRange(false);
   };
@@ -115,15 +118,12 @@ const Filters = ({ onApplyFilters }) => {
   ];
 
   return (
-    <div
-      className="flex items-center justify-between space-x-4 font-gilroy-light w-full dropdown-container"
-      
-    >
+    <div className="flex items-center justify-between space-x-4 font-gilroy-light w-full dropdown-container">
       <div className="flex items-center space-x-4">
         <div className="relative" ref={dropdownRef}>
           <div
             className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer"
-            onClick={toggleAssetTypes} 
+            onClick={toggleAssetTypes}
           >
             Asset Type
             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
@@ -154,7 +154,9 @@ const Filters = ({ onApplyFilters }) => {
                   onClick={() => handleAssetTypeClick(assetType.value)}
                 >
                   {assetType.icon}
-                  <span className="text-sm mt-1 text-center ">{assetType.label}</span>
+                  <span className="text-sm mt-1 text-center ">
+                    {assetType.label}
+                  </span>
                 </div>
               ))}
               <div className="col-span-3 flex justify-between mt-4">
@@ -180,7 +182,7 @@ const Filters = ({ onApplyFilters }) => {
         <div className="relative" ref={dropdownRefPrice}>
           <div
             className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer"
-            onClick={togglePriceRange} 
+            onClick={togglePriceRange}
           >
             Price
             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
@@ -198,64 +200,84 @@ const Filters = ({ onApplyFilters }) => {
               </svg>
             </div>
           </div>
+
           {showPriceRange && (
-            <div
-              className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-80 z-10"
-              
-            >
-              <label
-                htmlFor="minPrice"
-                className="block text-sm font-medium text-gray-700"
+            <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-80 z-10">
+              <div
+                style={{
+                  padding: "10px",
+                }}
               >
-                Min asking price
-              </label>
-              <input
-                type="range"
-                name="minPrice"
-                min="0"
-                max="2000000"
-                value={minPrice}
-                onChange={handleSliderChange}
-                className="mt-1 w-full "
-              />
-              <input
-                type="number"
-                id="minPrice"
-                name="minPrice"
-                value={minPrice}
-                onChange={handleSliderChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
-              <label
-                htmlFor="maxPrice"
-                className="block text-sm font-medium text-gray-700 mt-4"
-              >
-                Max asking price
-              </label>
-              <input
-                type="range"
-                name="maxPrice"
-                min="0"
-                max="2000000"
-                value={maxPrice}
-                onChange={handleSliderChange}
-                className="mt-1 w-full "
-              />
-              <input
-                type="number"
-                id="maxPrice"
-                name="maxPrice"
-                value={maxPrice}
-                onChange={handleSliderChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
+                <Slider
+                  className="slider"
+                  value={values}
+                  onChange={handleChange}
+                  min={0}
+                  max={100}
+                  renderTrack={(props, state) => {
+                    return (
+                      <div
+                        {...props}
+                        className={`slider-track-${state.index + 1} ${
+                          props.className
+                        }`}
+                      />
+                    );
+                  }}
+                  renderThumb={(props, state) => (
+                    <div
+                      {...props}
+                      className={`slider-thumb ${
+                        state.index === 0
+                          ? "slider-thumb-left"
+                          : "slider-thumb-right"
+                      }`}
+                    />
+                  )}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <div className=" text-center">
+                    <label htmlFor="minPrice" className="font-gilroy-medium">
+                      Min Price:
+                    </label>
+                    <input
+                      type="number"
+                      className=" border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
+                      id="minPrice"
+                      value={values[0]}
+                      onChange={(e) =>
+                        handleChange([+e.target.value, values[1]])
+                      }
+                    />
+                  </div>
+                  <div className=" text-center">
+                    <label htmlFor="maxPrice" className="font-gilroy-medium">
+                      Max Price:
+                    </label>
+                    <input
+                      type="number"
+                      className=" border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
+                      id="maxPrice"
+                      value={values[1]}
+                      onChange={(e) =>
+                        handleChange([values[0], +e.target.value])
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
               <div className="flex justify-between mt-4">
                 <button
                   type="button"
                   className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
                   onClick={() => {
-                    setMinPrice(0);
-                    setMaxPrice(2000000);
+                    handleChange([0, 100]);
                   }}
                 >
                   Clear
