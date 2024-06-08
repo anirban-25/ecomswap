@@ -1,11 +1,33 @@
-import React from 'react';
-import Header from "@/components/Header";
+"use client";
+import React, { useState } from 'react';
+import Header from '@/components/Header';
 import Filters from '@/listPageComponents/Filters';
-import Listings from '@/listPageComponents/Listings'; 
+import Listings from '@/listPageComponents/Listings';
 import BusinessesForSale from '@/listPageComponents/BusinessesForSale';
 import Footer from '@/components/Footer';
 
-const listings = [
+type Listing = {
+  id: number;
+  description: string;
+  price: number;
+  thumbnailUrl: string;
+  verified: boolean;
+  topRated: boolean;
+  isNew: boolean;
+  monthlyNetProfit: number;
+  monthlyRevenue: number;
+  monthlyMultiple: number;
+  trafficPercentage: number;
+  type: string;
+  industry: string;
+  monetization: string;
+  location: string;
+  profit: string;
+  revenue: string;
+  traffic: string;
+};
+
+const listings: Listing[] = [
   {
     id: 1,
     description: 'Electronic commerce (e-commerce) refers to companies and individuals that buy and sell goods and services over the internet. E-commerce operates in different types of market segments and can be conducted over computers, tablets, smartphones.',
@@ -16,9 +38,9 @@ const listings = [
     isNew: true,
     monthlyNetProfit: 102435,
     monthlyRevenue: 88435,
-    monthlyMultiple:14,
+    monthlyMultiple: 14,
     trafficPercentage: -5,
-    type: 'E-commerce',
+    type: 'eCommerce',
     industry: 'Home and Garden',
     monetization: 'ecommerce',
     location: 'United States',
@@ -28,7 +50,7 @@ const listings = [
   },
   {
     id: 2,
-    description:'anirban is a hater',
+    description: 'anirban is a hater',
     price: 334133222,
     thumbnailUrl: "/images/furniture.png",
     verified: true,
@@ -36,9 +58,9 @@ const listings = [
     isNew: false,
     monthlyNetProfit: 152435,
     monthlyRevenue: 98435,
-    monthlyMultiple:10,
+    monthlyMultiple: 10,
     trafficPercentage: 10,
-    type: 'E-Commerce',
+    type: 'eCommerce',
     industry: 'Furniture',
     monetization: 'eCommerce',
     location: 'Canada',
@@ -48,8 +70,7 @@ const listings = [
   },
   {
     id: 3,
-    title: 'Automotive | Cars and Mechanics',
-    description:'anirban is a loser',
+    description: 'anirban is a loser',
     price: 334133222,
     thumbnailUrl: "/images/Rectangle 1316.png",
     verified: true,
@@ -57,9 +78,9 @@ const listings = [
     isNew: false,
     monthlyNetProfit: 182435,
     monthlyRevenue: 99435,
-    monthlyMultiple:20,
+    monthlyMultiple: 20,
     trafficPercentage: 30,
-    type: 'E-commerce',
+    type: 'eCommerce',
     industry: 'Furniture',
     monetization: 'eCommerce',
     location: 'Canada',
@@ -69,23 +90,42 @@ const listings = [
   }
 ];
 
-const Page = () => (
-  <div className='py-7'>
-    <div className='px-10'>
-      <Header />
-    </div>
-    <BusinessesForSale />
-    <div className='px-20'>
-      <Filters />
-    </div>
-    <div className='px-20'>
-      <Listings listings={listings} />
-    </div>
-    <div className='px-10'>
-      <Footer />
-    </div>
+const Page = () => {
+  const [filteredListings, setFilteredListings] = useState<Listing[]>(listings);
 
-  </div>
-);
+  const handleApplyFilters = (selectedAssetTypes: string[], minPrice: number, maxPrice: number) => {
+    if (selectedAssetTypes.length === 0) {
+      setFilteredListings(listings);
+    } else {
+      const filtered = listings.filter((listing) =>
+        selectedAssetTypes.includes(listing.type.toLowerCase())
+      );
+      setFilteredListings(filtered);
+    }
+    const filtered = listings.filter(
+      (listing) => listing.price >= minPrice && listing.price <= maxPrice
+    );
+    setFilteredListings(filtered);
+    
+  };
+
+  return (
+    <div className="py-7">
+      <div className="px-10">
+        <Header />
+      </div>
+      <BusinessesForSale />
+      <div className="px-20">
+        <Filters onApplyFilters={handleApplyFilters} />
+      </div>
+      <div className="px-20">
+        <Listings listings={filteredListings} />
+      </div>
+      <div className="px-10">
+        <Footer />
+      </div>
+    </div>
+  );
+};
 
 export default Page;
