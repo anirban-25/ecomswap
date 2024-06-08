@@ -1,8 +1,11 @@
 "use client";
 import Image from "next/image";
+import { db } from "@/firebase";
+import { collection, addDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { TbWorldWww } from "react-icons/tb";
 import ReactPhoneInput from "react-phone-input-2";
+import ProgressBar from "@/fillUpFormPageComponents/ProgressBar";
 import "react-phone-input-2/lib/style.css";
 import {
   FaArrowAltCircleDown,
@@ -21,6 +24,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const FillForm = () => {
+  const [count, setCount] = useState(0);
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
@@ -88,7 +92,81 @@ const FillForm = () => {
   const [date, setDate] = useState(null);
   const [selectedIndustry, setSelectedIndustry] = useState("");
   const [selectedProcessors, setSelectedProcessors] = useState([]);
+  const [file, setFile] = useState(null);
 
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log("Selected file:", selectedFile);
+      // Additional logic to handle the uploaded file can go here
+    }
+  };
+  async function addDataToFireStore() {
+    try {
+      const docRef = await addDoc(collection(db, "admin"), {
+        form1BusinessType: selectedBusiness,
+        form1BusinessTypeSub: selectedOptions,
+        form1PrimarySourceOfUserAcquisition: selectedSource,
+        form1BriefDescription: description,
+        form1WebsiteUrl: url,
+        form1BusinessStarted: date,
+        form1LocationOfBusiness: selectedCountry,
+        form1selectedIndustry: selectedIndustry,
+        form2trailingTotalRevenue: revenue,
+        form2netProfit: netprofit,
+        form3GoogleAnalytics: selectedAnalytics,
+        form3paymentProcessors: selectedProcessors,
+        form4detailedBusinessDescription: detailedBusinessDescription,
+        form4bulltedPointstoDescribe: bulletDetailedBusinessDescription,
+        form4Risks: risksAssociated,
+        form4skillsRequired: skillsRequired,
+        form4supportYoucanOffer: support,
+        form4CountriesToTarget: countriesTarget,
+        form4SocialMedias: socialMedias,
+        form5askingPrice: askingPrice,
+        form6name: name,
+        form6email: email,
+        form6phoneNumber: phoneNumber,
+      });
+      console.log("Document written with Id: ", docRef.id);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  }
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+    if (
+      !name ||
+      !email ||
+      !phoneNumber ||
+      !selectedBusiness ||
+      !selectedIndustry ||
+      !skillsRequired ||
+      !selectedAnalytics ||
+      !date ||
+      !selectedProcessors ||
+      !revenue ||
+      !netprofit ||
+      !description ||
+      !selectedSource ||
+      !detailedBusinessDescription ||
+      !bulletDetailedBusinessDescription ||
+      !askingPrice
+    ) {
+      setFormError("Please fill out all required fields.");
+    } else {
+      const added = await addDataToFireStore();
+      if(added){
+        alert("Form submitted successfully!!")
+      }
+      setFormError("");
+      // Handle form submission
+      console.log("Form submitted with:", { name, email, phoneNumber });
+    }
+  };
   const handleProcessorsChange = (event) => {
     const { value, checked } = event.target;
     if (checked) {
@@ -341,6 +419,33 @@ const FillForm = () => {
   const isEcommerceVisible =
     selectedBusiness === "Shopify" || selectedBusiness === "E-commerce";
   useEffect(() => {
+    const fields = [
+      selectedBusiness,
+      selectedIndustry,
+      selectedAnalytics,
+      date,
+      selectedProcessors,
+      revenue,
+      netprofit,
+      description,
+      selectedSource,
+      detailedBusinessDescription,
+      bulletDetailedBusinessDescription,
+      skillsRequired,
+      askingPrice,
+      name,
+      phoneNumber,
+      email,
+    ];
+    const filledFields = fields.filter((field) => {
+      if (Array.isArray(field)) {
+        return field.length > 0;
+      }
+      return field !== "" && field !== null;
+    });
+    console.log(filledFields);
+    const progress = (filledFields.length / fields.length) * 100;
+    setCount(progress);
     if (!askingPrice) {
       setinfoClicked(false);
       setFifthNext(false);
@@ -385,35 +490,12 @@ const FillForm = () => {
     bulletDetailedBusinessDescription,
     skillsRequired,
     askingPrice,
+    name,
+    phoneNumber,
+    email,
   ]);
   const [formError, setFormError] = useState("");
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (
-      !name ||
-      !email ||
-      !phoneNumber ||
-      !selectedBusiness ||
-      !selectedIndustry ||
-      !skillsRequired ||
-      !selectedAnalytics ||
-      !date ||
-      !selectedProcessors ||
-      !revenue ||
-      !netprofit ||
-      !description ||
-      !selectedSource ||
-      !detailedBusinessDescription ||
-      !bulletDetailedBusinessDescription ||
-      !askingPrice
-    ) {
-      setFormError("Please fill out all required fields.");
-    } else {
-      setFormError("");
-      // Handle form submission
-      console.log("Form submitted with:", { name, email, phoneNumber });
-    }
-  };
+
   return (
     <div>
       <div className="flex items-center justify-center">
@@ -422,8 +504,8 @@ const FillForm = () => {
             onSubmit={handleSubmit}
             className="space-y-4 w-full justify-center"
           >
-            {/*first form */}
             <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
+              {/*first form */}
               <div
                 className="flex  w-full cursor-pointer items-center justify-between"
                 onClick={() => setbusinessClicked(!businessClicked)}
@@ -455,7 +537,10 @@ const FillForm = () => {
               {businessClicked && (
                 <div className="mt-7">
                   <div>
-                    <div className=" font-semibold text-lg">Business Type</div>
+                    <div className=" font-semibold text-lg">
+                      Business Type
+                      <span className="pl-2  items-start text-red-700">*</span>
+                    </div>
                     <ul className="grid w-full gap-4 md:grid-cols-3 ratio-list mt-5">
                       {[
                         "Shopify",
@@ -583,9 +668,12 @@ const FillForm = () => {
                   </div>
                   <div>
                     <li className="mt-8 list-none">
-                      <h3 className="text-base font-semibold pb-3">
+                      <div className="text-base font-semibold pb-3">
                         Primary Source of User Acquisition
-                      </h3>
+                        <span className="pl-2  items-start text-red-700">
+                          *
+                        </span>
+                      </div>
                       <ul className="grid w-full gap-4 md:grid-cols-3 checkbox-list">
                         {[
                           { id: "SEO", label: "SEO" },
@@ -630,9 +718,12 @@ const FillForm = () => {
 
                   <div>
                     <li className="mt-8 list-none">
-                      <h3 className="text-base font-semibold pb-3 mt-4 mb-3">
+                      <div className="text-base font-semibold pb-3 mt-4 mb-3">
                         Brief Description of your Business
-                      </h3>
+                        <span className="pl-2  items-start text-red-700">
+                          *
+                        </span>
+                      </div>
                       <Textarea
                         color="blue"
                         label="Describe in about 200 words"
@@ -691,6 +782,9 @@ const FillForm = () => {
                         className="text-base px-2 font-semibold pb-3 mb-3"
                       >
                         When was the business first started?
+                        <span className="pl-2  items-start text-red-700">
+                          *
+                        </span>
                       </div>
                       <div className=" rounded-xl ">
                         <DatePicker
@@ -716,6 +810,9 @@ const FillForm = () => {
                         htmlFor="industry"
                       >
                         Choose an Industry
+                        <span className="pl-2  items-start text-red-700">
+                          *
+                        </span>
                       </h3>
                       <div className="min-w-[20rem] max-w-[20rem]">
                         <Select
@@ -773,11 +870,16 @@ const FillForm = () => {
                       Next
                     </Button>
                   </div>
+                  <ProgressBar progress={count} />
                 </div>
               )}
             </div>
             {/*second form */}
-            <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
+            <div
+              className={` items-center w-full space-x-3 bg-white  shadow-lg p-5 rounded-xl border-[1px] border-gray-700 ${
+                firstNext ? "opacity-100" : "opacity-50"
+              }`}
+            >
               <div
                 className="flex  w-full cursor-pointer items-center justify-between"
                 onClick={() => handleSecondFormChange()}
@@ -811,6 +913,7 @@ const FillForm = () => {
                   <div>
                     <div className=" font-semibold mt-9 text-base mb-7">
                       Trailing Total Revenue (TTM) in the Last 12 Months
+                      <span className="pl-2  items-start text-red-700">*</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <FaDollarSign size={20} />
@@ -832,6 +935,7 @@ const FillForm = () => {
                   <div>
                     <div className=" font-semibold mt-9 text-base mb-7">
                       Net Profit in the Last 12 Months
+                      <span className="pl-2  items-start text-red-700">*</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <FaDollarSign size={20} />
@@ -849,6 +953,19 @@ const FillForm = () => {
                       </p>
                     )}
                   </div>
+                  <div>
+                    <div className="font-semibold mt-8">
+                      Upload your Excel file of Profit and Loss (PnL) in a Given
+                      Format{" "}
+                      <span className="text-blue-800">(Sample file)</span>
+                    </div>
+                    <input
+                      type="file"
+                      accept=".xlsx,.xls"
+                      onChange={handleFileChange}
+                      className="block mt-4 w-full  bg-[#221d33] text-white border border-gray-300 rounded-lg font-gilroy-medium text-base cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 ease-in-out"
+                    />
+                  </div>
                   <div className="w-full mt-8 cursor-pointer flex justify-end px-2 ">
                     <Button
                       variant="gradient"
@@ -859,12 +976,18 @@ const FillForm = () => {
                       Next
                     </Button>
                   </div>
+
+                  <ProgressBar progress={count} />
                 </div>
               )}
             </div>
 
             {/*third form */}
-            <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
+            <div
+              className={` items-center w-full space-x-3 bg-white  shadow-lg p-5 rounded-xl border-[1px] border-gray-700 ${
+                secondNext ? "opacity-100" : "opacity-50"
+              }`}
+            >
               <div
                 className="flex  w-full cursor-pointer items-center justify-between"
                 onClick={() => handleThirdFormChange()}
@@ -898,6 +1021,7 @@ const FillForm = () => {
                   <div className=" font-semibold">
                     Do you currently have either Google Analytics or Clicky
                     installed?
+                    <span className="pl-2  items-start text-red-700">*</span>
                   </div>
                   <ul className="grid w-full gap-4 md:grid-cols-3 ratio-list mt-5">
                     {["Yes", "No"].map((type) => (
@@ -954,6 +1078,7 @@ const FillForm = () => {
                   <div className="p-4">
                     <h3 className="text-lg font-semibold pb-3 mt-8">
                       Which payment processors do you use?
+                      <span className="pl-2  items-start text-red-700">*</span>
                     </h3>
                     <ul className="grid w-full gap-4 md:grid-cols-3">
                       {[
@@ -1009,11 +1134,17 @@ const FillForm = () => {
                       Next
                     </Button>
                   </div>
+
+                  <ProgressBar progress={count} />
                 </div>
               )}
             </div>
             {/*fourth form */}
-            <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
+            <div
+              className={` items-center w-full space-x-3 bg-white  shadow-lg p-5 rounded-xl border-[1px] border-gray-700 ${
+                thirdNext ? "opacity-100" : "opacity-50"
+              }`}
+            >
               <div
                 className="flex  w-full cursor-pointer items-center justify-between"
                 onClick={() => handleFourthFormChange()}
@@ -1047,6 +1178,7 @@ const FillForm = () => {
                   <div>
                     <div className="font-semibold mb-5">
                       Detailed Business Description (200 words)
+                      <span className="pl-2  items-start text-red-700">*</span>
                     </div>
                     <Textarea
                       color="blue"
@@ -1066,6 +1198,7 @@ const FillForm = () => {
                     <div className="font-semibold mb-5 mt-7">
                       Use bullet points to describe future business
                       opportunities
+                      <span className="pl-2  items-start text-red-700">*</span>
                     </div>
                     <Textarea
                       color="blue"
@@ -1100,6 +1233,7 @@ const FillForm = () => {
                   />
                   <div className="font-semibold mb-5 mt-7">
                     Skills required to run this business
+                    <span className="pl-2  items-start text-red-700">*</span>
                   </div>
                   <Textarea
                     color="blue"
@@ -1160,12 +1294,18 @@ const FillForm = () => {
                       Next
                     </Button>
                   </div>
+
+                  <ProgressBar progress={count} />
                 </div>
               )}
             </div>
 
             {/*fifth form */}
-            <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
+            <div
+              className={` items-center w-full space-x-3 bg-white  shadow-lg p-5 rounded-xl border-[1px] border-gray-700 ${
+                fourthNext ? "opacity-100" : "opacity-50"
+              }`}
+            >
               <div
                 className="flex  w-full cursor-pointer items-center justify-between"
                 onClick={() => handleFifthFormChange()}
@@ -1229,12 +1369,18 @@ const FillForm = () => {
                       Next
                     </Button>
                   </div>
+
+                  <ProgressBar progress={count} />
                 </div>
               )}
             </div>
 
             {/*sixth form */}
-            <div className=" items-center w-full space-x-3 bg-white shadow-lg p-5 rounded-xl border-[1px] border-gray-700">
+            <div
+              className={` items-center w-full space-x-3 bg-white  shadow-lg p-5 rounded-xl border-[1px] border-gray-700 ${
+                fifthNext ? "opacity-100" : "opacity-50"
+              }`}
+            >
               <div
                 className="flex  w-full cursor-pointer items-center justify-between"
                 onClick={() => handleSixthFormChange()}
@@ -1270,6 +1416,7 @@ const FillForm = () => {
                   </div>
                   <div className="mt-5 mb-3 font-gilroy-medium text-gray-500">
                     Name
+                    <span className="pl-2  items-start text-red-700">*</span>
                   </div>
                   <Input
                     color="blue"
@@ -1287,6 +1434,9 @@ const FillForm = () => {
                     <div>
                       <div className="mt-5 mb-3 font-gilroy-medium text-gray-500">
                         Email ID
+                        <span className="pl-2  items-start text-red-700">
+                          *
+                        </span>
                       </div>
                       <Input
                         color="blue"
@@ -1305,6 +1455,9 @@ const FillForm = () => {
                     <div>
                       <div className="mt-5 mb-3 font-gilroy-medium text-gray-500">
                         Phone Number
+                        <span className="pl-2  items-start text-red-700">
+                          *
+                        </span>
                       </div>
                       <div className="w-full">
                         {selectedCountry && (
@@ -1336,6 +1489,8 @@ const FillForm = () => {
                       Next
                     </Button>
                   </div>
+
+                  <ProgressBar progress={count} />
                 </div>
               )}
             </div>
@@ -1347,7 +1502,11 @@ const FillForm = () => {
                 Submit
               </button>
             )}
-            {formError && <p className="text-red-500 text-xs italic">{formError}</p>}
+            {formError && (
+              <p className="text-red-500 text-sm font-gilroy-bold italic">
+                {formError}
+              </p>
+            )}
           </form>
         </div>
       </div>
