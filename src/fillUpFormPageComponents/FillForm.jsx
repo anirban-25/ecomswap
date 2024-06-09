@@ -4,6 +4,10 @@ import { db } from "@/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { TbWorldWww } from "react-icons/tb";
+import { lineSpinner } from "ldrs";
+
+// Default values shown
+
 import ReactPhoneInput from "react-phone-input-2";
 import ProgressBar from "@/fillUpFormPageComponents/ProgressBar";
 import "react-phone-input-2/lib/style.css";
@@ -24,6 +28,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const FillForm = () => {
+  useEffect(() => {
+    // Ensure that the registration runs only on the client side
+    if (typeof window !== "undefined") {
+      lineSpinner.register();
+    }
+  }, []);
   const [count, setCount] = useState(0);
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
@@ -77,6 +87,7 @@ const FillForm = () => {
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
   const [dateError, setdateError] = useState("");
+  const [loader, setLoader] = useState(false);
   const [checkUrl, setCheckUrl] = useState("");
   const [error, setError] = useState("");
   const [askingPrice, setAskingPrice] = useState("");
@@ -136,7 +147,8 @@ const FillForm = () => {
       return false;
     }
   }
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
+    setLoader(true);
     event.preventDefault();
     if (
       !name ||
@@ -159,13 +171,14 @@ const FillForm = () => {
       setFormError("Please fill out all required fields.");
     } else {
       const added = await addDataToFireStore();
-      if(added){
-        alert("Form submitted successfully!!")
+      if (added) {
+        alert("Form submitted successfully!!");
       }
       setFormError("");
       // Handle form submission
       console.log("Form submitted with:", { name, email, phoneNumber });
     }
+    setLoader(false);
   };
   const handleProcessorsChange = (event) => {
     const { value, checked } = event.target;
@@ -212,6 +225,7 @@ const FillForm = () => {
     setBulletDetailedBusinessDescription(e.target.value);
   };
   const firstNextClick = () => {
+
     if (
       selectedBusiness &&
       selectedSource &&
@@ -221,6 +235,7 @@ const FillForm = () => {
     ) {
       setFirstNext(true);
       setfinancialClicked(true);
+      setbusinessClicked(false);
       setBusinessError("");
       setDescriptionError("");
       setSourceError("");
@@ -981,7 +996,6 @@ const FillForm = () => {
                 </div>
               )}
             </div>
-
             {/*third form */}
             <div
               className={` items-center w-full space-x-3 bg-white  shadow-lg p-5 rounded-xl border-[1px] border-gray-700 ${
@@ -1299,7 +1313,6 @@ const FillForm = () => {
                 </div>
               )}
             </div>
-
             {/*fifth form */}
             <div
               className={` items-center w-full space-x-3 bg-white  shadow-lg p-5 rounded-xl border-[1px] border-gray-700 ${
@@ -1374,7 +1387,6 @@ const FillForm = () => {
                 </div>
               )}
             </div>
-
             {/*sixth form */}
             <div
               className={` items-center w-full space-x-3 bg-white  shadow-lg p-5 rounded-xl border-[1px] border-gray-700 ${
@@ -1495,12 +1507,27 @@ const FillForm = () => {
               )}
             </div>
             {sixthNext && (
-              <button
-                type="submit"
-                className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Submit
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  {!loader ? (
+                    <div>Submit</div>
+                  ) : (
+                    <div>
+                      <div className="w-full flex justify-center">
+                        <l-line-spinner
+                          size="30"
+                          stroke="3"
+                          speed="1"
+                          color="white"
+                        ></l-line-spinner>
+                      </div>
+                    </div>
+                  )}
+                </button>
+              </div>
             )}
             {formError && (
               <p className="text-red-500 text-sm font-gilroy-bold italic">
