@@ -1,10 +1,16 @@
 "use client";
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from "next/navigation";
 
 
 const ListingCard = ({ listing }) => {
-  const { description, price, thumbnailUrl, verified, topRated, isNew, monthlyNetProfit, monthlyRevenue, monthlyMultiple, type, industry, monetization, location, profit, revenue, traffic } = listing;
+  const router = useRouter();
+  const handleClick= (id) => {
+    router.push(`/listings/${id}`);
+  };
+
+  const { id, description, price, thumbnailUrl, verified, topRated, isNew, monthlyNetProfit, monthlyRevenue, monthlyMultiple, type, industry, monetization, location, profit, revenue, traffic } = listing;
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4 flex h-auto relative w-full mx-auto">
@@ -161,7 +167,8 @@ const ListingCard = ({ listing }) => {
           </div>
         
         <div className="flex items-center justify-end mt-4">
-          <button className="bg-[#190041] text-white px-8 py-3 rounded-full font-gilroy-bold flex items-center justify-center ] text-base">
+          <button className="bg-[#190041] text-white px-8 py-3 rounded-full font-gilroy-bold flex items-center justify-center ] text-base"
+          onClick={() => handleClick(params.id)}>
             View Listing <span className="ml-2 ">&#8594;</span>
           </button>
         </div>

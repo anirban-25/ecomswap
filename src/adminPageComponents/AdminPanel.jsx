@@ -1,5 +1,6 @@
 "use client";
-import {db} from "@/firebase"
+
+import {db} from "@/firebase";
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -31,40 +32,53 @@ import {
   Edit,
 } from "@mui/icons-material";
 import { collection, getDocs } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 const AdminPanel = () => {
-    const [dataFrom, setDataFrom] = useState([])
+  const router = useRouter();
+  const [dataFrom, setDataFrom] = useState([]);
+
   const fetchFormData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "admin"));
       const data = [];
       querySnapshot.forEach((doc) => {
-        data.push({ id: doc.id, ...doc.data() });
+        const docData = doc.data();
+        data.push({
+          id: doc.id,
+          type: docData.form1BusinessType || "",
+          useracquisition: docData.form1BriefDescription || "",
+          location: docData.form1LocationOfBusiness || "",
+          industry: docData.form1selectedIndustry || "",
+          startdate: docData.form1BusinessStarted || "",
+          askingprice: docData.form5askingPrice || "",
+          status: docData.status || "",
+          createdat: docData.createdat || "",
+        });
       });
-      console.log(data)
       setDataFrom(data);
-      return data;
     } catch (error) {
       console.error("Error fetching data from Firestore:", error);
-      throw error;
     }
   };
+
   useEffect(() => {
     fetchFormData();
-    console.log(dataFrom)
   }, []);
+
   const handleEditClick = (id) => {
-    console.log(`Edit action for row ${id}`);
+    router.push(`/admin-panel/${id}`);
   };
+
   const columns = [
     { field: "id", headerName: "Listing ID", width: 100 },
-    { field: "type", headerName: "Business Type", width: 200 },
-    { field: "location", headerName: "Location", width: 150 },
-    { field: "industry", headerName: "Industry", width: 140 },
-    { field: "startdate", headerName: "Start date", width: 140 },
-    { field: "askingprice", headerName: "Asking Price", width: 120 },
-    { field: "status", headerName: "Status", width: 120 },
-    { field: "createdat", headerName: "Created at", width: 140 },
+    { field: "type", headerName: "Business Type", width: 170 },
+    { field: "useracquisition", headerName: "User Acquisition", width: 150 },
+    { field: "location", headerName: "Location", width: 130 },
+    { field: "industry", headerName: "Industry", width: 170 },
+    { field: "askingprice", headerName: "Asking Price", width: 110 },
+    { field: "status", headerName: "Status", width: 100 },
+    { field: "createdat", headerName: "Created at", width: 130 },
     {
       field: "action",
       headerName: "Action",
@@ -76,39 +90,6 @@ const AdminPanel = () => {
           onClick={() => handleEditClick(params.id)}
         />
       ),
-    },
-  ];
-
-  const rows = [
-    {
-      id: 801,
-      type: "e commerce",
-      location: "bombay",
-      industry: "backend",
-      startdate: "30 feb",
-      askingprice: "3333",
-      status: "Approved",
-      createdat: "29feb",
-    },
-    {
-      id: 802,
-      type: "garden",
-      location: "kolkata",
-      industry: "politics",
-      startdate: "20 feb",
-      askingprice: "222",
-      status: "Approved",
-      createdat: "56 march",
-    },
-    {
-      id: 803,
-      type: "anirban hater",
-      location: "sonarpur",
-      industry: "frontend",
-      startdate: "16 july",
-      askingprice: "222",
-      status: "Pending",
-      createdat: "36 jan",
     },
   ];
 
@@ -147,17 +128,11 @@ const AdminPanel = () => {
             </List>
           </Box>
         </Drawer>
-        <Box
-          component="main"
-          sx={{ flexGrow: 1, bgcolor: "background.default", p: 5 }}
-        >
+        <Box 
+        component="main" 
+        sx={{ flexGrow: 1, bgcolor: "background.default", p: 5 }}>
           <Toolbar />
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mt={3}
-          >
+          <Box display="flex" justifyContent="space-between" alignItems="center" mt={3}>
             <Typography variant="h5">Recent Listings</Typography>
             <Button variant="contained" startIcon={<Person />}>
               Add Listing
@@ -181,7 +156,7 @@ const AdminPanel = () => {
           </Box>
           <Box sx={{ height: 400, width: "100%" }}>
             <DataGrid
-              rows={rows}
+              rows={dataFrom}
               columns={columns}
               paginationModel={{ pageSize: 5, page: 0 }}
               pageSizeOptions={[5, 10, 20]}
