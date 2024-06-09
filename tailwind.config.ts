@@ -16,6 +16,7 @@ const config: Config = withMT({
     "./src/listPageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/sellYourSitePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/fillUpFormPageComponents/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/adminPageComponents/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",

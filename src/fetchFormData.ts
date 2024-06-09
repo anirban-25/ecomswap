@@ -2,7 +2,7 @@ import { getDocs, collection } from "firebase/firestore";
 import { db } from "@/firebase";
 
 type AdminFormData = {
-  id: string;
+  
   form1BusinessType: string;
   form1BusinessTypeSub: string;
   form1PrimarySourceOfUserAcquisition: string;
@@ -35,7 +35,6 @@ export const fetchFormData = async (): Promise<AdminFormData[]> => {
     const formData: AdminFormData[] = querySnapshot.docs.map((doc) => {
       const data = doc.data();
       return {
-        id: doc.id,
         form1BusinessType: data.form1BusinessType || "",
         form1BusinessTypeSub: data.form1BusinessTypeSub || "",
         form1PrimarySourceOfUserAcquisition: data.form1PrimarySourceOfUserAcquisition || "",
