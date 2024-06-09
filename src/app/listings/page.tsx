@@ -50,7 +50,7 @@ const listings: Listing[] = [
   },
   {
     id: 2,
-    description: 'anirban is a hater',
+    description: 'lorem lorem lorem',
     price: 10,
     thumbnailUrl: "/images/furniture.png",
     verified: true,
@@ -70,7 +70,7 @@ const listings: Listing[] = [
   },
   {
     id: 3,
-    description: 'anirban is a loser',
+    description: 'shik shak shook',
     price: 35,
     thumbnailUrl: "/images/Rectangle 1316.png",
     verified: true,
