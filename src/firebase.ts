@@ -6,14 +6,13 @@ import {getFirestore} from "firebase/firestore"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBk_uvErrkt_hHxFqGEcSgrPfiLJZft6bQ",
-  authDomain: "ecomswap.firebaseapp.com",
-  projectId: "ecomswap",
-  storageBucket: "ecomswap.appspot.com",
-  messagingSenderId: "339966261828",
-  appId: "1:339966261828:web:e30947d935771f1aad9a11",
+  apiKey: "AIzaSyBxtvEnvgI9t6OuG2qQRTRY89d4-am_bp8",
+  authDomain: "ecomswap-91377.firebaseapp.com",
+  projectId: "ecomswap-91377",
+  storageBucket: "ecomswap-91377.appspot.com",
+  messagingSenderId: "1090361002813",
+  appId: "1:1090361002813:web:02fc8838af307a258ed354"
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
