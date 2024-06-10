@@ -70,10 +70,10 @@ const ActionList = ({ Id }) => {
             support: docSnap.data().form4skillsRequired || "",
             askingprice: docSnap.data().form5askingPrice || "",
           });
-        
+
           setSelectedDate(startDate);
 
-          setSelectedCountry(docSnap.data().form1LocationOfBusiness)
+          setSelectedCountry(docSnap.data().form1LocationOfBusiness);
         } else {
           console.error("No such document!");
         }
@@ -86,7 +86,7 @@ const ActionList = ({ Id }) => {
   }, []);
 
   const handleChange = (e) => {
-    console.log(e.target)
+    console.log(e.target);
     const { name, value } = e.target;
     console.log(name, value);
     setFormData((prevData) => ({
@@ -213,7 +213,12 @@ const ActionList = ({ Id }) => {
             label="Location of the Business"
             name="location"
             selected={formData.location}
-            onSelect={handleChange}
+            onSelect={(code) => {
+              setFormData((prev) => ({
+                ...prev,
+                location: code, // Assuming formData is your current state
+              }));
+            }}
             searchable
             searchPlaceholder="Search for a country"
             className="w-full"
