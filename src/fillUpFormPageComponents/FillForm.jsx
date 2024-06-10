@@ -760,7 +760,7 @@ const FillForm = () => {
                   </div>
                   <ReactFlagsSelect
                     selected={selectedCountry}
-                    onSelect={(code) => setSelectedCountry(code)}
+                    onSelect={(name) => setSelectedCountry(name)}
                     searchable
                     searchPlaceholder="Search for a country"
                     className="w-full"

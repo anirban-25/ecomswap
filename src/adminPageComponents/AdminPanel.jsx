@@ -47,7 +47,7 @@ const AdminPanel = () => {
         data.push({
           id: doc.id,
           type: docData.form1BusinessType || "",
-          useracquisition: docData.form1BriefDescription || "",
+          useracquisition: docData.form1PrimarySourceOfUserAcquisition || "",
           location: docData.form1LocationOfBusiness || "",
           industry: docData.form1selectedIndustry || "",
           startdate: docData.form1BusinessStarted || "",
@@ -79,7 +79,7 @@ const AdminPanel = () => {
     { field: "askingprice", headerName: "Asking Price", width: 110 },
     { field: "status", headerName: "Status", width: 100 },
     { field: "createdat", headerName: "Created at", width: 130 },
-    {
+    { 
       field: "action",
       headerName: "Action",
       width: 120,
@@ -114,9 +114,12 @@ const AdminPanel = () => {
         >
           <Toolbar />
           <Box sx={{ overflow: "auto" }}>
+            <img src='/images/logo.svg' alt="icon" style={{ marginLeft: 25, marginTop: 10  }} />
             <List>
+              
               {["Listings", "Offers", "Logout"].map((text, index) => (
                 <ListItem component="a" href="#" key={text}>
+                  
                   <ListItemIcon>
                     {index === 0 ? <ListAlt /> : null}
                     {index === 1 ? <Settings /> : null}
