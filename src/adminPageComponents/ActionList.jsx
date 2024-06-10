@@ -7,8 +7,8 @@ import ReactPhoneInput from "react-phone-input-2";
 import { Box, Button, Typography, TextField, MenuItem } from "@mui/material";
 
 const ActionList = ({ Id }) => {
-
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   const [formData, setFormData] = useState({
     businessType: "E-commerce",
     userAcquisition: "",
@@ -37,7 +37,7 @@ const ActionList = ({ Id }) => {
               docSnap.data().form1PrimarySourceOfUserAcquisition || "",
             description: docSnap.data().form1BriefDescription || "",
             websiteUrl: docSnap.data().form1WebsiteUrl || "",
-            location: docSnap.data().form1LocationOfBusiness ,
+            location: docSnap.data().form1LocationOfBusiness,
             startDate: docSnap.data().form1BusinessStarted || "",
             revenue: docSnap.data().form2trailingTotalRevenue || "",
             profit: docSnap.data().form2netProfit || "",
@@ -53,6 +53,30 @@ const ActionList = ({ Id }) => {
             support: docSnap.data().form4skillsRequired || "",
             askingprice: docSnap.data().form5askingPrice || "",
           });
+          const timestamp = docSnap.data().form1BusinessStarted || ""; // Assuming form1BusinessStarted is the field containing the timestamp
+          console.log("timestampString:", timestamp); // Assuming form1BusinessStarted is the field containing the timestamp
+          let startDate = "";
+          if (timestamp && typeof timestamp.toDate === "function") {
+            // Convert Firestore Timestamp to JavaScript Date
+            const date = timestamp.toDate();
+            console.log("Converted date:", date); // Log the converted date to debug
+
+            // Get the year, month, and day from the Date object
+            const year = date.getFullYear();
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const day = ("0" + date.getDate()).slice(-2);
+            // Format the date as YYYY-MM-DD
+            startDate = `${year}-${month}-${day}`;
+          } else {
+            console.error("Invalid Firestore Timestamp format");
+          }
+          setFormData({
+            startDate: startDate,
+            location: docSnap.data().form1LocationOfBusiness
+            // other form data fields
+          });
+          setSelectedDate(startDate);
+
           setSelectedCountry(docSnap.data().form1LocationOfBusiness)
         } else {
           console.error("No such document!");
@@ -66,7 +90,9 @@ const ActionList = ({ Id }) => {
   }, []);
 
   const handleChange = (e) => {
+    console.log(e.target)
     const { name, value } = e.target;
+    console.log(name, value);
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -81,7 +107,8 @@ const ActionList = ({ Id }) => {
   };
 
   const handleSave = async () => {
-    console.log(typeof(formData.location))
+    console.log(typeof formData.location);
+    console.log(formData.startDate);
     try {
       const docRef = doc(db, "admin", Id);
       await updateDoc(docRef, {
@@ -112,7 +139,6 @@ const ActionList = ({ Id }) => {
     }
   };
 
-  
   return (
     <Box sx={{ padding: 2 }}>
       <Box
@@ -189,8 +215,9 @@ const ActionList = ({ Id }) => {
           </Typography>
           <ReactFlagsSelect
             label="Location of the Business"
-            selected={selectedCountry}
-            onSelect={(code) => setSelectedCountry(code)}
+            name="location"
+            selected={formData.location}
+            onSelect={handleChange}
             searchable
             searchPlaceholder="Search for a country"
             className="w-full"
@@ -208,7 +235,7 @@ const ActionList = ({ Id }) => {
           label="Business first start date"
           name="startDate"
           type="date"
-          value={formData.startDate || ""}
+          value={formData.startDate}
           onChange={handleChange}
           margin="normal"
           sx={{ width: "20%" }}
