@@ -1,11 +1,23 @@
-import React from 'react'
+"use client";
+import React from "react";
+import Header from "@/components/Header";
+import InnerPageListingCard from "@/listPageComponents/InnerPageListingCard";
+import { useRouter, useSearchParams } from "next/navigation";
+type Props = {};
 
-type Props = {}
-
-const page = (props: Props) => {
+const page = ({ params }: { params: { list: string } }) => {
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      <div className="px-10 py-7">
+        <Header />
+      </div>
+      <div className="mt-10 flex px-10 items-stretch">
+        <div className="   w-full h-full">
+          <InnerPageListingCard />
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default page
+export default page;
