@@ -31,28 +31,6 @@ const ActionList = ({ Id }) => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setFormData({
-            businessType: docSnap.data().form1BusinessType || "",
-            userAcquisition:
-              docSnap.data().form1PrimarySourceOfUserAcquisition || "",
-            description: docSnap.data().form1BriefDescription || "",
-            websiteUrl: docSnap.data().form1WebsiteUrl || "",
-            location: docSnap.data().form1LocationOfBusiness,
-            startDate: docSnap.data().form1BusinessStarted || "",
-            revenue: docSnap.data().form2trailingTotalRevenue || "",
-            profit: docSnap.data().form2netProfit || "",
-            analytics: docSnap.data().form3GoogleAnalytics || "",
-            industryType: docSnap.data().form1selectedIndustry || "",
-            paymentType: docSnap.data().form3paymentProcessors || "",
-            countriesTarget: docSnap.data().form4CountriesToTarget || "",
-            socialLinks: docSnap.data().form4SocialMedias || "",
-            risks: docSnap.data().form4Risks || "",
-            bullet: docSnap.data().form4bulltedPointstoDescribe || "",
-            detailed: docSnap.data().form4detailedBusinessDescription || "",
-            skills: docSnap.data().form4supportYoucanOffer || "",
-            support: docSnap.data().form4skillsRequired || "",
-            askingprice: docSnap.data().form5askingPrice || "",
-          });
           const timestamp = docSnap.data().form1BusinessStarted || ""; // Assuming form1BusinessStarted is the field containing the timestamp
           console.log("timestampString:", timestamp); // Assuming form1BusinessStarted is the field containing the timestamp
           let startDate = "";
@@ -71,10 +49,28 @@ const ActionList = ({ Id }) => {
             console.error("Invalid Firestore Timestamp format");
           }
           setFormData({
+            businessType: docSnap.data().form1BusinessType || "",
+            userAcquisition:
+              docSnap.data().form1PrimarySourceOfUserAcquisition || "",
+            description: docSnap.data().form1BriefDescription || "",
+            websiteUrl: docSnap.data().form1WebsiteUrl || "",
+            location: docSnap.data().form1LocationOfBusiness,
             startDate: startDate,
-            location: docSnap.data().form1LocationOfBusiness
-            // other form data fields
+            revenue: docSnap.data().form2trailingTotalRevenue || "",
+            profit: docSnap.data().form2netProfit || "",
+            analytics: docSnap.data().form3GoogleAnalytics || "",
+            industryType: docSnap.data().form1selectedIndustry || "",
+            paymentType: docSnap.data().form3paymentProcessors || "",
+            countriesTarget: docSnap.data().form4CountriesToTarget || "",
+            socialLinks: docSnap.data().form4SocialMedias || "",
+            risks: docSnap.data().form4Risks || "",
+            bullet: docSnap.data().form4bulltedPointstoDescribe || "",
+            detailed: docSnap.data().form4detailedBusinessDescription || "",
+            skills: docSnap.data().form4supportYoucanOffer || "",
+            support: docSnap.data().form4skillsRequired || "",
+            askingprice: docSnap.data().form5askingPrice || "",
           });
+        
           setSelectedDate(startDate);
 
           setSelectedCountry(docSnap.data().form1LocationOfBusiness)
