@@ -47,13 +47,15 @@ const AdminPanel = () => {
         data.push({
           id: doc.id,
           type: docData.form1BusinessType || "",
-          useracquisition: docData.form1PrimarySourceOfUserAcquisition || "",
+          TTR: docData.form2trailingTotalRevenue || "",
           location: docData.form1LocationOfBusiness || "",
           industry: docData.form1selectedIndustry || "",
           startdate: docData.form1BusinessStarted || "",
           askingprice: docData.form5askingPrice || "",
           status: docData.status || "",
           createdat: docData.createdat || "",
+          status: docData.adminStatus  || "Pending",
+
         });
       });
       setDataFrom(data);
@@ -73,7 +75,7 @@ const AdminPanel = () => {
   const columns = [
     { field: "id", headerName: "Listing ID", width: 100 },
     { field: "type", headerName: "Business Type", width: 170 },
-    { field: "useracquisition", headerName: "User Acquisition", width: 150 },
+    { field: "TTR", headerName: "TTR", width: 130 },
     { field: "location", headerName: "Location", width: 130 },
     { field: "industry", headerName: "Industry", width: 170 },
     { field: "askingprice", headerName: "Asking Price", width: 110 },
