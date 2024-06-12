@@ -11,6 +11,7 @@ import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import DatePicker from "react-datepicker";
 import Link from "next/link";
 import Select from "react-select"
+import { trefoil } from "ldrs";
 import "react-datepicker/dist/react-datepicker.css";
 
 
@@ -27,7 +28,7 @@ const ActionList = ({ Id }) => {
   ];
   
 
-
+  const[loader, setLoader] = useState(true);
   const [formData, setFormData] = useState({
     businessType: "",
     userAcquisition: "",
@@ -76,6 +77,8 @@ const ActionList = ({ Id }) => {
   };
 
   useEffect(() => {
+
+    trefoil.register();
     const fetchListingData = async () => {
       if (!Id) return;
 
@@ -159,7 +162,7 @@ const ActionList = ({ Id }) => {
         } catch (error) {
           console.error("Fetching file failed", error);
         }
-
+        setLoader(false);
       } catch (error) {
         console.error("Error fetching document:", error);
       }
@@ -237,6 +240,18 @@ const ActionList = ({ Id }) => {
 
   return (
     <div className="p-4">
+      {loader ? (
+        <div className="flex justify-center items-center h-screen">
+          <l-trefoil
+            size="40"
+            stroke="4"
+            stroke-length="0.15"
+            bg-opacity="0.1"
+            speed="1"
+            color="black"
+          ></l-trefoil>
+        </div>
+      ) : (
       <div className="p-6 bg-white border-dashed border border-gray-400 rounded-2xl shadow-lg">
         <div className=" font-gilroy-bold text-2xl mb-10 text-[#7850FF]">
           Edit Listing
@@ -843,6 +858,7 @@ const ActionList = ({ Id }) => {
           Save
         </Button>
       </div>
+      )}
     </div>
   );
 };

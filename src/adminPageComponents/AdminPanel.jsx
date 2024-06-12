@@ -37,6 +37,7 @@ import { useRouter } from "next/navigation";
 const AdminPanel = () => {
   const router = useRouter();
   const [dataFrom, setDataFrom] = useState([]);
+  const [signedIn, setSignedIn]= useState("");
   
 
   const fetchFormData = async () => {
@@ -289,11 +290,11 @@ const AdminPanel = () => {
         data.push({
           id: doc.id,
           type: docData.form1BusinessType || "",
-          TTR: docData.form2trailingTotalRevenue || "",
+          TTR: parseInt(docData.form2trailingTotalRevenue, 10) || "",
           location: getCountryName(docData.form1LocationOfBusiness) || "",
           industry: docData.form1selectedIndustry || "",
           startdate: docData.form1BusinessStarted || "",
-          askingprice: docData.form5askingPrice || "",
+          askingprice: parseInt(docData.form5askingPrice, 10) || "",
           status: docData.status || "",
           createdat: docData.createdAt || "",
           status: docData.adminStatus  || "Pending",
@@ -344,7 +345,12 @@ const AdminPanel = () => {
   ];
 
   return (
-    <div>
+    <div className=" w-full h-full justify-center flex items-center">
+      {signedIn ? (
+        <div className=" h-full items-center flex justify-center">
+          <SignUp />
+        </div>
+      ) : (
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="fixed" sx={{ zIndex: 1300 }}>
@@ -408,26 +414,25 @@ const AdminPanel = () => {
             />
           </Box>
           <Box sx={{ height: 400, width: "100%" }}>
-            <DataGrid
-              rows={dataFrom}
-              columns={columns}
-              paginationModel={{ pageSize: 5, page: 0 }}
-              pageSizeOptions={[5, 10, 20]}
-              checkboxSelection
-              disableRowSelectionOnClick
-              sx={{
-                "& .MuiDataGrid-row": {
-                  borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                },
-                "& .MuiDataGrid-columnHeaders": {
-                  borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                },
-              }}
-            />
+          <DataGrid
+                rows={dataFrom}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 5,
+                    },
+                  },
+                }}
+                pageSizeOptions={[5, 10, 20]}
+                checkboxSelection
+              />
           </Box>
         </Box>
       </Box>
+      )}
     </div>
+    
   );
 };
 
