@@ -10,234 +10,22 @@ import { useRouter } from "next/navigation";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import DatePicker from "react-datepicker";
 import Link from "next/link";
+import Select from "react-select"
 import "react-datepicker/dist/react-datepicker.css";
+
 
 const ActionList = ({ Id }) => {
   const router = useRouter();
 
-  const countryNames= {
-    AF: "Afghanistan",
-    AL: "Albania",
-    DZ: "Algeria",
-    AS: "American Samoa",
-    AD: "Andorra",
-    AO: "Angola",
-    AI: "Anguilla",
-    AG: "Antigua and Barbuda",
-    AR: "Argentina",
-    AM: "Armenia",
-    AW: "Aruba",
-    AU: "Australia",
-    AT: "Austria",
-    AZ: "Azerbaijan",
-    BS: "Bahamas",
-    BH: "Bahrain",
-    BD: "Bangladesh",
-    BB: "Barbados",
-    BY: "Belarus",
-    BE: "Belgium",
-    BZ: "Belize",
-    BJ: "Benin",
-    BM: "Bermuda",
-    BT: "Bhutan",
-    BO: "Bolivia, Plurinational State of",
-    BA: "Bosnia and Herzegovina",
-    BW: "Botswana",
-    BR: "Brazil",
-    IO: "British Indian Ocean Territory",
-    BG: "Bulgaria",
-    BF: "Burkina Faso",
-    BI: "Burundi",
-    KH: "Cambodia",
-    CM: "Cameroon",
-    CA: "Canada",
-    CV: "Cape Verde",
-    KY: "Cayman Islands",
-    CF: "Central African Republic",
-    TD: "Chad",
-    CL: "Chile",
-    CN: "China",
-    CO: "Colombia",
-    KM: "Comoros",
-    CG: "Congo",
-    CD: "Democratic Republic of the Congo",
-    CK: "Cook Islands",
-    CR: "Costa Rica",
-    CI: "Côte d'Ivoire",
-    HR: "Croatia",
-    CU: "Cuba",
-    CW: "Curaçao",
-    CY: "Cyprus",
-    CZ: "Czech Republic",
-    DK: "Denmark",
-    DJ: "Djibouti",
-    DM: "Dominica",
-    DO: "Dominican Republic",
-    EC: "Ecuador",
-    EG: "Egypt",
-    SV: "El Salvador",
-    GQ: "Equatorial Guinea",
-    ER: "Eritrea",
-    EE: "Estonia",
-    ET: "Ethiopia",
-    FK: "Falkland Islands (Malvinas)",
-    FO: "Faroe Islands",
-    FJ: "Fiji",
-    FI: "Finland",
-    FR: "France",
-    PF: "French Polynesia",
-    GA: "Gabon",
-    GM: "Gambia",
-    GE: "Georgia",
-    DE: "Germany",
-    GH: "Ghana",
-    GI: "Gibraltar",
-    GR: "Greece",
-    GL: "Greenland",
-    GD: "Grenada",
-    GU: "Guam",
-    GT: "Guatemala",
-    GG: "Guernsey",
-    GN: "Guinea",
-    GW: "Guinea-Bissau",
-    HT: "Haiti",
-    HN: "Honduras",
-    HK: "Hong Kong",
-    HU: "Hungary",
-    IS: "Iceland",
-    IN: "India",
-    ID: "Indonesia",
-    IR: "Iran, Islamic Republic of",
-    IQ: "Iraq",
-    IE: "Ireland",
-    IM: "Isle of Man",
-    IL: "Israel",
-    IT: "Italy",
-    JM: "Jamaica",
-    JP: "Japan",
-    JE: "Jersey",
-    JO: "Jordan",
-    KZ: "Kazakhstan",
-    KE: "Kenya",
-    KI: "Kiribati",
-    KP: "North Korea",
-    KR: "South Korea",
-    KW: "Kuwait",
-    KG: "Kyrgyzstan",
-    LA: "Lao People's Democratic Republic",
-    LV: "Latvia",
-    LB: "Lebanon",
-    LS: "Lesotho",
-    LR: "Liberia",
-    LY: "Libya",
-    LI: "Liechtenstein",
-    LT: "Lithuania",
-    LU: "Luxembourg",
-    MO: "Macao",
-    MK: "Republic of Macedonia",
-    MG: "Madagascar",
-    MW: "Malawi",
-    MY: "Malaysia",
-    MV: "Maldives",
-    ML: "Mali",
-    MT: "Malta",
-    MH: "Marshall Islands",
-    MQ: "Martinique",
-    MR: "Mauritania",
-    MU: "Mauritius",
-    MX: "Mexico",
-    FM: "Micronesia, Federated States of",
-    MD: "Republic of Moldova",
-    MC: "Monaco",
-    MN: "Mongolia",
-    ME: "Montenegro",
-    MS: "Montserrat",
-    MA: "Morocco",
-    MZ: "Mozambique",
-    MM: "Myanmar",
-    NA: "Namibia",
-    NR: "Nauru",
-    NP: "Nepal",
-    NL: "Netherlands",
-    NZ: "New Zealand",
-    NI: "Nicaragua",
-    NE: "Niger",
-    NG: "Nigeria",
-    NU: "Niue",
-    NF: "Norfolk Island",
-    MP: "Northern Mariana Islands",
-    NO: "Norway",
-    OM: "Oman",
-    PK: "Pakistan",
-    PW: "Palau",
-    PS: "Palestinian Territory",
-    PA: "Panama",
-    PG: "Papua New Guinea",
-    PY: "Paraguay",
-    PE: "Peru",
-    PH: "Philippines",
-    PN: "Pitcairn",
-    PL: "Poland",
-    PT: "Portugal",
-    PR: "Puerto Rico",
-    QA: "Qatar",
-    RO: "Romania",
-    RU: "Russia",
-    RW: "Rwanda",
-    KN: "Saint Kitts and Nevis",
-    LC: "Saint Lucia",
-    WS: "Samoa",
-    SM: "San Marino",
-    ST: "Sao Tome and Principe",
-    SA: "Saudi Arabia",
-    SN: "Senegal",
-    RS: "Serbia",
-    SC: "Seychelles",
-    SL: "Sierra Leone",
-    SG: "Singapore",
-    SX: "Sint Maarten",
-    SK: "Slovakia",
-    SI: "Slovenia",
-    SB: "Solomon Islands",
-    SO: "Somalia",
-    ZA: "South Africa",
-    SS: "South Sudan",
-    ES: "Spain",
-    LK: "Sri Lanka",
-    SD: "Sudan",
-    SR: "Suriname",
-    SZ: "Swaziland",
-    SE: "Sweden",
-    CH: "Switzerland",
-    SY: "Syria",
-    TW: "Taiwan",
-    TJ: "Tajikistan",
-    TZ: "Tanzania",
-    TH: "Thailand",
-    TG: "Togo",
-    TK: "Tokelau",
-    TO: "Tonga",
-    TT: "Trinidad and Tobago",
-    TN: "Tunisia",
-    TR: "Turkey",
-    TM: "Turkmenistan",
-    TC: "Turks and Caicos Islands",
-    TV: "Tuvalu",
-    UG: "Uganda",
-    UA: "Ukraine",
-    AE: "United Arab Emirates",
-    GB: "United Kingdom",
-    US: "United States",
-    UY: "Uruguay",
-    UZ: "Uzbekistan",
-    VU: "Vanuatu",
-    VE: "Venezuela, Bolivarian Republic of",
-    VN: "Viet Nam",
-    VI: "Virgin Islands",
-    YE: "Yemen",
-    ZM: "Zambia",
-    ZW: "Zimbabwe"
-  };
+
+  const processors = [
+    { value: "PayPal", label: "PayPal" },
+    { value: "Shopify-payments", label: "Shopify-payments" },
+    { value: "Klarna", label: "Klarna" },
+    { value: "Stripe", label: "Stripe" },
+    { value: "Other", label: "Other" },
+  ];
+  
 
 
   const [formData, setFormData] = useState({
@@ -262,7 +50,26 @@ const ActionList = ({ Id }) => {
     askingprice: "",
     adminStatus: "Pending",
     file: "",
+    netrevenuepercentage: "",
+    netprofitstatus: "",
+    netrevenuestatus: "",
+    netprofitpercentage: "",
+    monthlynetprofit: "",
+    monthlyrevenue: "",
+    trafficpercentage: "",
+    trafficstatus: "",
+    monthlymultiple: "",
+    image: "",
+    
   });
+  const handlePaymentChange = (selectedOptions) => {
+    setFormData((prev) => ({
+      ...prev,
+      paymentType: selectedOptions
+        ? selectedOptions.map((option) => option.value)
+        : [],
+    }));
+  };
 
   useEffect(() => {
     const fetchListingData = async () => {
@@ -295,8 +102,18 @@ const ActionList = ({ Id }) => {
             location: docSnap.data().form1LocationOfBusiness,
             startDate: startDate,
             adminStatus: docSnap.data().adminStatus || "",
+            netprofitpercentage: docSnap.data().netprofitpercentage || "",
+            netrevenuepercentage: docSnap.data().netrevenuepercentage || "",
+            monthlynetprofit: docSnap.data().monthlynetprofit || "",
+            monthlyrevenue: docSnap.data().monthlyrevenue || "",
+            trafficpercentage: docSnap.data().trafficpercentage || "",
             revenue: docSnap.data().form2trailingTotalRevenue || "",
             profit: docSnap.data().form2netProfit || "",
+            
+            monthlymultiple: docSnap.data().monthlymultiple || "",
+            
+            image: docSnap.data().image || "",
+            
             analytics: docSnap.data().form3GoogleAnalytics || "",
             industryType: docSnap.data().form1selectedIndustry || "",
             paymentType: docSnap.data().form3paymentProcessors || "",
@@ -308,6 +125,7 @@ const ActionList = ({ Id }) => {
             skills: docSnap.data().form4supportYoucanOffer || "",
             support: docSnap.data().form4skillsRequired || "",
             askingprice: docSnap.data().form5askingPrice || "",
+            
           });
           
         } else {
@@ -351,16 +169,7 @@ const ActionList = ({ Id }) => {
       [name]: value,
     }));
   };
-  const handleSelectCountry = (code) => {
-    // Get the country name from the mapping using the country code
-    const countryName = countryNames[code];
-
-    // Update the formData state with the country name
-    setFormData((prev) => ({
-      ...prev,
-      location: countryName
-    }));
-  };
+  
 
   const handleSave = async () => {
     try {
@@ -375,6 +184,16 @@ const ActionList = ({ Id }) => {
         form2trailingTotalRevenue: formData.revenue,
         form2netProfit: formData.profit,
         adminStatus: formData.adminStatus,
+        netrevenuepercentage: formData.netrevenuepercentage,
+        netprofitpercentage: formData.netprofitpercentage,
+        monthlynetprofit: formData.monthlynetprofit,
+        monthlyrevenue: formData.monthlyrevenue,
+        trafficpercentage: formData.trafficpercentage,
+        
+        monthlymultiple: formData.monthlymultiple,
+        
+        image: formData.image,
+        
         form3GoogleAnalytics: formData.analytics,
         form1selectedIndustry: formData.industryType,
         form3paymentProcessors: formData.paymentType,
@@ -500,20 +319,19 @@ const ActionList = ({ Id }) => {
               label="Location of the Business"
               name="location"
               selected={formData.location}
-              onSelect={handleSelectCountry}
+              onSelect={(code) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  location: code, // Assuming formData is your current state
+                }));
+              }}
               searchable
               searchPlaceholder="Search for a country"
               className=""
             />
           </div>
         </div>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          marginTop={5}
-          mb={2}
-        >
+        <div className="flex justify-between mt-4">
           <div className="w-[45%]">
             <div className="flex font-gilroy-medium">
               <div className="text-[#402c83]">Starting Date</div>
@@ -568,15 +386,10 @@ const ActionList = ({ Id }) => {
               <MenuItem value="Travel">Travel</MenuItem>
             </TextField>
           </div>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-        >
+        </div>
+        <div className="flex justify-between mt-4">
           <div className="w-[45%]">
-            <div className="flex font-gilroy-medium">
+            <div className="flex font-gilroy-medium mb-2">
               <div className="text-[#402c83]">TTM</div>
               {formData.revenue && (
                 <div className="text-red-600 font-gilroy-bold">*</div>
@@ -609,13 +422,8 @@ const ActionList = ({ Id }) => {
               type="number"
             />
           </div>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-        >
+        </div>
+        <div className="flex justify-between mt-4">
           <div className="w-[45%]">
             <div className="flex font-gilroy-medium">
               <div className="text-[#402c83]">Google Analytics</div>
@@ -639,27 +447,21 @@ const ActionList = ({ Id }) => {
           <div className="w-[45%]">
             <div className="flex font-gilroy-medium">
               <div className="text-[#402c83]">Payment Processor</div>
-              {formData.paymentType && (
+              {formData.paymentType != "" && (
                 <div className="text-red-600 font-gilroy-bold">*</div>
               )}
             </div>
-            <TextField
-              fullWidth
-              select
-              label="Payment Processor"
-              name="paymentType"
-              value={formData.paymentType || ""}
-              onChange={handleChange}
-              margin="normal"
-            >
-              <MenuItem value="PayPal">PayPal</MenuItem>
-              <MenuItem value="Shopify-payments">Shopify-payments</MenuItem>
-              <MenuItem value="Klarna">Klarna</MenuItem>
-              <MenuItem value="Stripe">Stripe</MenuItem>
-              <MenuItem value="Other">Other</MenuItem>
-            </TextField>
+            <Select
+              options={processors}
+              value={processors.filter((option) =>
+                formData.paymentType.includes(option.value)
+              )}
+              onChange={handlePaymentChange}
+              isMulti
+              className="py-2 rounded-xl"
+            />
           </div>
-        </Box>
+        </div>
         <div>
           <div className="flex font-gilroy-medium">
             <div className="text-[#402c83] mb-2 mt-5">Countries Target</div>
@@ -836,6 +638,113 @@ const ActionList = ({ Id }) => {
           )}
         </div>
 
+        <div className="flex justify-between">
+        <div className="w-[45%]">
+            <div className="flex font-gilroy-medium mt-5 ">
+              <div className="text-[#402c83]">Net Profit Percentage(1 Yr)</div>
+              {formData.netprofitpercentage && (
+                <div className="text-red-600 font-gilroy-bold">*</div>
+              )}
+            </div>
+            <TextField
+              label="Net Profit Percentage(%)(1 Yr)"
+              name="netprofitpercentage"
+              value={formData.netprofitpercentage || ""}
+              onChange={handleChange}
+              margin="normal"
+              className="w-full"
+              type="number"
+            />
+
+
+          </div>
+
+          
+          <div className="w-[45%]">
+            <div className="flex font-gilroy-medium mt-5 ">
+              <div className="text-[#402c83]">Net Revenue Percentage(1 Yr)</div>
+              {formData.netrevenuepercentage && (
+                <div className="text-red-600 font-gilroy-bold">*</div>
+              )}
+            </div>
+            <TextField
+              label="Net Revenue Percentage(%)(1 Yr)"
+              name="netrevenuepercentage"
+              value={formData.netrevenuepercentage || ""}
+              onChange={handleChange}
+              margin="normal"
+              className="w-full"
+              type="number"
+            />
+
+          </div>
+        </div>
+        
+
+
+        <div className="flex justify-between">
+          <div className="w-[45%]">
+            <div className="flex font-gilroy-medium mt-5 ">
+              <div className="text-[#402c83]">Traffic Percentage(1 Yr)</div>
+              {formData.trafficpercentage && (
+                <div className="text-red-600 font-gilroy-bold">*</div>
+              )}
+            </div>
+            <TextField
+              label="Traffic Percentage(%)(1 Yr)"
+              name="trafficpercentage"
+              value={formData.trafficpercentage || ""}
+              onChange={handleChange}
+              margin="normal"
+              className="w-full"
+              type="number"
+            />
+
+          </div>
+
+
+        </div>
+
+        <div className="flex justify-between">
+          <div className="w-[45%]">
+            <div className="flex font-gilroy-medium mt-5 ">
+              <div className="text-[#402c83]">Monthly Net Profit</div>
+              {formData.monthlynetprofit && (
+                <div className="text-red-600 font-gilroy-bold">*</div>
+              )}
+            </div>
+            <TextField
+              fullWidth
+              label="Monthly Net Profit"
+              name="monthlynetprofit"
+              value={formData.monthlynetprofit || ""}
+              onChange={handleChange}
+              margin="normal"
+              type="number"
+            />
+              
+          </div>
+          <div className="w-[45%]">
+            <div className="flex font-gilroy-medium mt-5 ">
+              <div className="text-[#402c83]">Monthly Revenue</div>
+              {formData.monthlyrevenue && (
+                <div className="text-red-600 font-gilroy-bold">*</div>
+              )}
+            </div>
+            <TextField
+              label="Net Revenue Percentage(%)(1 Yr)"
+              name="monthlyrevenue"
+              value={formData.monthlyrevenue || ""}
+              onChange={handleChange}
+              margin="normal"
+              className="w-full"
+              type="number"
+            />
+
+          </div>
+        </div>
+      
+        
         <Button
           variant="contained"
           color="primary"
