@@ -4,13 +4,14 @@ import React, { useEffect, useState } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import ReactFlagsSelect from "react-flags-select";
 import ReactPhoneInput from "react-phone-input-2";
-import { Box, Button, Typography, TextField, MenuItem } from "@mui/material";
+import { Button, TextField, MenuItem } from "@mui/material";
 import { Textarea } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import DatePicker from "react-datepicker";
 import Link from "next/link";
 import Select from "react-select"
+import { trefoil } from "ldrs";
 import "react-datepicker/dist/react-datepicker.css";
 
 
@@ -27,7 +28,7 @@ const ActionList = ({ Id }) => {
   ];
   
 
-
+  const[loader, setLoader] = useState(true);
   const [formData, setFormData] = useState({
     businessType: "",
     userAcquisition: "",
@@ -60,6 +61,10 @@ const ActionList = ({ Id }) => {
     trafficstatus: "",
     monthlymultiple: "",
     image: "",
+    name: "",
+    email: "",
+    phnumber: "",
+    
     
   });
   const handlePaymentChange = (selectedOptions) => {
@@ -72,6 +77,8 @@ const ActionList = ({ Id }) => {
   };
 
   useEffect(() => {
+
+    trefoil.register();
     const fetchListingData = async () => {
       if (!Id) return;
 
@@ -125,6 +132,10 @@ const ActionList = ({ Id }) => {
             skills: docSnap.data().form4supportYoucanOffer || "",
             support: docSnap.data().form4skillsRequired || "",
             askingprice: docSnap.data().form5askingPrice || "",
+            phnumber: docSnap.data().form6phoneNumber || "",
+            name: docSnap.data().form6name || "",
+            email: docSnap.data().form6email || "",
+
             
           });
           
@@ -151,7 +162,7 @@ const ActionList = ({ Id }) => {
         } catch (error) {
           console.error("Fetching file failed", error);
         }
-
+        setLoader(false);
       } catch (error) {
         console.error("Error fetching document:", error);
       }
@@ -170,6 +181,16 @@ const ActionList = ({ Id }) => {
     }));
   };
   
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && event.target.name === 'bullet') {
+      event.preventDefault();
+      const cursorPosition = event.target.selectionStart;
+      const textBefore = event.target.value.substring(0, cursorPosition);
+      const textAfter = event.target.value.substring(cursorPosition);
+      const newValue = `${textBefore}\n• ${textAfter}`;
+      setFormData({ ...formData, bullet: newValue });
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -205,6 +226,10 @@ const ActionList = ({ Id }) => {
         form4skillsRequired: formData.skills,
         form4supportYoucanOffer: formData.support,
         form5askingPrice: formData.askingprice,
+        form6email: formData.email,
+        form6name: formData.name,
+        form6phoneNumber: formData.phnumber,
+
       });
       alert("Listing updated successfully!");
       router.push(`/admin-panel`);
@@ -215,6 +240,18 @@ const ActionList = ({ Id }) => {
 
   return (
     <div className="p-4">
+      {loader ? (
+        <div className="flex justify-center items-center h-screen">
+          <l-trefoil
+            size="40"
+            stroke="4"
+            stroke-length="0.15"
+            bg-opacity="0.1"
+            speed="1"
+            color="black"
+          ></l-trefoil>
+        </div>
+      ) : (
       <div className="p-6 bg-white border-dashed border border-gray-400 rounded-2xl shadow-lg">
         <div className=" font-gilroy-bold text-2xl mb-10 text-[#7850FF]">
           Edit Listing
@@ -464,7 +501,7 @@ const ActionList = ({ Id }) => {
         </div>
         <div>
           <div className="flex font-gilroy-medium">
-            <div className="text-[#402c83] mb-2 mt-5">Countries Target</div>
+            <div className="text-[#402c83] mb-2 mt-5">Targetted Countries </div>
             {formData.countriesTarget && (
               <div className="text-red-600 font-gilroy-bold">*</div>
             )}
@@ -480,17 +517,18 @@ const ActionList = ({ Id }) => {
         </div>
         <div className="mt-5">
           <div className="flex font-gilroy-medium">
-            <div className="text-[#402c83] mb-2">Social Media</div>
+            <div className="text-[#402c83] mb-2">Social media links</div>
             {formData.socialLinks && (
               <div className="text-red-600 font-gilroy-bold">*</div>
             )}
           </div>
-          <Textarea
+          <TextField
             label="Social media"
             name="socialLinks"
             value={formData.socialLinks || ""}
             onChange={handleChange}
             margin="normal"
+            rows={2}
           />
         </div>
         <div>
@@ -500,13 +538,15 @@ const ActionList = ({ Id }) => {
               <div className="text-red-600 font-gilroy-bold">*</div>
             )}
           </div>
-          <TextField
+          <Textarea
             fullWidth
             label="Risks"
             name="risks"
             value={formData.risks || ""}
             onChange={handleChange}
             margin="normal"
+            multiline
+            rows={3}
           />
         </div>
         <div>
@@ -516,15 +556,16 @@ const ActionList = ({ Id }) => {
               <div className="text-red-600 font-gilroy-bold">*</div>
             )}
           </div>
-          <TextField
+          <Textarea
             fullWidth
             label="Bulleted points"
             name="bullet"
             value={formData.bullet || ""}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
             margin="normal"
             multiline
-            rows={3}
+            rows={6}
           />
         </div>
         <div>
@@ -683,25 +724,7 @@ const ActionList = ({ Id }) => {
 
 
         <div className="flex justify-between">
-          <div className="w-[45%]">
-            <div className="flex font-gilroy-medium mt-5 ">
-              <div className="text-[#402c83]">Traffic Percentage(1 Yr)</div>
-              {formData.trafficpercentage && (
-                <div className="text-red-600 font-gilroy-bold">*</div>
-              )}
-            </div>
-            <TextField
-              label="Traffic Percentage(%)(1 Yr)"
-              name="trafficpercentage"
-              value={formData.trafficpercentage || ""}
-              onChange={handleChange}
-              margin="normal"
-              className="w-full"
-              type="number"
-            />
-
-          </div>
-
+        
 
         </div>
 
@@ -743,6 +766,87 @@ const ActionList = ({ Id }) => {
 
           </div>
         </div>
+        <div className="flex justify-between">
+        <div className="w-[45%]">
+            <div className="flex font-gilroy-medium mt-5 ">
+              <div className="text-[#402c83]">Traffic Percentage(1 Yr)</div>
+              {formData.trafficpercentage && (
+                <div className="text-red-600 font-gilroy-bold">*</div>
+              )}
+            </div>
+            <TextField
+              label="Traffic Percentage(%)(1 Yr)"
+              name="trafficpercentage"
+              value={formData.trafficpercentage || ""}
+              onChange={handleChange}
+              margin="normal"
+              className="w-full"
+              type="number"
+            />
+
+          </div>
+          <div className="w-[45%]">
+            <div className="flex font-gilroy-medium mt-5 ">
+              <div className="text-[#402c83]">Contact Number</div>
+              {formData.phnumber && (
+                <div className="text-red-600 font-gilroy-bold">*</div>
+              )}
+              </div>
+              <ReactPhoneInput
+                value={formData.phnumber || "" }
+                onChange={(value) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    phnumber: value,
+                  }))
+                }}
+                placeholder="Enter phone number"
+                containerClass="w-full mb-4 "
+                inputClass="w-full border border-gray-300 p-2 rounded-md"
+                
+              />
+            </div>
+          </div>
+          <div className="flex justify-between">
+        <div className="w-[45%]">
+            <div className="flex font-gilroy-medium mt-5 ">
+              <div className="text-[#402c83]">Name</div>
+              {formData.name && (
+                <div className="text-red-600 font-gilroy-bold">*</div>
+              )}
+            </div>
+            <TextField
+              label="Name"
+              name="name"
+              value={formData.name || ""}
+              onChange={handleChange}
+              margin="normal"
+              className="w-full"
+              
+            />
+
+          </div>
+          <div className="w-[45%]">
+            <div className="flex font-gilroy-medium mt-5 ">
+              <div className="text-[#402c83]">Mail ID</div>
+              {formData.email && (
+                <div className="text-red-600 font-gilroy-bold">*</div>
+              )}
+            </div>
+            <TextField
+              label="Email"
+              name="email"
+              value={formData.email || ""}
+              onChange={handleChange}
+              margin="normal"
+              className="w-full"
+              
+            />
+          </div>
+
+          </div>
+
+
       
         
         <Button
@@ -754,6 +858,7 @@ const ActionList = ({ Id }) => {
           Save
         </Button>
       </div>
+      )}
     </div>
   );
 };
