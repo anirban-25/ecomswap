@@ -75,7 +75,7 @@ const FillForm = () => {
   const [
     bulletDetailedBusinessDescription,
     setBulletDetailedBusinessDescription,
-  ] = useState("");
+  ] = useState("•");
   const [
     detailedBusinessDescriptionError,
     setDetailedBusinessDescriptionError,
@@ -195,7 +195,16 @@ const FillForm = () => {
     }
     setLoader(false);
   };
-  
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && event.target.name === 'bulletDetailedBusinessDescription') {
+      event.preventDefault();
+      const cursorPosition = event.target.selectionStart;
+      const textBefore = event.target.value.substring(0, cursorPosition);
+      const textAfter = event.target.value.substring(cursorPosition);
+      const newValue = `${textBefore}\n• ${textAfter}`;
+      setBulletDetailedBusinessDescription(newValue);
+    }
+  };
   const handleProcessorsChange = (event) => {
     const { value, checked } = event.target;
     if (checked) {
@@ -1249,6 +1258,10 @@ const FillForm = () => {
                     2.Improve SEO
                     3.Improve Retention rates"
                       onChange={handleThirdFormSecondChange}
+                
+                      onKeyDown={handleKeyDown}
+                      name="bulletDetailedBusinessDescription"
+                      multiline
                       className="w-full p-3 pt-8 focus:pt-3 border-2 border-gray-300 resize-y focus:border-blue-500 focus:outline-none"
                     />
                   </div>
