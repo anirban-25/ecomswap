@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
 import { db } from "@/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, serverTimestamp } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { TbWorldWww } from "react-icons/tb";
 import { lineSpinner } from "ldrs";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 // Default values shown
 
@@ -105,48 +106,7 @@ const FillForm = () => {
   const [selectedProcessors, setSelectedProcessors] = useState([]);
   const [file, setFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      console.log("Selected file:", selectedFile);
-      // Additional logic to handle the uploaded file can go here
-    }
-  };
-  async function addDataToFireStore() {
-    try {
-      const docRef = await addDoc(collection(db, "admin"), {
-        form1BusinessType: selectedBusiness,
-        form1BusinessTypeSub: selectedOptions,
-        form1PrimarySourceOfUserAcquisition: selectedSource,
-        form1BriefDescription: description,
-        form1WebsiteUrl: url,
-        form1BusinessStarted: date,
-        form1LocationOfBusiness: selectedCountry,
-        form1selectedIndustry: selectedIndustry,
-        form2trailingTotalRevenue: revenue,
-        form2netProfit: netprofit,
-        form3GoogleAnalytics: selectedAnalytics,
-        form3paymentProcessors: selectedProcessors,
-        form4detailedBusinessDescription: detailedBusinessDescription,
-        form4bulltedPointstoDescribe: bulletDetailedBusinessDescription,
-        form4Risks: risksAssociated,
-        form4skillsRequired: skillsRequired,
-        form4supportYoucanOffer: support,
-        form4CountriesToTarget: countriesTarget,
-        form4SocialMedias: socialMedias,
-        form5askingPrice: askingPrice,
-        form6name: name,
-        form6email: email,
-        form6phoneNumber: phoneNumber,
-      });
-      console.log("Document written with Id: ", docRef.id);
-      return true;
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
-  }
+ 
   const handleSubmit = async (event) => {
     setLoader(true);
     event.preventDefault();
@@ -170,16 +130,72 @@ const FillForm = () => {
     ) {
       setFormError("Please fill out all required fields.");
     } else {
-      const added = await addDataToFireStore();
-      if (added) {
-        alert("Form submitted successfully!!");
+      try {
+        // Fetch the highest existing list number
+        const querySnapshot = await getDocs(collection(db, "admin"));
+        let maxListNumber = 800; // Default to 800 if no entries exist
+  
+        querySnapshot.forEach((doc) => {
+          const listNumber = doc.data().listNumber || 800; // Default to 800 if listNumber is undefined
+          maxListNumber = Math.max(maxListNumber, listNumber);
+        });
+  
+        // Increment the highest list number by 1
+        const newListNumber = maxListNumber + 1;
+  
+        // Add the new document with the generated list number
+        const docRef= await addDoc(collection(db, "admin"), {
+          form1BusinessType: selectedBusiness,
+          form1BusinessTypeSub: selectedOptions,
+          form1PrimarySourceOfUserAcquisition: selectedSource,
+          form1BriefDescription: description,
+          form1WebsiteUrl: url,
+          form1BusinessStarted: date,
+          form1LocationOfBusiness: selectedCountry,
+          form1selectedIndustry: selectedIndustry,
+          form2trailingTotalRevenue: revenue,
+          form2netProfit: netprofit,
+          form3GoogleAnalytics: selectedAnalytics,
+          form3paymentProcessors: selectedProcessors,
+          form4detailedBusinessDescription: detailedBusinessDescription,
+          form4bulltedPointstoDescribe: bulletDetailedBusinessDescription,
+          form4Risks: risksAssociated,
+          form4skillsRequired: skillsRequired,
+          form4supportYoucanOffer: support,
+          form4CountriesToTarget: countriesTarget,
+          form4SocialMedias: socialMedias,
+          form5askingPrice: askingPrice,
+          form6name: name,
+          form6email: email,
+          form6phoneNumber: phoneNumber,
+          listNumber: newListNumber,
+          createdAt: serverTimestamp(),
+        });
+        const fileName = docRef.id + '.xlsx'
+      if (file) {
+        const storage = getStorage();
+        const fileref = ref(storage, fileName);
+        uploadBytes(fileref, file[0])
+          .then((data) => {
+            getDownloadURL(data.ref).then((url) => {
+              console.log("url is: ", url);
+            });
+          })
+          .catch((error) => {
+            console.error("Upload failed", error);
+          });
+        console.log(fileref);
       }
-      setFormError("");
-      // Handle form submission
-      console.log("Form submitted with:", { name, email, phoneNumber });
+        alert("Form submitted successfully!!");
+        console.log("Form submitted with:", { name, email, phoneNumber });
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        setFormError("Error submitting form. Please try again later.");
+      }
     }
     setLoader(false);
   };
+  
   const handleProcessorsChange = (event) => {
     const { value, checked } = event.target;
     if (checked) {
@@ -394,6 +410,236 @@ const FillForm = () => {
     setSelectedIndustry(value);
   };
   const [selectedCountry, setSelectedCountry] = useState("US");
+
+  const handleSelectCountry = (code) => {
+    const countryName = countryNames[code];
+
+    setSelectedCountry(countryName);
+  };
+
+  const countryNames= {
+    AF: "Afghanistan",
+    AL: "Albania",
+    DZ: "Algeria",
+    AS: "American Samoa",
+    AD: "Andorra",
+    AO: "Angola",
+    AI: "Anguilla",
+    AG: "Antigua and Barbuda",
+    AR: "Argentina",
+    AM: "Armenia",
+    AW: "Aruba",
+    AU: "Australia",
+    AT: "Austria",
+    AZ: "Azerbaijan",
+    BS: "Bahamas",
+    BH: "Bahrain",
+    BD: "Bangladesh",
+    BB: "Barbados",
+    BY: "Belarus",
+    BE: "Belgium",
+    BZ: "Belize",
+    BJ: "Benin",
+    BM: "Bermuda",
+    BT: "Bhutan",
+    BO: "Bolivia, Plurinational State of",
+    BA: "Bosnia and Herzegovina",
+    BW: "Botswana",
+    BR: "Brazil",
+    IO: "British Indian Ocean Territory",
+    BG: "Bulgaria",
+    BF: "Burkina Faso",
+    BI: "Burundi",
+    KH: "Cambodia",
+    CM: "Cameroon",
+    CA: "Canada",
+    CV: "Cape Verde",
+    KY: "Cayman Islands",
+    CF: "Central African Republic",
+    TD: "Chad",
+    CL: "Chile",
+    CN: "China",
+    CO: "Colombia",
+    KM: "Comoros",
+    CG: "Congo",
+    CD: "Democratic Republic of the Congo",
+    CK: "Cook Islands",
+    CR: "Costa Rica",
+    CI: "Côte d'Ivoire",
+    HR: "Croatia",
+    CU: "Cuba",
+    CW: "Curaçao",
+    CY: "Cyprus",
+    CZ: "Czech Republic",
+    DK: "Denmark",
+    DJ: "Djibouti",
+    DM: "Dominica",
+    DO: "Dominican Republic",
+    EC: "Ecuador",
+    EG: "Egypt",
+    SV: "El Salvador",
+    GQ: "Equatorial Guinea",
+    ER: "Eritrea",
+    EE: "Estonia",
+    ET: "Ethiopia",
+    FK: "Falkland Islands (Malvinas)",
+    FO: "Faroe Islands",
+    FJ: "Fiji",
+    FI: "Finland",
+    FR: "France",
+    PF: "French Polynesia",
+    GA: "Gabon",
+    GM: "Gambia",
+    GE: "Georgia",
+    DE: "Germany",
+    GH: "Ghana",
+    GI: "Gibraltar",
+    GR: "Greece",
+    GL: "Greenland",
+    GD: "Grenada",
+    GU: "Guam",
+    GT: "Guatemala",
+    GG: "Guernsey",
+    GN: "Guinea",
+    GW: "Guinea-Bissau",
+    HT: "Haiti",
+    HN: "Honduras",
+    HK: "Hong Kong",
+    HU: "Hungary",
+    IS: "Iceland",
+    IN: "India",
+    ID: "Indonesia",
+    IR: "Iran, Islamic Republic of",
+    IQ: "Iraq",
+    IE: "Ireland",
+    IM: "Isle of Man",
+    IL: "Israel",
+    IT: "Italy",
+    JM: "Jamaica",
+    JP: "Japan",
+    JE: "Jersey",
+    JO: "Jordan",
+    KZ: "Kazakhstan",
+    KE: "Kenya",
+    KI: "Kiribati",
+    KP: "North Korea",
+    KR: "South Korea",
+    KW: "Kuwait",
+    KG: "Kyrgyzstan",
+    LA: "Lao People's Democratic Republic",
+    LV: "Latvia",
+    LB: "Lebanon",
+    LS: "Lesotho",
+    LR: "Liberia",
+    LY: "Libya",
+    LI: "Liechtenstein",
+    LT: "Lithuania",
+    LU: "Luxembourg",
+    MO: "Macao",
+    MK: "Republic of Macedonia",
+    MG: "Madagascar",
+    MW: "Malawi",
+    MY: "Malaysia",
+    MV: "Maldives",
+    ML: "Mali",
+    MT: "Malta",
+    MH: "Marshall Islands",
+    MQ: "Martinique",
+    MR: "Mauritania",
+    MU: "Mauritius",
+    MX: "Mexico",
+    FM: "Micronesia, Federated States of",
+    MD: "Republic of Moldova",
+    MC: "Monaco",
+    MN: "Mongolia",
+    ME: "Montenegro",
+    MS: "Montserrat",
+    MA: "Morocco",
+    MZ: "Mozambique",
+    MM: "Myanmar",
+    NA: "Namibia",
+    NR: "Nauru",
+    NP: "Nepal",
+    NL: "Netherlands",
+    NZ: "New Zealand",
+    NI: "Nicaragua",
+    NE: "Niger",
+    NG: "Nigeria",
+    NU: "Niue",
+    NF: "Norfolk Island",
+    MP: "Northern Mariana Islands",
+    NO: "Norway",
+    OM: "Oman",
+    PK: "Pakistan",
+    PW: "Palau",
+    PS: "Palestinian Territory",
+    PA: "Panama",
+    PG: "Papua New Guinea",
+    PY: "Paraguay",
+    PE: "Peru",
+    PH: "Philippines",
+    PN: "Pitcairn",
+    PL: "Poland",
+    PT: "Portugal",
+    PR: "Puerto Rico",
+    QA: "Qatar",
+    RO: "Romania",
+    RU: "Russia",
+    RW: "Rwanda",
+    KN: "Saint Kitts and Nevis",
+    LC: "Saint Lucia",
+    WS: "Samoa",
+    SM: "San Marino",
+    ST: "Sao Tome and Principe",
+    SA: "Saudi Arabia",
+    SN: "Senegal",
+    RS: "Serbia",
+    SC: "Seychelles",
+    SL: "Sierra Leone",
+    SG: "Singapore",
+    SX: "Sint Maarten",
+    SK: "Slovakia",
+    SI: "Slovenia",
+    SB: "Solomon Islands",
+    SO: "Somalia",
+    ZA: "South Africa",
+    SS: "South Sudan",
+    ES: "Spain",
+    LK: "Sri Lanka",
+    SD: "Sudan",
+    SR: "Suriname",
+    SZ: "Swaziland",
+    SE: "Sweden",
+    CH: "Switzerland",
+    SY: "Syria",
+    TW: "Taiwan",
+    TJ: "Tajikistan",
+    TZ: "Tanzania",
+    TH: "Thailand",
+    TG: "Togo",
+    TK: "Tokelau",
+    TO: "Tonga",
+    TT: "Trinidad and Tobago",
+    TN: "Tunisia",
+    TR: "Turkey",
+    TM: "Turkmenistan",
+    TC: "Turks and Caicos Islands",
+    TV: "Tuvalu",
+    UG: "Uganda",
+    UA: "Ukraine",
+    AE: "United Arab Emirates",
+    GB: "United Kingdom",
+    US: "United States",
+    UY: "Uruguay",
+    UZ: "Uzbekistan",
+    VU: "Vanuatu",
+    VE: "Venezuela, Bolivarian Republic of",
+    VN: "Viet Nam",
+    VI: "Virgin Islands",
+    YE: "Yemen",
+    ZM: "Zambia",
+    ZW: "Zimbabwe"
+  };
 
   const handleDateChange = (selectedDate) => {
     setDate(selectedDate);
@@ -760,7 +1006,7 @@ const FillForm = () => {
                   </div>
                   <ReactFlagsSelect
                     selected={selectedCountry}
-                    onSelect={(name) => setSelectedCountry(name)}
+                    onSelect={handleSelectCountry}
                     searchable
                     searchPlaceholder="Search for a country"
                     
@@ -978,7 +1224,7 @@ const FillForm = () => {
                     <input
                       type="file"
                       accept=".xlsx,.xls"
-                      onChange={handleFileChange}
+                      onChange={(e) => setFile(e.target.files)}
                       className="block mt-4 w-full  bg-[#221d33] text-white border border-gray-300 rounded-lg font-gilroy-medium text-base cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 ease-in-out"
                     />
                   </div>

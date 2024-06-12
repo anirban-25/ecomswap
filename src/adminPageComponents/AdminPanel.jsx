@@ -37,13 +37,30 @@ import { useRouter } from "next/navigation";
 const AdminPanel = () => {
   const router = useRouter();
   const [dataFrom, setDataFrom] = useState([]);
+  
 
   const fetchFormData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "admin"));
       const data = [];
+
+      
       querySnapshot.forEach((doc) => {
         const docData = doc.data();
+        
+          const timestamp = docData.createdAt || "";
+          let createdat = "";
+          if (timestamp && typeof timestamp.toDate === "function") {
+            const date = timestamp.toDate();
+            console.log("Converted date:", date);
+
+            const year = date.getFullYear();
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const day = ("0" + date.getDate()).slice(-2);
+            createdat = `${year}-${month}-${day}`;
+          } else {
+            console.error("Invalid Firestore Timestamp format");
+          }
         data.push({
           id: doc.id,
           type: docData.form1BusinessType || "",
@@ -53,18 +70,24 @@ const AdminPanel = () => {
           startdate: docData.form1BusinessStarted || "",
           askingprice: docData.form5askingPrice || "",
           status: docData.status || "",
-          createdat: docData.createdat || "",
+          createdat: docData.createdAt || "",
           status: docData.adminStatus  || "Pending",
-
+          createdat: createdat,
+          listNumber : docData.listNumber || 800,
+        
         });
-      });
+    });
+    
+
       setDataFrom(data);
     } catch (error) {
       console.error("Error fetching data from Firestore:", error);
     }
+  
   };
 
   useEffect(() => {
+
     fetchFormData();
   }, []);
 
@@ -73,7 +96,7 @@ const AdminPanel = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "Listing ID", width: 100 },
+    { field: "listNumber", headerName: "List Number", width: 130 },
     { field: "type", headerName: "Business Type", width: 170 },
     { field: "TTR", headerName: "TTR", width: 130 },
     { field: "location", headerName: "Location", width: 130 },
