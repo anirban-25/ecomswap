@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import Header from '@/components/Header';
-import Filters from '@/listPageComponents/Filters';
-import Listings from '@/listPageComponents/Listings';
-import BusinessesForSale from '@/listPageComponents/BusinessesForSale';
-import Footer from '@/components/Footer';
+import React, { useEffect, useState } from "react";
+import Header from "@/components/Header";
+import Filters from "@/listPageComponents/Filters";
+import Listings from "@/listPageComponents/Listings";
+import BusinessesForSale from "@/listPageComponents/BusinessesForSale";
+import Footer from "@/components/Footer";
 
 type Listing = {
   id: number;
@@ -30,7 +30,8 @@ type Listing = {
 const listings: Listing[] = [
   {
     id: 1,
-    description: 'Electronic commerce (e-commerce) refers to companies and individuals that buy and sell goods and services over the internet. E-commerce operates in different types of market segments and can be conducted over computers, tablets, smartphones.',
+    description:
+      "Electronic commerce (e-commerce) refers to companies and individuals that buy and sell goods and services over the internet. E-commerce operates in different types of market segments and can be conducted over computers, tablets, smartphones.",
     price: 123133222,
     thumbnailUrl: "/images/Rectangle 1316.png",
     verified: true,
@@ -40,17 +41,17 @@ const listings: Listing[] = [
     monthlyRevenue: 88435,
     monthlyMultiple: 14,
     trafficPercentage: -5,
-    type: 'eCommerce',
-    industry: 'Home and Garden',
-    monetization: 'ecommerce',
-    location: 'United States',
-    profit: '+25%',
-    revenue: '+25%',
-    traffic: '-5%'
+    type: "Saas",
+    industry: "Home and Garden",
+    monetization: "ecommerce",
+    location: "United States",
+    profit: "+25%",
+    revenue: "+25%",
+    traffic: "-5%",
   },
   {
     id: 2,
-    description: 'lorem lorem lorem',
+    description: "lorem lorem lorem",
     price: 10,
     thumbnailUrl: "/images/furniture.png",
     verified: true,
@@ -60,17 +61,17 @@ const listings: Listing[] = [
     monthlyRevenue: 98435,
     monthlyMultiple: 10,
     trafficPercentage: 10,
-    type: 'eCommerce',
-    industry: 'Furniture',
-    monetization: 'eCommerce',
-    location: 'Canada',
-    profit: '+19%',
-    revenue: '-15%',
-    traffic: '-10%'
+    type: "eCommerce",
+    industry: "Furniture",
+    monetization: "eCommerce",
+    location: "Canada",
+    profit: "+19%",
+    revenue: "-15%",
+    traffic: "-10%",
   },
   {
     id: 3,
-    description: 'shik shak shook',
+    description: "shik shak shook",
     price: 35,
     thumbnailUrl: "/images/Rectangle 1316.png",
     verified: true,
@@ -80,48 +81,65 @@ const listings: Listing[] = [
     monthlyRevenue: 99435,
     monthlyMultiple: 20,
     trafficPercentage: 30,
-    type: 'eCommerce',
-    industry: 'Furniture',
-    monetization: 'eCommerce',
-    location: 'Canada',
-    profit: '+10%',
-    revenue: '-15%',
-    traffic: '+10%'
-  }
+    type: "eCommerce",
+    industry: "Furniture",
+    monetization: "eCommerce",
+    location: "Canada",
+    profit: "+10%",
+    revenue: "-15%",
+    traffic: "+10%",
+  },
 ];
 
 const Page = () => {
   const [filteredListings, setFilteredListings] = useState<Listing[]>(listings);
 
-  const handleApplyFilters = (selectedAssetTypes: string[], minPrice: number, maxPrice: number) => {
-    console.log(selectedAssetTypes)
+  const handleApplyFilters = (
+    selectedAssetTypes: string[],
+    minPrice: number,
+    maxPrice: number
+  ) => {
+    console.log(selectedAssetTypes);
     console.log(minPrice, maxPrice);
     const filtered = listings.filter((listing) => {
-      const matchesType = selectedAssetTypes.length === 0 || selectedAssetTypes.includes(listing.type.toLowerCase());
-      const matchesPrice = listing.price >= minPrice && listing.price <= maxPrice;
-      console.log(matchesType, matchesPrice)
+      const matchesType =
+        selectedAssetTypes.length === 0 ||
+        selectedAssetTypes.includes(listing.type.toLowerCase());
+      const matchesPrice =
+        listing.price >= minPrice && listing.price <= maxPrice;
+      console.log(matchesType, matchesPrice);
       return matchesType && matchesPrice;
     });
-    console.log(filtered)
+    console.log(filtered);
     setFilteredListings(filtered);
-};
+  };
+  const handleSearch = (query: string) => {
+    const filtered = listings.filter((listing) => {
+      return (
+        listing.description.toLowerCase().includes(query.toLowerCase()) ||
+        listing.type.toLowerCase().includes(query.toLowerCase()) ||
+        listing.industry.toLowerCase().includes(query.toLowerCase())
+      );
+    });
+    setFilteredListings(filtered);
+  };
 
-useEffect(() => {
-  console.log(filteredListings)
-}, [filteredListings])
+  useEffect(() => {
+    console.log(filteredListings);
+  }, [filteredListings]);
 
   return (
-    <div className="py-7">
+    <div className="py-5">
       <div className="h-screen w-full fixed left-0  -z-20 bg-grid-large-gray-200/[0.6]  flex items-center justify-center">
         {/* Radial gradient for the container to give a faded look */}
       </div>
       <div className="px-10">
         <Header />
       </div>
-      
+
       <BusinessesForSale />
       <div className="px-20">
-        <Filters onApplyFilters={handleApplyFilters} />
+        <Filters  onApplyFilters={handleApplyFilters} onSearch={handleSearch} />
       </div>
       <div className="px-20">
         <Listings listings={filteredListings} />

@@ -13,7 +13,7 @@ const ListingCard = ({ listing }) => {
   const { id, description, price, thumbnailUrl, verified, topRated, isNew, monthlyNetProfit, monthlyRevenue, monthlyMultiple, type, industry, monetization, location, profit, revenue, traffic } = listing;
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 flex h-auto relative w-full mx-auto">
+    <div className="bg-white border border-[#aaa] border-dashed rounded-lg shadow-md p-4 flex h-auto relative w-full mx-auto">
       <div className="relative">
         <Image src={thumbnailUrl} alt={`${type} | ${industry}`} width={254} height={560} className="rounded-lg h-full" />
       </div>

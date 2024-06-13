@@ -140,7 +140,6 @@ const ActionList = ({ Id }) => {
 
             monthlymultiple: docSnap.data().monthlymultiple || "",
 
-            image: docSnap.data().image || "",
 
             analytics: docSnap.data().form3GoogleAnalytics || "",
             industryType: docSnap.data().form1selectedIndustry || "",
@@ -295,7 +294,6 @@ const ActionList = ({ Id }) => {
         monthlynetprofit: formData.monthlynetprofit,
         monthlyrevenue: formData.monthlyrevenue,
         trafficpercentage: formData.trafficpercentage,
-
         monthlymultiple: formData.monthlymultiple,
 
         form3GoogleAnalytics: formData.analytics,
@@ -939,7 +937,7 @@ const ActionList = ({ Id }) => {
             </div>
           </div>
           <div>
-            <div className="font-gilroy-bold">Upload the image</div>
+            <div className="font-gilroy-bold mt-4">Upload the image</div>
             <input
               type="file"
               accept=".jpg,.jpeg, .png"
@@ -954,7 +952,7 @@ const ActionList = ({ Id }) => {
             {selectedImage && (
               <div>
                 <div className="text-[#402c83]">
-                  Previously selected{" "}
+                  Selected Image:
                   <a href={selectedImage} target="_blank">
                     <span className="font-gilroy-bold underline text-indigo-500  cursor-pointer">Image</span>
                   </a>

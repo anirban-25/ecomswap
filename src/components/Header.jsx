@@ -4,10 +4,10 @@ import { FaArrowRight } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <div>
+    <div className="px-10 py-3"> 
       <div className="flex justify-between items-center">
         <div>
-          <Image src="/images/logo.svg" width={120} height={150} alt="logo" />
+          <Image src="/images/logo.svg" width={150} height={150} alt="logo" />
         </div>
         <div className="hidden lg:flex font-gilroy-medium space-x-10">
           <div className=" font-gilroy-bold underline">Home</div>

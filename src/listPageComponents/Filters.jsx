@@ -13,11 +13,13 @@ import PropTypes from "prop-types";
 import ReactFlagsSelect from "react-flags-select";
 import Slider from "react-slider";
 
-const Filters = ({ onApplyFilters }) => {
+const Filters = ({ onApplyFilters, onSearch }) => {
+  const [searchQuery, setSearchQuery] = useState("");
   const [values, setValues] = useState([0, 100]);
   const handleChange = (newValues) => setValues(newValues);
   const [revenue, setValuesForRevenue] = useState([0, 100]);
-  const handleChangeForRevenue = (newRevenue) => setValuesForRevenue(newRevenue);
+  const handleChangeForRevenue = (newRevenue) =>
+    setValuesForRevenue(newRevenue);
   const [profit, setValuesForProfit] = useState([0, 100]);
   const handleChangeForProfit = (newProfit) => setValuesForProfit(newProfit);
   const [showAssetTypes, setShowAssetTypes] = useState(false);
@@ -44,11 +46,27 @@ const Filters = ({ onApplyFilters }) => {
 
   const handleClear = () => {
     setSelectedAssetTypes([]);
-
+  };
+  const handleSearchChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    onSearch(query);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent default form submission behavior
+      onSearch(searchQuery); // Trigger search
+    }
+  };
   const handleApply = () => {
-    onApplyFilters(selectedAssetTypes, values[0], values[1],revenue[0],revenue[1]);
+    onApplyFilters(
+      selectedAssetTypes,
+      values[0],
+      values[1],
+      revenue[0],
+      revenue[1]
+    );
     setShowAssetTypes(false);
     setShowPriceRange(false);
     setShowMoreRange(false);
@@ -61,9 +79,7 @@ const Filters = ({ onApplyFilters }) => {
   const toggleMoreRange = () => {
     setShowMoreRange(!showMoreRange);
   };
-  
 
-  
   const toggleSortOptions = () => {
     setShowSortOptions(!showSortOptions);
   };
@@ -132,13 +148,13 @@ const Filters = ({ onApplyFilters }) => {
       <div className="flex items-center space-x-4">
         <div className="relative" ref={dropdownRef}>
           <div
-            className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer"
+            className="font-gilroy-bold appearance-none bg-white border border-[#aaa]  rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer text-gray-700 "
             onClick={toggleAssetTypes}
           >
             Asset Type
             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
               <svg
-                className="h-6 w-6 text-gray-500 inline ml-2"
+                className="h-6 w-6 text-gray-400 inline ml-2"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"
@@ -152,7 +168,7 @@ const Filters = ({ onApplyFilters }) => {
             </div>
           </div>
           {showAssetTypes && (
-            <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-80 z-10 grid grid-cols-3 gap-2">
+            <div className=" transition-all ease-in absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-80 z-10 grid grid-cols-3 gap-2">
               {assetTypes.map((assetType) => (
                 <div
                   key={assetType.value}
@@ -191,13 +207,13 @@ const Filters = ({ onApplyFilters }) => {
 
         <div className="relative" ref={dropdownRefPrice}>
           <div
-            className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer"
+            className="font-gilroy-bold appearance-none bg-white border border-[#aaa] rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer text-gray-700 "
             onClick={togglePriceRange}
           >
             Price
             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
               <svg
-                className="h-6 w-6 text-gray-500 inline ml-2"
+                className="h-6 w-6 text-gray-400 inline ml-2"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"
@@ -305,194 +321,255 @@ const Filters = ({ onApplyFilters }) => {
         </div>
 
         <div className="relative" ref={dropdownRefMore}>
-  <div
-    className="font-gilroy-bold appearance-none bg-transparent border-2 border-#D8D8D8 rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer"
-    onClick={toggleMoreRange}
-  >
-    More
-    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-      <svg
-        className="h-6 w-6 text-gray-500 inline ml-2"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M6 9l6 6 6-6" />
-      </svg>
-    </div>
-  </div>
+          <div
+            className="font-gilroy-bold appearance-none bg-white border border-[#aaa] rounded-full px-4 py-2 pr-8 focus:outline-none cursor-pointer text-gray-700 "
+            onClick={toggleMoreRange}
+          >
+            More
+            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <svg
+                className="h-6 w-6 text-gray-400 inline ml-2"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </div>
+          </div>
 
-  {showMoreRange && (
-    <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-80 z-10">
-      {/* Revenue Multiple Slider */}
-      <div style={{ padding: "10px" }}>
-        <div className="font-gilroy-medium text-[#190041]">Revenue Multiple</div>
-        <Slider
-          className="slider"
-          value={revenue}
-          onChange={handleChangeForRevenue}
-          min={0}
-          max={100}
-          renderTrack={(props, state) => (
-            <div
-              {...props}
-              className={`slider-track-${state.index + 1} ${props.className}`}
-            />
+          {showMoreRange && (
+            <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-80 z-10">
+              {/* Revenue Multiple Slider */}
+              <div style={{ padding: "10px" }}>
+                <div className="font-gilroy-medium text-[#190041]">
+                  Revenue Multiple
+                </div>
+                <Slider
+                  className="slider"
+                  value={revenue}
+                  onChange={handleChangeForRevenue}
+                  min={0}
+                  max={100}
+                  renderTrack={(props, state) => (
+                    <div
+                      {...props}
+                      className={`slider-track-${state.index + 1} ${
+                        props.className
+                      }`}
+                    />
+                  )}
+                  renderThumb={(props, state) => (
+                    <div
+                      {...props}
+                      className={`slider-thumb ${
+                        state.index === 0
+                          ? "slider-thumb-left"
+                          : "slider-thumb-right"
+                      }`}
+                    />
+                  )}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <div className="text-center">
+                    <label htmlFor="minRevenue" className="font-gilroy-medium">
+                      Min Revenue:
+                    </label>
+                    <input
+                      type="number"
+                      className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
+                      id="minRevenue"
+                      value={revenue[0]}
+                      onChange={(e) =>
+                        handleChangeForRevenue([+e.target.value, revenue[1]])
+                      }
+                    />
+                  </div>
+                  <div className="text-center">
+                    <label htmlFor="maxRevenue" className="font-gilroy-medium">
+                      Max Revenue:
+                    </label>
+                    <input
+                      type="number"
+                      className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
+                      id="maxRevenue"
+                      value={revenue[1]}
+                      onChange={(e) =>
+                        handleChangeForRevenue([revenue[0], +e.target.value])
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="flex justify-between mt-2">
+                <hr
+                  style={{
+                    width: "280px",
+                    height: "1px",
+                    backgroundColor: "#D7D7D7",
+                    border: "none",
+                  }}
+                />
+              </div>
+
+              {/* Profit Multiple Slider */}
+              <div style={{ padding: "10px" }}>
+                <div className="font-gilroy-medium text-[#190041]">
+                  Profit Multiple
+                </div>
+                <Slider
+                  className="slider"
+                  value={profit}
+                  onChange={handleChangeForProfit}
+                  min={0}
+                  max={100}
+                  renderTrack={(props, state) => (
+                    <div
+                      {...props}
+                      className={`slider-track-${state.index + 1} ${
+                        props.className
+                      }`}
+                    />
+                  )}
+                  renderThumb={(props, state) => (
+                    <div
+                      {...props}
+                      className={`slider-thumb ${
+                        state.index === 0
+                          ? "slider-thumb-left"
+                          : "slider-thumb-right"
+                      }`}
+                    />
+                  )}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <div className="text-center">
+                    <label htmlFor="minProfit" className="font-gilroy-medium">
+                      Min Profit:
+                    </label>
+                    <input
+                      type="number"
+                      className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
+                      id="minProfit"
+                      value={profit[0]}
+                      onChange={(e) =>
+                        handleChangeForProfit([+e.target.value, profit[1]])
+                      }
+                    />
+                  </div>
+                  <div className="text-center">
+                    <label htmlFor="maxProfit" className="font-gilroy-medium">
+                      Max Profit:
+                    </label>
+                    <input
+                      type="number"
+                      className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
+                      id="maxProfit"
+                      value={profit[1]}
+                      onChange={(e) =>
+                        handleChangeForProfit([profit[0], +e.target.value])
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between mt-2">
+                <hr
+                  style={{
+                    width: "280px",
+                    height: "1px",
+                    backgroundColor: "#D7D7D7",
+                    border: "none",
+                  }}
+                />
+              </div>
+              <div style={{ padding: "10px" }}>
+                <div className="font-gilroy-medium text-[#190041] mt-3">
+                  Location
+                  <ReactFlagsSelect
+                    selected={selectedCountry}
+                    onSelect={(code) => setSelectedCountry(code)}
+                    searchable
+                    searchPlaceholder="Search for a country"
+                    className="w-full"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-between mt-2">
+                <hr
+                  style={{
+                    width: "280px",
+                    height: "1px",
+                    backgroundColor: "#D7D7D7",
+                    border: "none",
+                  }}
+                />
+              </div>
+              <div style={{ padding: "10px" }}>
+                <div className="font-gilroy-medium text-[#190041] mt-3">
+                  Annual recurring income
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-between mt-4">
+                <button
+                  type="button"
+                  className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
+                  onClick={() => {
+                    handleChangeForRevenue([0, 100]);
+                    handleChangeForProfit([0, 100]);
+                  }}
+                >
+                  Clear
+                </button>
+                <button
+                  type="button"
+                  className="bg-[#190041] text-white rounded-full px-4 py-2"
+                  onClick={handleApply}
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
           )}
-          renderThumb={(props, state) => (
-            <div
-              {...props}
-              className={`slider-thumb ${
-                state.index === 0 ? "slider-thumb-left" : "slider-thumb-right"
-              }`}
-            />
-          )}
-        />
-        <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-          <div className="text-center">
-            <label htmlFor="minRevenue" className="font-gilroy-medium">Min Revenue:</label>
-            <input
-              type="number"
-              className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
-              id="minRevenue"
-              value={revenue[0]}
-              onChange={(e) => handleChangeForRevenue([+e.target.value, revenue[1]])}
-            />
-          </div>
-          <div className="text-center">
-            <label htmlFor="maxRevenue" className="font-gilroy-medium">Max Revenue:</label>
-            <input
-              type="number"
-              className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
-              id="maxRevenue"
-              value={revenue[1]}
-              onChange={(e) => handleChangeForRevenue([revenue[0], +e.target.value])}
-            />
-          </div>
         </div>
       </div>
-
-      {/* Divider */}
-      <div className="flex justify-between mt-2">
-        <hr style={{ width: '280px', height: '1px', backgroundColor: '#D7D7D7', border: 'none' }} />
-      </div>
-
-      {/* Profit Multiple Slider */}
-      <div style={{ padding: "10px" }}>
-        <div className="font-gilroy-medium text-[#190041]">Profit Multiple</div>
-        <Slider
-          className="slider"
-          value={profit}
-          onChange={handleChangeForProfit}
-          min={0}
-          max={100}
-          renderTrack={(props, state) => (
-            <div
-              {...props}
-              className={`slider-track-${state.index + 1} ${props.className}`}
-            />
-          )}
-          renderThumb={(props, state) => (
-            <div
-              {...props}
-              className={`slider-thumb ${
-                state.index === 0 ? "slider-thumb-left" : "slider-thumb-right"
-              }`}
-            />
-          )}
-        />
-        <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-          <div className="text-center">
-            <label htmlFor="minProfit" className="font-gilroy-medium">Min Profit:</label>
-            <input
-              type="number"
-              className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
-              id="minProfit"
-              value={profit[0]}
-              onChange={(e) => handleChangeForProfit([+e.target.value, profit[1]])}
-            />
-          </div>
-          <div className="text-center">
-            <label htmlFor="maxProfit" className="font-gilroy-medium">Max Profit:</label>
-            <input
-              type="number"
-              className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
-              id="maxProfit"
-              value={profit[1]}
-              onChange={(e) => handleChangeForProfit([profit[0], +e.target.value])}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-between mt-2">
-        <hr style={{ width: '280px', height: '1px', backgroundColor: '#D7D7D7', border: 'none' }} />
-      </div>
-      <div style={{ padding: "10px" }}>
-        <div className="font-gilroy-medium text-[#190041] mt-3">Location
-
-          <ReactFlagsSelect
-            selected={selectedCountry}
-            onSelect={(code) => setSelectedCountry(code)}
-            searchable
-            searchPlaceholder="Search for a country"
-            className="w-full"
-          />
-        </div>
-      </div>
-      <div className="flex justify-between mt-2">
-        <hr style={{ width: '280px', height: '1px', backgroundColor: '#D7D7D7', border: 'none' }} />
-      </div>
-      <div style={{ padding: "10px" }}>
-        <div className="font-gilroy-medium text-[#190041] mt-3">Annual recurring income
-      </div>
-      </div>
-
-
-
-      {/* Action Buttons */}
-      <div className="flex justify-between mt-4">
-        <button
-          type="button"
-          className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
-          onClick={() => {
-            handleChangeForRevenue([0, 100]);
-            handleChangeForProfit([0, 100]);
-          }}
-        >
-          Clear
-        </button>
-        <button
-          type="button"
-          className="bg-[#190041] text-white rounded-full px-4 py-2"
-          onClick={handleApply}
-        >
-          Apply
-        </button>
-      </div>
-    </div>
-  )}
-</div>
-</div>
-
-
 
       <div className="flex items-center space-x-8 ml-4">
-        <div className="relative">
-          <FaSearch className="absolute left-3 top-3 text-gray-500" />
+        <div className="relative bg-white border border-[#838383] px-2  rounded-full min-w-[20rem]">
+          <FaSearch className="absolute left-3 top-3 mx-2 text-gray-600" />
           <input
             type="text"
             placeholder="Search"
-            className="bg-transparent border-2 border-#D8D8D8 rounded-full pl-10 pr-4 py-2 focus:outline-none"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyDown}
+            className="text-gray-700  font-sans  rounded-full pl-10 pr-4 py-2 focus:outline-none"
           />
         </div>
 
         <div className="relative">
           <button
-            className="font-gilroy-bold bg-transparent border-2 border-#D8D8D8 rounded-full pl-8 px-4 py-2 pr-8 focus:outline-none"
+            className="font-gilroy-bold bg-white border border-[#aaa] rounded-full pl-8 px-4 py-2 pr-8 focus:outline-none flex justify-between text-gray-700 "
             onClick={toggleSortOptions}
           >
             Sort By
@@ -510,7 +587,7 @@ const Filters = ({ onApplyFilters }) => {
             </svg>
           </button>
           {showSortOptions && (
-            <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-64 z-10">
+            <div className="absolute mt-2 bg-white shadow-lg rounded-lg -right-4 p-4 w-64 z-10">
               <ul className="space-y-2">
                 <li>
                   <button className="w-full text-left">
