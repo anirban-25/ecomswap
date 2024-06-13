@@ -1,7 +1,12 @@
 "use client";
 import Image from "next/image";
 import { db } from "@/firebase";
-import { collection, addDoc, getDocs, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  serverTimestamp,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { TbWorldWww } from "react-icons/tb";
 import { lineSpinner } from "ldrs";
@@ -48,13 +53,13 @@ const FillForm = () => {
   const [financialClicked, setfinancialClicked] = useState(false);
   const [infoClicked, setinfoClicked] = useState(false);
   const [analyticsClicked, setanalyticsClicked] = useState(false);
-  const [risksAssociated, setRisksAssociated] = useState("");
+  const [risksAssociated, setRisksAssociated] = useState("• ");
 
-  const [skillsRequired, setSkillsRequired] = useState("");
+  const [skillsRequired, setSkillsRequired] = useState("• ");
   const [skillsRequiredError, setSkillsRequiredError] = useState("");
   const [countriesTarget, setCountriesTarget] = useState("");
   const [socialMedias, setSocialMedias] = useState("");
-  const [support, setSupport] = useState("");
+  const [support, setSupport] = useState("• ");
   const [reasonForSale, setReasonForSale] = useState("");
   const [businessDescClicked, setbusinessDescClicked] = useState(false);
   const [analyticsError, setAnalyticsError] = useState(false);
@@ -75,7 +80,7 @@ const FillForm = () => {
   const [
     bulletDetailedBusinessDescription,
     setBulletDetailedBusinessDescription,
-  ] = useState("•");
+  ] = useState("• ");
   const [
     detailedBusinessDescriptionError,
     setDetailedBusinessDescriptionError,
@@ -106,7 +111,6 @@ const FillForm = () => {
   const [selectedProcessors, setSelectedProcessors] = useState([]);
   const [file, setFile] = useState(null);
 
- 
   const handleSubmit = async (event) => {
     setLoader(true);
     event.preventDefault();
@@ -134,17 +138,17 @@ const FillForm = () => {
         // Fetch the highest existing list number
         const querySnapshot = await getDocs(collection(db, "admin"));
         let maxListNumber = 800; // Default to 800 if no entries exist
-  
+
         querySnapshot.forEach((doc) => {
           const listNumber = doc.data().listNumber || 800; // Default to 800 if listNumber is undefined
           maxListNumber = Math.max(maxListNumber, listNumber);
         });
-  
+
         // Increment the highest list number by 1
         const newListNumber = maxListNumber + 1;
-  
+
         // Add the new document with the generated list number
-        const docRef= await addDoc(collection(db, "admin"), {
+        const docRef = await addDoc(collection(db, "admin"), {
           form1BusinessType: selectedBusiness,
           form1BusinessTypeSub: selectedOptions,
           form1PrimarySourceOfUserAcquisition: selectedSource,
@@ -171,21 +175,21 @@ const FillForm = () => {
           listNumber: newListNumber,
           createdAt: serverTimestamp(),
         });
-        const fileName = docRef.id + '.xlsx'
-      if (file) {
-        const storage = getStorage();
-        const fileref = ref(storage, fileName);
-        uploadBytes(fileref, file[0])
-          .then((data) => {
-            getDownloadURL(data.ref).then((url) => {
-              console.log("url is: ", url);
+        const fileName = docRef.id + ".xlsx";
+        if (file) {
+          const storage = getStorage();
+          const fileref = ref(storage, fileName);
+          uploadBytes(fileref, file[0])
+            .then((data) => {
+              getDownloadURL(data.ref).then((url) => {
+                console.log("url is: ", url);
+              });
+            })
+            .catch((error) => {
+              console.error("Upload failed", error);
             });
-          })
-          .catch((error) => {
-            console.error("Upload failed", error);
-          });
-        console.log(fileref);
-      }
+          console.log(fileref);
+        }
         alert("Form submitted successfully!!");
         console.log("Form submitted with:", { name, email, phoneNumber });
       } catch (error) {
@@ -196,13 +200,49 @@ const FillForm = () => {
     setLoader(false);
   };
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter' && event.target.name === 'bulletDetailedBusinessDescription') {
+    if (
+      event.key === "Enter" &&
+      event.target.name === "bulletDetailedBusinessDescription"
+    ) {
       event.preventDefault();
       const cursorPosition = event.target.selectionStart;
       const textBefore = event.target.value.substring(0, cursorPosition);
       const textAfter = event.target.value.substring(cursorPosition);
       const newValue = `${textBefore}\n• ${textAfter}`;
       setBulletDetailedBusinessDescription(newValue);
+    }
+  };
+
+  const handleKeyDownforskills = (event) => {
+    if (event.key === "Enter" && event.target.name === "skillsRequired") {
+      event.preventDefault();
+      const cursorPosition = event.target.selectionStart;
+      const textBefore = event.target.value.substring(0, cursorPosition);
+      const textAfter = event.target.value.substring(cursorPosition);
+      const newValue = `${textBefore}\n• ${textAfter}`;
+
+      setSkillsRequired(newValue);
+    }
+  };
+  const handleKeyDownforsupport = (event) => {
+    if (event.key === "Enter" && event.target.name === "support") {
+      event.preventDefault();
+      const cursorPosition = event.target.selectionStart;
+      const textBefore = event.target.value.substring(0, cursorPosition);
+      const textAfter = event.target.value.substring(cursorPosition);
+      const newValue = `${textBefore}\n• ${textAfter}`;
+
+      setSupport(newValue);
+    }
+  };
+  const handleKeyDownforrisks = (event) => {
+    if (event.key === "Enter" && event.target.name === "risksAssociated") {
+      event.preventDefault();
+      const cursorPosition = event.target.selectionStart;
+      const textBefore = event.target.value.substring(0, cursorPosition);
+      const textAfter = event.target.value.substring(cursorPosition);
+      const newValue = `${textBefore}\n• ${textAfter}`;
+      setRisksAssociated(newValue);
     }
   };
   const handleProcessorsChange = (event) => {
@@ -250,7 +290,6 @@ const FillForm = () => {
     setBulletDetailedBusinessDescription(e.target.value);
   };
   const firstNextClick = () => {
-
     if (
       selectedBusiness &&
       selectedSource &&
@@ -421,12 +460,8 @@ const FillForm = () => {
   const [selectedCountry, setSelectedCountry] = useState("US");
 
   const handleSelectCountry = (code) => {
-  
-
     setSelectedCountry(code);
   };
-
-  
 
   const handleDateChange = (selectedDate) => {
     setDate(selectedDate);
@@ -489,10 +524,17 @@ const FillForm = () => {
       if (Array.isArray(field)) {
         return field.length > 0;
       }
+
+      if (field === bulletDetailedBusinessDescription && field === "•") {
+        return false; // Exclude bulletDetailedBusinessDescription if it's "."
+      }
       return field !== "" && field !== null;
     });
-    console.log(filledFields);
-    const progress = (filledFields.length / fields.length) * 100;
+
+    // Example usage with progress bar (assuming you have a progress bar component)
+    const totalFields = fields.length;
+    const filledFieldsCount = filledFields.length;
+    const progress = (filledFieldsCount / totalFields) * 100;
     setCount(progress);
     if (!askingPrice) {
       setinfoClicked(false);
@@ -796,7 +838,6 @@ const FillForm = () => {
                     onSelect={handleSelectCountry}
                     searchable
                     searchPlaceholder="Search for a country"
-                    
                     className="w-full"
                   />
                   <div>
@@ -1258,7 +1299,6 @@ const FillForm = () => {
                     2.Improve SEO
                     3.Improve Retention rates"
                       onChange={handleThirdFormSecondChange}
-                
                       onKeyDown={handleKeyDown}
                       name="bulletDetailedBusinessDescription"
                       multiline
@@ -1281,6 +1321,9 @@ const FillForm = () => {
                     placeholder="1.Due to constant changes in technology, competition, and the market as a whole, the software could become less relevant.
                     2.Subscription services require customer service and the ability to stay on top of the subscribers requests."
                     onChange={(event) => setRisksAssociated(event.target.value)}
+                    onKeyDown={handleKeyDownforrisks}
+                    name="risksAssociated"
+                    multiline
                     className="w-full p-3 pt-8 focus:pt-3 border-2 border-gray-300 resize-y focus:border-blue-500 focus:outline-none"
                   />
                   <div className="font-semibold mb-5 mt-7">
@@ -1295,6 +1338,9 @@ const FillForm = () => {
                     placeholder="1.Completing inventory management
                     2.Managing warehouse employee to fulfil FBM orders"
                     onChange={(event) => setSkillsRequired(event.target.value)}
+                    onKeyDown={handleKeyDownforskills}
+                    name="skillsRequired"
+                    multiline
                     className="w-full p-3 pt-8 focus:pt-3 border-2 border-gray-300 resize-y focus:border-blue-500 focus:outline-none"
                   />
                   {skillsRequiredError && (
@@ -1312,6 +1358,9 @@ const FillForm = () => {
                     value={support}
                     placeholder="1.The Seller is willing to offer at least 30 days of email support and/or calls to ensure a smooth transition for the Buyer."
                     onChange={(event) => setSupport(event.target.value)}
+                    onKeyDown={handleKeyDownforsupport}
+                    name="support"
+                    multiline
                     className="w-full p-3 pt-8 focus:pt-3 borderr-2 border-gray-300 resize-y focus:border-blue-500 focus:outline-none"
                   />
 

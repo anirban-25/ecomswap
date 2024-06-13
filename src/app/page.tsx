@@ -6,6 +6,7 @@ import AdminListing from "@/homePageComponents/AdminListing";
 import BuyerSection from "@/homePageComponents/BuyerSection";
 import SellerSection from "@/homePageComponents/SellerSection";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 const page = () => {
   const reviewList = [
     {
@@ -180,7 +181,9 @@ const page = () => {
         <div className="flex justify-center mt-10">
           <div className="bg-[#190041] p-2 rounded-full px-4 flex justify-center">
             <div className="flex items-center text-white space-x-2 ">
-              <div className="font-gilroy-bold ">View Listings</div>
+              <Link href="/listings">
+                <div className="font-gilroy-bold ">View Listings</div>
+              </Link>
               <div>
                 <FaArrowRight />
               </div>

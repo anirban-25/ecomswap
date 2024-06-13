@@ -33,7 +33,7 @@ import {
 } from "@mui/icons-material";
 import { collection, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-
+import SignUp from "@/adminPageComponents/SignUp"
 const AdminPanel = () => {
   const router = useRouter();
   const [dataFrom, setDataFrom] = useState([]);
@@ -278,7 +278,6 @@ const AdminPanel = () => {
           let createdat = "";
           if (timestamp && typeof timestamp.toDate === "function") {
             const date = timestamp.toDate();
-            console.log("Converted date:", date);
 
             const year = date.getFullYear();
             const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -345,7 +344,7 @@ const AdminPanel = () => {
   ];
 
   return (
-    <div className=" w-full h-full justify-center flex items-center">
+    <div className=" w-full h-full ">
       {signedIn ? (
         <div className=" h-full items-center flex justify-center">
           <SignUp />
