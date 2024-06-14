@@ -67,7 +67,9 @@ const Filters = ({ onApplyFilters, onSearch }) => {
       values[0],
       values[1],
       revenue[0],
-      revenue[1]
+      revenue[1],
+      profit[0],
+      profit[1]
     );
     setShowAssetTypes(false);
     setShowPriceRange(false);

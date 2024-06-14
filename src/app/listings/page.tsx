@@ -18,6 +18,8 @@ type Listing = {
   monthlyRevenue: number;
   monthlyMultiple: number;
   trafficPercentage: number;
+  revenueMultiple: number;
+  profitMultiple: number;
   type: string;
   industry: string;
   monetization: string;
@@ -32,7 +34,7 @@ const listings: Listing[] = [
     id: 1,
     description:
       "Electronic commerce (e-commerce) refers to companies and individuals that buy and sell goods and services over the internet. E-commerce operates in different types of market segments and can be conducted over computers, tablets, smartphones.",
-    price: 123133222,
+    price: 10,
     thumbnailUrl: "/images/Rectangle 1316.png",
     verified: true,
     topRated: false,
@@ -41,6 +43,8 @@ const listings: Listing[] = [
     monthlyRevenue: 88435,
     monthlyMultiple: 14,
     trafficPercentage: -5,
+    revenueMultiple: 65,
+    profitMultiple: 70,
     type: "Saas",
     industry: "Home and Garden",
     monetization: "ecommerce",
@@ -61,6 +65,8 @@ const listings: Listing[] = [
     monthlyRevenue: 98435,
     monthlyMultiple: 10,
     trafficPercentage: 10,
+    revenueMultiple: 25,
+    profitMultiple: 40,
     type: "eCommerce",
     industry: "Furniture",
     monetization: "eCommerce",
@@ -81,6 +87,8 @@ const listings: Listing[] = [
     monthlyRevenue: 99435,
     monthlyMultiple: 20,
     trafficPercentage: 30,
+    revenueMultiple: 95,
+    profitMultiple: 10,
     type: "eCommerce",
     industry: "Furniture",
     monetization: "eCommerce",
@@ -97,7 +105,12 @@ const Page = () => {
   const handleApplyFilters = (
     selectedAssetTypes: string[],
     minPrice: number,
-    maxPrice: number
+    maxPrice: number,
+
+    minRevenueMultiple: number,
+    maxRevenueMultiple: number,
+    minProfitMultiple: number,
+    maxProfitMultiple: number
   ) => {
     console.log(selectedAssetTypes);
     console.log(minPrice, maxPrice);
@@ -105,10 +118,24 @@ const Page = () => {
       const matchesType =
         selectedAssetTypes.length === 0 ||
         selectedAssetTypes.includes(listing.type.toLowerCase());
-      const matchesPrice =
+      const matchesPrice: boolean =
         listing.price >= minPrice && listing.price <= maxPrice;
-      console.log(matchesType, matchesPrice);
-      return matchesType && matchesPrice;
+      const matchesRevenue =
+        listing.revenueMultiple >= minRevenueMultiple &&
+        listing.revenueMultiple <= maxRevenueMultiple;
+      const matchesProfit =
+        listing.profitMultiple >= minProfitMultiple &&
+        listing.profitMultiple <= maxProfitMultiple;
+      console.log(
+        matchesType,
+        matchesPrice,
+        matchesRevenue,
+        matchesProfit,
+        listing.monthlyRevenue,
+        minRevenueMultiple,
+        maxRevenueMultiple
+      );
+      return matchesType && matchesPrice && matchesRevenue && matchesProfit;
     });
     console.log(filtered);
     setFilteredListings(filtered);
@@ -139,7 +166,7 @@ const Page = () => {
 
       <BusinessesForSale />
       <div className="px-20">
-        <Filters  onApplyFilters={handleApplyFilters} onSearch={handleSearch} />
+        <Filters onApplyFilters={handleApplyFilters} onSearch={handleSearch} />
       </div>
       <div className="px-20">
         <Listings listings={filteredListings} />
