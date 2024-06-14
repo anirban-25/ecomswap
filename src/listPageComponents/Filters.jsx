@@ -15,17 +15,19 @@ import Slider from "react-slider";
 
 const Filters = ({ onApplyFilters, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [values, setValues] = useState([0, 100]);
+  const [values, setValues] = useState([0, 100000]);
   const handleChange = (newValues) => setValues(newValues);
   const [revenue, setValuesForRevenue] = useState([0, 100]);
   const handleChangeForRevenue = (newRevenue) =>
     setValuesForRevenue(newRevenue);
   const [profit, setValuesForProfit] = useState([0, 100]);
+  
   const handleChangeForProfit = (newProfit) => setValuesForProfit(newProfit);
   const [showAssetTypes, setShowAssetTypes] = useState(false);
   const [selectedAssetTypes, setSelectedAssetTypes] = useState([]);
   const [showPriceRange, setShowPriceRange] = useState(false);
   const [showMoreRange, setShowMoreRange] = useState(false);
+  
   const [selectedCountry, setSelectedCountry] = useState("");
   const dropdownRef = useRef(null);
   const dropdownRefPrice = useRef(null);
@@ -83,6 +85,7 @@ const Filters = ({ onApplyFilters, onSearch }) => {
   const toggleSortOptions = () => {
     setShowSortOptions(!showSortOptions);
   };
+  
 
   useEffect(() => {
     const handleClickOutsideForPrice = (event) => {
@@ -239,7 +242,7 @@ const Filters = ({ onApplyFilters, onSearch }) => {
                   value={values}
                   onChange={handleChange}
                   min={0}
-                  max={100}
+                  max={100000}
                   renderTrack={(props, state) => {
                     return (
                       <div
@@ -270,13 +273,14 @@ const Filters = ({ onApplyFilters, onSearch }) => {
                 >
                   <div className=" text-center">
                     <label htmlFor="minPrice" className="font-gilroy-medium">
-                      Min Price:
+                      Min Asking Price:
                     </label>
                     <input
                       type="number"
                       className=" border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
                       id="minPrice"
                       value={values[0]}
+                      max={100000}
                       onChange={(e) =>
                         handleChange([+e.target.value, values[1]])
                       }
@@ -284,13 +288,14 @@ const Filters = ({ onApplyFilters, onSearch }) => {
                   </div>
                   <div className=" text-center">
                     <label htmlFor="maxPrice" className="font-gilroy-medium">
-                      Max Price:
+                      Max Asking Price:
                     </label>
                     <input
                       type="number"
                       className=" border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
                       id="maxPrice"
                       value={values[1]}
+                      max={100000}
                       onChange={(e) =>
                         handleChange([values[0], +e.target.value])
                       }
@@ -303,7 +308,7 @@ const Filters = ({ onApplyFilters, onSearch }) => {
                   type="button"
                   className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
                   onClick={() => {
-                    handleChange([0, 100]);
+                    handleChange([0, 100000]);
                   }}
                 >
                   Clear
@@ -555,7 +560,7 @@ const Filters = ({ onApplyFilters, onSearch }) => {
       </div>
 
       <div className="flex items-center space-x-8 ml-4">
-        <div className="relative bg-white border border-[#838383] px-2  rounded-full min-w-[20rem]">
+        <div className="relative bg-white border border-[#838383] px-2  rounded-full min-w-[15rem]">
           <FaSearch className="absolute left-3 top-3 mx-2 text-gray-600" />
           <input
             type="text"

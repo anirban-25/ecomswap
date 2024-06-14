@@ -79,6 +79,7 @@ const ActionList = ({ Id }) => {
     name: "",
     email: "",
     phnumber: "",
+    isVerified: "",
   });
   const handlePaymentChange = (selectedOptions) => {
     setFormData((prev) => ({
@@ -155,6 +156,7 @@ const ActionList = ({ Id }) => {
             phnumber: docSnap.data().form6phoneNumber || "",
             name: docSnap.data().form6name || "",
             email: docSnap.data().form6email || "",
+            isVerified:docSnap.data().isVerified || "",
           });
         } else {
           console.error("No such document!");
@@ -310,6 +312,7 @@ const ActionList = ({ Id }) => {
         form6email: formData.email,
         form6name: formData.name,
         form6phoneNumber: formData.phnumber,
+        isVerified: formData.isVerified,
       });
 
       alert("Listing updated successfully!");
@@ -936,29 +939,53 @@ const ActionList = ({ Id }) => {
               />
             </div>
           </div>
-          <div>
-            <div className="font-gilroy-bold mt-4">Upload the image</div>
-            <input
-              type="file"
-              accept=".jpg,.jpeg, .png"
-              onChange={(e) => {
-                setFormData((prev) => ({
-                  ...prev,
-                  image: e.target.files,
-                }));
-              }}
-              className="block mt-4 w-[45%]  bg-[#221d33] text-white border border-gray-300 rounded-lg font-gilroy-medium text-base cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 ease-in-out"
-            />
-            {selectedImage && (
-              <div>
-                <div className="text-[#402c83]">
-                  Selected Image:
-                  <a href={selectedImage} target="_blank">
-                    <span className="font-gilroy-bold underline text-indigo-500  cursor-pointer">Image</span>
-                  </a>
+          <div className="flex justify-between">
+            <div className="w-[45%]">
+              <div className="font-gilroy-bold mt-4">Upload the image</div>
+              <input
+                type="file"
+                accept=".jpg,.jpeg, .png"
+                onChange={(e) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    image: e.target.files,
+                  }));
+                }}
+                className="block mt-4 w-full  bg-[#221d33] text-white border border-gray-300 rounded-lg font-gilroy-medium text-base cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 ease-in-out"
+              />
+              {selectedImage && (
+                <div>
+                  <div className="text-[#402c83]">
+                    Selected Image:
+                    <a href={selectedImage} target="_blank">
+                      <span className="font-gilroy-bold underline text-indigo-500  cursor-pointer">
+                        Image
+                      </span>
+                    </a>
+                  </div>
                 </div>
+              )}
+            </div>
+            <div className="w-[45%]">
+                <div className="flex font-gilroy-medium mt-4">
+                  <div className="text-[#402c83] ">Mark this Listing as Verified or Not</div>
+                  {formData.isVerified && (
+                    <div className="text-red-600 font-gilroy-bold">*</div>
+                  )}
+                </div>
+                <TextField
+                  fullWidth
+                  select
+                  label="isVerified"
+                  name="isVerified"
+                  value={formData.isVerified || ""}
+                  onChange={handleChange}
+                  margin="normal"
+                >
+                  <MenuItem value="Yes">Yes</MenuItem>
+                  <MenuItem value="No">No</MenuItem>
+                </TextField>
               </div>
-            )}
           </div>
           <Button
             variant="contained"
