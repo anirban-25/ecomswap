@@ -578,7 +578,7 @@ const Filters = ({ onApplyFilters, onSearch }) => {
           <button
             className="font-gilroy-bold bg-white border border-[#aaa] rounded-full pl-8 px-4 py-2 pr-8 focus:outline-none flex justify-between text-gray-700 "
             onClick={toggleSortOptions}
-          >
+          >w
             Sort By
             <svg
               className="h-6 w-6 text-gray-500 inline ml-2"
