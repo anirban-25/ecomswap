@@ -330,12 +330,21 @@ const ListPage = () => {
           if (docData.adminStatus === "Approved") {
             data.push({
               id: doc.id,
+              description: doc.form1BriefDescription || "",
+              isNew: true,
+              topRated: true,
+              monthlyNetProfit: doc.monthlynetprofit || "",
               type: docData.form1BusinessType || "",
+              monthlyRevenue: doc.monthlyrevenue || "",
+              monthlyMultiple: doc.monthlymultiple || "",
+              trafficPercentage: doc.trafficpercentage || "",
+              revenueMultiple: doc.monthlyrevenue || "",
+              
               TTR: parseInt(docData.form2trailingTotalRevenue, 10) || "",
               location: getCountryName(docData.form1LocationOfBusiness) || "",
               industry: docData.form1selectedIndustry || "",
               startdate: docData.form1BusinessStarted || "",
-              askingprice: parseInt(docData.form5askingPrice, 10) || "",
+              price: parseInt(docData.form5askingPrice, 10) || "",
               status: docData.status || "",
               createdat: docData.createdAt || "",
               status: docData.adminStatus || "Pending",
