@@ -1,3 +1,4 @@
+import ListPage from "@/listPageComponents/ListPage"
 "use client";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
@@ -104,88 +105,11 @@ const listings: Listing[] = [
 ];
 
 const Page = () => {
-  const [filteredListings, setFilteredListings] = useState<Listing[]>(listings);
-
-  const handleApplyFilters = (
-    selectedAssetTypes: string[],
-    minPrice: number,
-    maxPrice: number,
-
-    minRevenueMultiple: number,
-    maxRevenueMultiple: number,
-    minProfitMultiple: number,
-    maxProfitMultiple: number,
-    minRecurring: number,
-    maxRecurring: number
-  ) => {
-    console.log(selectedAssetTypes);
-    console.log(minPrice, maxPrice);
-    const filtered = listings.filter((listing) => {
-      const matchesType =
-        selectedAssetTypes.length === 0 ||
-        selectedAssetTypes.includes(listing.type.toLowerCase());
-      const matchesPrice: boolean =
-        listing.price >= minPrice && listing.price <= maxPrice;
-      const matchesRevenue =
-        listing.revenueMultiple >= minRevenueMultiple &&
-        listing.revenueMultiple <= maxRevenueMultiple;
-      const matchesProfit =
-        listing.profitMultiple >= minProfitMultiple &&
-        listing.profitMultiple <= maxProfitMultiple;
-      const matchesRecurring =
-      listing.recurring >= minRecurring &&
-      listing.recurring <= maxRecurring;
-    console.log(
-        matchesType,
-        matchesPrice,
-        matchesRevenue,
-        matchesProfit,
-        listing.monthlyRevenue,
-        minRevenueMultiple,
-        maxRevenueMultiple,
-        minRecurring,
-        maxRecurring
-
-      );
-      return matchesType && matchesPrice && matchesRevenue && matchesProfit && matchesRecurring;
-    });
-    console.log(filtered);
-    setFilteredListings(filtered);
-  };
-  const handleSearch = (query: string) => {
-    const filtered = listings.filter((listing) => {
-      return (
-        listing.description.toLowerCase().includes(query.toLowerCase()) ||
-        listing.type.toLowerCase().includes(query.toLowerCase()) ||
-        listing.industry.toLowerCase().includes(query.toLowerCase())
-      );
-    });
-    setFilteredListings(filtered);
-  };
-
-  useEffect(() => {
-    console.log(filteredListings);
-  }, [filteredListings]);
 
   return (
-    <div className="py-5">
-      <div className="h-screen w-full fixed left-0  -z-20 bg-grid-large-gray-200/[0.6]  flex items-center justify-center">
-        {/* Radial gradient for the container to give a faded look */}
-      </div>
-      <div className="px-10">
-        <Header />
-      </div>
-
-      <BusinessesForSale />
-      <div className="px-20">
-        <Filters onApplyFilters={handleApplyFilters} onSearch={handleSearch} />
-      </div>
-      <div className="px-20">
-        <Listings listings={filteredListings} />
-      </div>
-      <div className="px-10">
-        <Footer />
-      </div>
+    
+    <div>
+      <ListPage/>
     </div>
   );
 };
