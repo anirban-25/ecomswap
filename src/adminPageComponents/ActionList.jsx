@@ -52,6 +52,7 @@ const ActionList = ({ Id }) => {
     location: "",
     startDate: "",
     revenue: "",
+    tags: "",
     profit: "",
     analytics: "",
     industryType: "",
@@ -138,7 +139,7 @@ const ActionList = ({ Id }) => {
             trafficpercentage: docSnap.data().trafficpercentage || "",
             revenue: docSnap.data().form2trailingTotalRevenue || "",
             profit: docSnap.data().form2netProfit || "",
-
+            tags: docSnap.data().tags || "",
             monthlymultiple: docSnap.data().monthlymultiple || "",
 
 

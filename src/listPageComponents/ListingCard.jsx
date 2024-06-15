@@ -10,12 +10,12 @@ const ListingCard = ({ listing }) => {
     router.push(`/listings/${id}`);
   };
 
-  const { id, description, price, thumbnailUrl, verified, topRated, isNew, monthlyNetProfit, monthlyRevenue, monthlyMultiple, type, industry, monetization, location, profit, revenue, traffic } = listing;
+  const { id, description, tags, monthlyNetProfit, type,monthlyRevenue, monthlyMultiple,traffic, monetization, profit,revenue, location, industry, startdate,price, createdat, verified,thumbnailUrl } = listing;
 
   return (
     <div className="bg-white border border-[#aaa] border-dashed rounded-lg shadow-md p-4 flex h-auto relative w-full mx-auto">
       <div className="relative">
-        <Image src={thumbnailUrl} alt={`${type} | ${industry}`} width={254} height={560} className="rounded-lg h-full" />
+        <Image src={thumbnailUrl} alt="lgo" width={254} height={560} className="rounded-lg h-full" />
       </div>
       <div className="absolute top-4 right-4 flex items-center space-x-9">
         <div className="flex flex-col items-center">
@@ -74,16 +74,11 @@ const ListingCard = ({ listing }) => {
           <h3 className="text-lg font-gilroy-bold">{`${type} | ${industry}`}</h3>
         </div>
         <div className="flex items-center mt-2 space-x-2">
-          {isNew && (
-            <div className="flex items-center bg-white border border-gray-300 px-4 py-2 rounded-full text-s italic">
-              <img src="/images/newicon.svg" alt="New" className="w-4 h-4 mr-2" />
-              New
-            </div>
-          )}
-          {topRated && (
+          
+          {tags && (
             <div className="flex items-center bg-white border border-gray-300 px-4 py-2 rounded-full text-s italic">
               <img src="/images/newicon.svg" alt="Top Rated" className="w-4 h-4 mr-2" />
-              Top Rated
+              {tags}
             </div>
           )}
           {verified && (

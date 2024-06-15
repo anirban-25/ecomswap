@@ -314,7 +314,6 @@ const ListPage = () => {
 
         querySnapshot.forEach((doc) => {
           const docData = doc.data();
-
           const timestamp = docData.createdAt || "";
           let createdat = "";
           if (timestamp && typeof timestamp.toDate === "function") {
@@ -328,28 +327,27 @@ const ListPage = () => {
             console.error("Invalid Firestore Timestamp format");
           }
           if (docData.adminStatus === "Approved") {
-            data.push({
-              id: doc.id,
-              description: doc.form1BriefDescription || "",
-              isNew: true,
-              topRated: true,
-              monthlyNetProfit: doc.monthlynetprofit || "",
+            listings.push({
+              id: docData.id,
+              description: docData.form1BriefDescription || "",
+              tags: docData.tags || "",
+              monthlyNetProfit: docData.monthlynetprofit || "",
               type: docData.form1BusinessType || "",
-              monthlyRevenue: doc.monthlyrevenue || "",
-              monthlyMultiple: doc.monthlymultiple || "",
-              trafficPercentage: doc.trafficpercentage || "",
-              revenueMultiple: doc.monthlyrevenue || "",
+              monthlyRevenue: docData.monthlyrevenue || "",
+              monthlyMultiple: docData.monthlymultiple || "",
+              traffic: docData.trafficpercentage || "",
               
-              TTR: parseInt(docData.form2trailingTotalRevenue, 10) || "",
+              monetization: docData.form1PrimarySourceOfUserAcquisition || "",
+              profit: parseInt(docData.netprofitpercentage, 10) || "",
+              revenue: docData.netrevenuepercentage || "",
               location: getCountryName(docData.form1LocationOfBusiness) || "",
               industry: docData.form1selectedIndustry || "",
               startdate: docData.form1BusinessStarted || "",
               price: parseInt(docData.form5askingPrice, 10) || "",
-              status: docData.status || "",
               createdat: docData.createdAt || "",
-              status: docData.adminStatus || "Pending",
-              createdat: createdat,
               listNumber: docData.listNumber || 800,
+              verified: docData.isVerified || "",
+              thumbnailUrl: docData.thumbnailUrl ||"",
             });
           }
         });
@@ -387,6 +385,7 @@ const ListPage = () => {
       const matchesRevenue =
         listing.revenueMultiple >= minRevenueMultiple &&
         listing.revenueMultiple <= maxRevenueMultiple;
+      
       const matchesProfit =
         listing.profitMultiple >= minProfitMultiple &&
         listing.profitMultiple <= maxProfitMultiple;
