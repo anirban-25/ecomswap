@@ -52,7 +52,6 @@ const ActionList = ({ Id }) => {
     location: "",
     startDate: "",
     revenue: "",
-    tags: "",
     profit: "",
     analytics: "",
     industryType: "",
@@ -81,6 +80,7 @@ const ActionList = ({ Id }) => {
     email: "",
     phnumber: "",
     isVerified: "",
+    tags: ""
   });
   const handlePaymentChange = (selectedOptions) => {
     setFormData((prev) => ({
@@ -139,10 +139,7 @@ const ActionList = ({ Id }) => {
             trafficpercentage: docSnap.data().trafficpercentage || "",
             revenue: docSnap.data().form2trailingTotalRevenue || "",
             profit: docSnap.data().form2netProfit || "",
-            tags: docSnap.data().tags || "",
             monthlymultiple: docSnap.data().monthlymultiple || "",
-
-
             analytics: docSnap.data().form3GoogleAnalytics || "",
             industryType: docSnap.data().form1selectedIndustry || "",
             paymentType: docSnap.data().form3paymentProcessors || "",
@@ -158,6 +155,7 @@ const ActionList = ({ Id }) => {
             name: docSnap.data().form6name || "",
             email: docSnap.data().form6email || "",
             isVerified:docSnap.data().isVerified || "",
+            tags: docSnap.data().tags || "",
           });
         } else {
           console.error("No such document!");
@@ -298,7 +296,6 @@ const ActionList = ({ Id }) => {
         monthlyrevenue: formData.monthlyrevenue,
         trafficpercentage: formData.trafficpercentage,
         monthlymultiple: formData.monthlymultiple,
-
         form3GoogleAnalytics: formData.analytics,
         form1selectedIndustry: formData.industryType,
         form3paymentProcessors: formData.paymentType,
@@ -314,6 +311,7 @@ const ActionList = ({ Id }) => {
         form6name: formData.name,
         form6phoneNumber: formData.phnumber,
         isVerified: formData.isVerified,
+        tags: formData.tags
       });
 
       alert("Listing updated successfully!");
@@ -848,9 +846,29 @@ const ActionList = ({ Id }) => {
                 className="w-full"
                 type="number"
               />
+              </div>
+              <div className="w-[45%]">
+              <div className="flex font-gilroy-medium">
+                <div className="text-[#402c83]">Tags</div>
+                {formData.tags && (
+                  <div className="text-red-600 font-gilroy-bold">*</div>
+                )}
+              </div>
+              <TextField
+                select
+                label="Tags"
+                name="tags"
+                value={formData.tags || ""}
+                onChange={handleChange}
+                margin="normal"
+                className="w-full"
+              >
+                <MenuItem value="New">New</MenuItem>
+                <MenuItem value="Top Rated">Top Rated</MenuItem>
+                <MenuItem value="High Demand">High Demand</MenuItem>
+              </TextField>
             </div>
-        
-          </div>
+            </div>
 
           <div className="flex justify-between">
             <div className="w-[45%]">

@@ -34,6 +34,7 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import SignUp from "@/adminPageComponents/SignUp"
+import Link from "next/link";
 const AdminPanel = () => {
   const router = useRouter();
   const [dataFrom, setDataFrom] = useState([]);
@@ -319,7 +320,7 @@ const AdminPanel = () => {
   const handleEditClick = (id) => {
     router.push(`/admin-panel/${id}`);
   };
-
+  
   const columns = [
     { field: "listNumber", headerName: "List Number", width: 130 },
     { field: "type", headerName: "Business Type", width: 170 },
@@ -392,9 +393,11 @@ const AdminPanel = () => {
           <Toolbar />
           <Box display="flex" justifyContent="space-between" alignItems="center" mt={3}>
             <Typography variant="h5">Recent Listings</Typography>
+            <Link href={`/admin-panel/${id}`}>
             <Button variant="contained" startIcon={<Person />}>
               Add Listing
             </Button>
+            </Link>
           </Box>
           <Box mt={2} mb={4} sx={{ maxWidth: 300, maxHeight: 30, height: 30 }}>
             <TextField
