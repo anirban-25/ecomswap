@@ -828,7 +828,28 @@ const ActionList = ({ Id }) => {
             </div>
           </div>
 
-          <div className="flex justify-between"></div>
+          <div className="flex justify-between">
+          <div className="w-[45%]">
+              <div className="flex font-gilroy-medium mt-5 ">
+                <div className="text-[#402c83]">
+                  Monthly Multiple
+                </div>
+                {formData.monthlymultiple && (
+                  <div className="text-red-600 font-gilroy-bold">*</div>
+                )}
+              </div>
+              <TextField
+                label="Monthly Multiple"
+                name="monthlymultiple"
+                value={formData.monthlymultiple || ""}
+                onChange={handleChange}
+                margin="normal"
+                className="w-full"
+                type="number"
+              />
+            </div>
+        
+          </div>
 
           <div className="flex justify-between">
             <div className="w-[45%]">

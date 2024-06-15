@@ -17,6 +17,7 @@ type Listing = {
   monthlyNetProfit: number;
   monthlyRevenue: number;
   monthlyMultiple: number;
+  recurring: number;
   trafficPercentage: number;
   revenueMultiple: number;
   profitMultiple: number;
@@ -42,6 +43,7 @@ const listings: Listing[] = [
     monthlyNetProfit: 102435,
     monthlyRevenue: 88435,
     monthlyMultiple: 14,
+    recurring: 90,
     trafficPercentage: -5,
     revenueMultiple: 65,
     profitMultiple: 70,
@@ -64,6 +66,7 @@ const listings: Listing[] = [
     monthlyNetProfit: 152435,
     monthlyRevenue: 98435,
     monthlyMultiple: 10,
+    recurring:40,
     trafficPercentage: 10,
     revenueMultiple: 25,
     profitMultiple: 40,
@@ -86,6 +89,7 @@ const listings: Listing[] = [
     monthlyNetProfit: 182435,
     monthlyRevenue: 99435,
     monthlyMultiple: 20,
+    recurring:10,
     trafficPercentage: 30,
     revenueMultiple: 95,
     profitMultiple: 10,
@@ -110,7 +114,9 @@ const Page = () => {
     minRevenueMultiple: number,
     maxRevenueMultiple: number,
     minProfitMultiple: number,
-    maxProfitMultiple: number
+    maxProfitMultiple: number,
+    minRecurring: number,
+    maxRecurring: number
   ) => {
     console.log(selectedAssetTypes);
     console.log(minPrice, maxPrice);
@@ -126,16 +132,22 @@ const Page = () => {
       const matchesProfit =
         listing.profitMultiple >= minProfitMultiple &&
         listing.profitMultiple <= maxProfitMultiple;
-      console.log(
+      const matchesRecurring =
+      listing.recurring >= minRecurring &&
+      listing.recurring <= maxRecurring;
+    console.log(
         matchesType,
         matchesPrice,
         matchesRevenue,
         matchesProfit,
         listing.monthlyRevenue,
         minRevenueMultiple,
-        maxRevenueMultiple
+        maxRevenueMultiple,
+        minRecurring,
+        maxRecurring
+
       );
-      return matchesType && matchesPrice && matchesRevenue && matchesProfit;
+      return matchesType && matchesPrice && matchesRevenue && matchesProfit && matchesRecurring;
     });
     console.log(filtered);
     setFilteredListings(filtered);

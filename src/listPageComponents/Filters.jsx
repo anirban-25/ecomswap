@@ -21,10 +21,15 @@ const Filters = ({ onApplyFilters, onSearch }) => {
   const handleChangeForRevenue = (newRevenue) =>
     setValuesForRevenue(newRevenue);
   const [profit, setValuesForProfit] = useState([0, 100]);
+  const [recurring, setValuesForRecurring] = useState([0, 100]);
+  const [age, setAge] = useState([0,20]);
   
   const handleChangeForProfit = (newProfit) => setValuesForProfit(newProfit);
+  const handleChangeForRecurring = (newRecurring) => setValuesForRecurring(newRecurring);
+  const handleChangeForAge = (newAge) => setAge(newAge);
   const [showAssetTypes, setShowAssetTypes] = useState(false);
   const [selectedAssetTypes, setSelectedAssetTypes] = useState([]);
+  const [selectedSortTypes, setSelectedSortTypes] = useState("");
   const [showPriceRange, setShowPriceRange] = useState(false);
   const [showMoreRange, setShowMoreRange] = useState(false);
   
@@ -32,10 +37,15 @@ const Filters = ({ onApplyFilters, onSearch }) => {
   const dropdownRef = useRef(null);
   const dropdownRefPrice = useRef(null);
   const dropdownRefMore = useRef(null);
-  const [showSortOptions, setShowSortOptions] = useState(false);
+  const dropdownRefSort= useRef(null);
+  const [showSortTypes, setShowSortTypes] = useState(false);
 
   const toggleAssetTypes = () => {
     setShowAssetTypes(!showAssetTypes);
+  };
+
+  const toggleSortTypes = () => {
+    setShowSortTypes(!showSortTypes);
   };
 
   const handleAssetTypeClick = (value) => {
@@ -46,8 +56,14 @@ const Filters = ({ onApplyFilters, onSearch }) => {
     );
   };
 
+  const handleSortTypeClick = (value) => {
+    setSelectedSortTypes(value);
+      
+  };
+
   const handleClear = () => {
     setSelectedAssetTypes([]);
+    setSelectedSortTypes("");
   };
   const handleSearchChange = (event) => {
     const query = event.target.value;
@@ -69,11 +85,17 @@ const Filters = ({ onApplyFilters, onSearch }) => {
       revenue[0],
       revenue[1],
       profit[0],
-      profit[1]
+      profit[1],
+      recurring[0],
+      recurring[1],
+      age[0],
+      age[1],
+      selectedSortTypes
     );
     setShowAssetTypes(false);
     setShowPriceRange(false);
     setShowMoreRange(false);
+    setShowSortTypes(false)
   };
 
   const togglePriceRange = () => {
@@ -82,10 +104,6 @@ const Filters = ({ onApplyFilters, onSearch }) => {
   };
   const toggleMoreRange = () => {
     setShowMoreRange(!showMoreRange);
-  };
-
-  const toggleSortOptions = () => {
-    setShowSortOptions(!showSortOptions);
   };
   
 
@@ -105,13 +123,20 @@ const Filters = ({ onApplyFilters, onSearch }) => {
         setShowMoreRange(false);
       }
     };
+    const handleClickOutsideForSort = (event) => {
+      if (!dropdownRefSort.current.contains(event.target)) {
+        setShowSortTypes(false);
+      }
+    };
     document.addEventListener("click", handleClickOutsideForPrice);
     document.addEventListener("click", handleClickOutside);
     document.addEventListener("click", handleClickOutsideForMore);
+    document.addEventListener("click", handleClickOutsideForSort);
     return () => {
       document.removeEventListener("click", handleClickOutsideForMore);
       document.removeEventListener("click", handleClickOutside);
       document.removeEventListener("click", handleClickOutsideForMore);
+      document.removeEventListener("click", handleClickOutsideForSort);
     };
   }, []);
 
@@ -147,6 +172,16 @@ const Filters = ({ onApplyFilters, onSearch }) => {
       icon: <MdAddBox color="#7850FF" size={30} />,
     },
   ];
+  const sortTypes = [
+    { value: "date-newest", label: "Date Listed: Newest" },
+    { value: "date-oldest", label: "Date Listed: Oldest" },
+    { value: "price-low-high", label: "Asking Price: Low to High" },
+    { value: "price-high-low", label: "Asking Price: High to Low" },
+    { value: "revenue-low-high", label: "Annual Revenue: Low to High" },
+    { value: "revenue-high-low", label: "Annual Revenue: High to Low" },
+    { value: "profit-low-high", label: "Annual Profit: Low to High" },
+    { value: "profit-high-low", label: "Annual Profit: High to Low" },
+  ];
 
   return (
     <div className="flex items-center justify-between space-x-4 font-gilroy-medium w-full dropdown-container">
@@ -177,7 +212,7 @@ const Filters = ({ onApplyFilters, onSearch }) => {
               {assetTypes.map((assetType) => (
                 <div
                   key={assetType.value}
-                  className={`flex flex-col items-center justify-center cursor-pointer border-2 hover:bg-gray-200 transition-all duration-300 rounded-lg p-3 ${
+                  className={`flex flex-col items-center justify-center cursor-pointer border-2 hover:bg-gray-200 transition-all duration-100 rounded-lg p-3 ${
                     selectedAssetTypes.includes(assetType.value)
                       ? "border-[#7850FF] shadow-lg"
                       : "border-gray-200 "
@@ -351,86 +386,6 @@ const Filters = ({ onApplyFilters, onSearch }) => {
 
           {showMoreRange && (
             <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-80 z-10">
-              {/* Revenue Multiple Slider */}
-              <div style={{ padding: "10px" }}>
-                <div className="font-gilroy-medium text-[#190041]">
-                  Revenue Multiple
-                </div>
-                <Slider
-                  className="slider"
-                  value={revenue}
-                  onChange={handleChangeForRevenue}
-                  min={0}
-                  max={100}
-                  renderTrack={(props, state) => (
-                    <div
-                      {...props}
-                      className={`slider-track-${state.index + 1} ${
-                        props.className
-                      }`}
-                    />
-                  )}
-                  renderThumb={(props, state) => (
-                    <div
-                      {...props}
-                      className={`slider-thumb ${
-                        state.index === 0
-                          ? "slider-thumb-left"
-                          : "slider-thumb-right"
-                      }`}
-                    />
-                  )}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                >
-                  <div className="text-center">
-                    <label htmlFor="minRevenue" className="font-gilroy-medium">
-                      Min Revenue:
-                    </label>
-                    <input
-                      type="number"
-                      className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
-                      id="minRevenue"
-                      value={revenue[0]}
-                      onChange={(e) =>
-                        handleChangeForRevenue([+e.target.value, revenue[1]])
-                      }
-                    />
-                  </div>
-                  <div className="text-center">
-                    <label htmlFor="maxRevenue" className="font-gilroy-medium">
-                      Max Revenue:
-                    </label>
-                    <input
-                      type="number"
-                      className="border-gray-500 border min-w-[5rem] max-w-[8rem] px-3 py-1 rounded-lg"
-                      id="maxRevenue"
-                      value={revenue[1]}
-                      onChange={(e) =>
-                        handleChangeForRevenue([revenue[0], +e.target.value])
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div className="flex justify-between mt-2">
-                <hr
-                  style={{
-                    width: "280px",
-                    height: "1px",
-                    backgroundColor: "#D7D7D7",
-                    border: "none",
-                  }}
-                />
-              </div>
-
               {/* Profit Multiple Slider */}
               <div style={{ padding: "10px" }}>
                 <div className="font-gilroy-medium text-[#190041]">
@@ -532,9 +487,58 @@ const Filters = ({ onApplyFilters, onSearch }) => {
               </div>
               <div style={{ padding: "10px" }}>
                 <div className="font-gilroy-medium text-[#190041] mt-3">
-                  Annual recurring income
+                 Startup Age
                 </div>
-              </div>
+                <Slider
+                  className="slider"
+                  value={age}
+                  onChange={handleChangeForAge}
+                  min={0}
+                  max={20}
+                  renderTrack={(props, state) => (
+                    <div
+                      {...props}
+                      className={`slider-track-${state.index + 1} ${
+                        props.className
+                      }`}
+                    />
+                  )}
+                  renderThumb={(props, state) => (
+                    <div
+                      {...props}
+                      className={`slider-thumb ${
+                        state.index === 0
+                          ? "slider-thumb-left"
+                          : "slider-thumb-right"
+                      }`}
+                    />
+                  )}
+                />
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <div>
+                    <label htmlFor="minAge" className="font-gilroy-medium">
+                      0 months
+                    </label>
+                  </div>
+                  <div className="text-right">
+                    <label htmlFor="maxAge" className="font-gilroy-medium">
+                      20+ years
+                    </label>
+                    
+                  </div>
+                </div>
+
+                </div>
+
+
+
 
               {/* Action Buttons */}
               <div className="flex justify-between mt-4">
@@ -542,8 +546,9 @@ const Filters = ({ onApplyFilters, onSearch }) => {
                   type="button"
                   className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
                   onClick={() => {
-                    handleChangeForRevenue([0, 100]);
+    
                     handleChangeForProfit([0, 100]);
+                    handleChangeForAge([0,20]);
                   }}
                 >
                   Clear
@@ -574,12 +579,13 @@ const Filters = ({ onApplyFilters, onSearch }) => {
           />
         </div>
 
-        <div className="relative">
-          <button
-            className="font-gilroy-bold bg-white border border-[#aaa] rounded-full pl-8 px-4 py-2 pr-8 focus:outline-none flex justify-between text-gray-700 "
-            onClick={toggleSortOptions}
+        <div className="relative" ref={dropdownRefSort}>
+          <div
+            className="font-gilroy-bold bg-white border border-[#aaa] rounded-full pl-8 px-4 py-2 pr-8 focus:outline-none flex justify-between text-gray-700 cursor-pointer"
+            onClick={toggleSortTypes}
           >
             Sort By
+
             <svg
               className="h-6 w-6 text-gray-500 inline ml-2"
               xmlns="http://www.w3.org/2000/svg"
@@ -592,63 +598,38 @@ const Filters = ({ onApplyFilters, onSearch }) => {
             >
               <path d="M6 9l6 6 6-6" />
             </svg>
-          </button>
-          {showSortOptions && (
-            <div className="absolute mt-2 bg-white shadow-lg rounded-lg -right-4 p-4 w-64 z-10">
-              <ul className="space-y-2">
-                <li>
-                  <button className="w-full text-left">
-                    Date Listed: Newest
-                  </button>
-                </li>
-                <li>
-                  <button className="w-full text-left">
-                    Date Listed: Oldest
-                  </button>
-                </li>
-                <li>
-                  <button className="w-full text-left">
-                    Asking Price: Low to High
-                  </button>
-                </li>
-                <li>
-                  <button className="w-full text-left">
-                    Asking Price: High to Low
-                  </button>
-                </li>
-                <li>
-                  <button className="w-full text-left">
-                    Annual Revenue: Low to High
-                  </button>
-                </li>
-                <li>
-                  <button className="w-full text-left">
-                    Annual Revenue: High to Low
-                  </button>
-                </li>
-                <li>
-                  <button className="w-full text-left">
-                    Annual Profit: Low to High
-                  </button>
-                </li>
-                <li>
-                  <button className="w-full text-left">
-                    Annual Profit: High to Low
-                  </button>
-                </li>
-              </ul>
+          </div>
+          {showSortTypes && (
+            <div className=" transition-all ease-in absolute mt-2 bg-white shadow-lg rounded-lg -right-4 p-4 w-64 z-10">
+              <div className="space-y-2">
+                {sortTypes.map((sort) => (
+                  <div 
+                  key={sort.value}
+                    
+                      className={`w-full text-left cursor-pointer hover:bg-gray-400 transition-all duration-150
+                        ${selectedSortTypes.includes(sort.value)
+                          ? "bg-gray-400 shadow-lg" 
+                          : "border-gray-600"
+                        }`}
+                      onClick={() => handleSortTypeClick(sort.value)}
+                    >
+                      {sort.label}
+                   
+                  </div>
+                ))}
+              </div>
               <div className="flex justify-between mt-4">
                 <button
                   type="button"
                   className="bg-gray-200 text-gray-700 rounded-full px-4 py-2"
-                  onClick={toggleSortOptions}
+                  onClick={handleClear}
                 >
                   Clear
                 </button>
                 <button
                   type="button"
                   className="bg-[#190041] text-white rounded-full px-4 py-2"
-                  onClick={toggleSortOptions}
+                  onClick={handleApply}
                 >
                   Apply
                 </button>
@@ -656,6 +637,7 @@ const Filters = ({ onApplyFilters, onSearch }) => {
             </div>
           )}
         </div>
+
       </div>
     </div>
   );
