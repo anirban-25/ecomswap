@@ -31,12 +31,13 @@ import {
   Search,
   Edit,
 } from "@mui/icons-material";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import SignUp from "@/adminPageComponents/SignUp"
 import Link from "next/link";
 const AdminPanel = () => {
   const router = useRouter();
+  const [addList, setAddList] = useState("")
   const [dataFrom, setDataFrom] = useState([]);
   const [signedIn, setSignedIn]= useState("");
   
@@ -311,7 +312,37 @@ const AdminPanel = () => {
     }
   
   };
-
+  const handleAddListing =async()=>{
+    const docRef = await addDoc(collection(db, "admin"), {
+      form1BusinessType: "",
+      form1BusinessTypeSub: "",
+      form1PrimarySourceOfUserAcquisition: "",
+      form1BriefDescription: "",
+      form1WebsiteUrl: "",
+      form1BusinessStarted: "",
+      form1LocationOfBusiness: "",
+      form1selectedIndustry: "",
+      form2trailingTotalRevenue: "",
+      form2netProfit: "",
+      form3GoogleAnalytics: "",
+      form3paymentProcessors: "",
+      form4detailedBusinessDescription: "",
+      form4bulltedPointstoDescribe: "",
+      form4Risks: "",
+      form4skillsRequired: "",
+      form4supportYoucanOffer: "",
+      form4CountriesToTarget: "",
+      form4SocialMedias: "",
+      form5askingPrice: "",
+      form6name: "",
+      form6email: "",
+      form6phoneNumber: "",
+      listNumber: "",
+      createdAt: "",
+    });
+    setAddList(docRef.id);
+    router.push(`admin-panel/${docRef.id}`)
+  }
   useEffect(() => {
 
     fetchFormData();
@@ -393,11 +424,9 @@ const AdminPanel = () => {
           <Toolbar />
           <Box display="flex" justifyContent="space-between" alignItems="center" mt={3}>
             <Typography variant="h5">Recent Listings</Typography>
-            <Link href={`/admin-panel/${id}`}>
-            <Button variant="contained" startIcon={<Person />}>
+            <Button variant="contained" startIcon={<Person />} onClick={()=>handleAddListing()}>
               Add Listing
             </Button>
-            </Link>
           </Box>
           <Box mt={2} mb={4} sx={{ maxWidth: 300, maxHeight: 30, height: 30 }}>
             <TextField

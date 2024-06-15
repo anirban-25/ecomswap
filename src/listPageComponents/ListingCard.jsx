@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
 
@@ -11,7 +11,10 @@ const ListingCard = ({ listing }) => {
   };
 
   const { id, description, tags, monthlyNetProfit, type,monthlyRevenue, monthlyMultiple,traffic, monetization, profit,revenue, location, industry, startdate,price, createdat, verified,thumbnailUrl } = listing;
-
+  useEffect(()=>{
+    console.log(id)
+    console.log(thumbnailUrl);
+  }, [])
   return (
     <div className="bg-white border border-[#aaa] border-dashed rounded-lg shadow-md p-4 flex h-auto relative w-full mx-auto">
       <div className="relative">

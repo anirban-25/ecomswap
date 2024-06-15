@@ -58,7 +58,8 @@ const listings = [
     id: 3,
     description: "shik shak shook",
     price: 35,
-    thumbnailUrl: "/images/Rectangle 1316.png",
+    thumbnailUrl:
+      "https://firebasestorage.googleapis.com/v0/b/ecomswap-91377.appspot.com/o/9JAqtx1rZfX66epfktPD.jpg?alt=media&token=33326558-ed33-4627-9c6d-6a2daeb71a6b",
     verified: true,
     topRated: true,
     isNew: false,
@@ -327,28 +328,35 @@ const ListPage = () => {
             console.error("Invalid Firestore Timestamp format");
           }
           if (docData.adminStatus === "Approved") {
-            listings.push({
-              id: docData.id,
-              description: docData.form1BriefDescription || "",
-              tags: docData.tags || "",
-              monthlyNetProfit: docData.monthlynetprofit || "",
-              type: docData.form1BusinessType || "",
-              monthlyRevenue: docData.monthlyrevenue || "",
-              monthlyMultiple: docData.monthlymultiple || "",
-              traffic: docData.trafficpercentage || "",
-              
-              monetization: docData.form1PrimarySourceOfUserAcquisition || "",
-              profit: parseInt(docData.netprofitpercentage, 10) || "",
-              revenue: docData.netrevenuepercentage || "",
-              location: getCountryName(docData.form1LocationOfBusiness) || "",
-              industry: docData.form1selectedIndustry || "",
-              startdate: docData.form1BusinessStarted || "",
-              price: parseInt(docData.form5askingPrice, 10) || "",
-              createdat: docData.createdAt || "",
-              listNumber: docData.listNumber || 800,
-              verified: docData.isVerified || "",
-              thumbnailUrl: docData.thumbnailUrl ||"",
-            });
+            const imageUrl =
+              "https://firebasestorage.googleapis.com/v0/b/ecomswap-91377.appspot.com/o/" +
+              doc.id +
+              ".jpg?alt=media&token=33326558-ed33-4627-9c6d-6a2daeb71a6b";
+            console.log(docData);
+            const seenIds = new Set(listings.map((item) => item.id));
+            if (!seenIds.has(docData.listNumber)) {
+              listings.push({
+                id: docData.listNumber,
+                description: docData.form1BriefDescription || "",
+                tags: docData.tags || "",
+                monthlyNetProfit: docData.monthlynetprofit || "",
+                type: docData.form1BusinessType || "",
+                monthlyRevenue: docData.monthlyrevenue || "",
+                monthlyMultiple: docData.monthlymultiple || "",
+                traffic: docData.trafficpercentage || "",
+                monetization: docData.form1PrimarySourceOfUserAcquisition || "",
+                profit: parseInt(docData.netprofitpercentage, 10) || "",
+                revenue: docData.netrevenuepercentage || "",
+                location: getCountryName(docData.form1LocationOfBusiness) || "",
+                industry: docData.form1selectedIndustry || "",
+                startdate: docData.form1BusinessStarted || "",
+                price: parseInt(docData.form5askingPrice, 10) || "",
+                createdat: docData.createdAt || "",
+                listNumber: docData.listNumber || 800,
+                verified: docData.isVerified || "",
+                thumbnailUrl: imageUrl || "",
+              });
+            }
           }
         });
 
@@ -385,7 +393,7 @@ const ListPage = () => {
       const matchesRevenue =
         listing.revenueMultiple >= minRevenueMultiple &&
         listing.revenueMultiple <= maxRevenueMultiple;
-      
+
       const matchesProfit =
         listing.profitMultiple >= minProfitMultiple &&
         listing.profitMultiple <= maxProfitMultiple;
