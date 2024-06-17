@@ -8,80 +8,15 @@ import BusinessesForSale from "@/listPageComponents/BusinessesForSale";
 import Footer from "@/components/Footer";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
-const listings = [
-  {
-    id: 1,
-    description:
-      "Electronic commerce (e-commerce) refers to companies and individuals that buy and sell goods and services over the internet. E-commerce operates in different types of market segments and can be conducted over computers, tablets, smartphones.",
-    price: 10,
-    thumbnailUrl: "/images/Rectangle 1316.png",
-    verified: true,
-    topRated: false,
-    isNew: true,
-    monthlyNetProfit: 102435,
-    monthlyRevenue: 88435,
-    monthlyMultiple: 14,
-    trafficPercentage: -5,
-    revenueMultiple: 65,
-    profitMultiple: 70,
-    type: "Saas",
-    industry: "Home and Garden",
-    monetization: "ecommerce",
-    location: "United States",
-    profit: "+25%",
-    revenue: "+25%",
-    traffic: "-5%",
-  },
-  {
-    id: 2,
-    description: "lorem lorem lorem",
-    price: 10,
-    thumbnailUrl: "/images/furniture.png",
-    verified: true,
-    topRated: true,
-    isNew: false,
-    monthlyNetProfit: 152435,
-    monthlyRevenue: 98435,
-    monthlyMultiple: 10,
-    trafficPercentage: 10,
-    revenueMultiple: 25,
-    profitMultiple: 40,
-    type: "eCommerce",
-    industry: "Furniture",
-    monetization: "eCommerce",
-    location: "Canada",
-    profit: "+19%",
-    revenue: "-15%",
-    traffic: "-10%",
-  },
-  {
-    id: 3,
-    description: "shik shak shook",
-    price: 35,
-    thumbnailUrl:
-      "https://firebasestorage.googleapis.com/v0/b/ecomswap-91377.appspot.com/o/9JAqtx1rZfX66epfktPD.jpg?alt=media&token=33326558-ed33-4627-9c6d-6a2daeb71a6b",
-    verified: true,
-    topRated: true,
-    isNew: false,
-    monthlyNetProfit: 182435,
-    monthlyRevenue: 99435,
-    monthlyMultiple: 20,
-    trafficPercentage: 30,
-    revenueMultiple: 95,
-    profitMultiple: 10,
-    type: "eCommerce",
-    industry: "Furniture",
-    monetization: "eCommerce",
-    location: "Canada",
-    profit: "+10%",
-    revenue: "-15%",
-    traffic: "+10%",
-  },
-];
+import { lineSpinner } from "ldrs";
+
+const listings = [];
 
 const ListPage = () => {
+  const [loader, setLoader] = useState(true);
   const [dataForm, setDataForm] = useState(false);
   useEffect(() => {
+    lineSpinner.register();
     const fetchFormData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "admin"));
@@ -358,6 +293,7 @@ const ListPage = () => {
               });
             }
           }
+          setLoader(false);
         });
 
         setDataForm(data);
@@ -397,15 +333,7 @@ const ListPage = () => {
       const matchesProfit =
         listing.profitMultiple >= minProfitMultiple &&
         listing.profitMultiple <= maxProfitMultiple;
-      console.log(
-        matchesType,
-        matchesPrice,
-        matchesRevenue,
-        matchesProfit,
-        listing.monthlyRevenue,
-        minRevenueMultiple,
-        maxRevenueMultiple
-      );
+      
       return matchesType && matchesPrice && matchesRevenue && matchesProfit;
     });
     console.log(filtered);
@@ -439,9 +367,20 @@ const ListPage = () => {
             onSearch={handleSearch}
           />
         </div>
-        <div className="px-20">
-          <Listings listings={filteredListings} />
-        </div>
+        {loader ? (
+          <div className="flex mt-10  justify-center ">
+            <l-line-spinner
+              size="40"
+              stroke="4"
+              speed="1"
+              color="black"
+            ></l-line-spinner>
+          </div>
+        ) : (
+          <div className="px-20">
+            <Listings listings={filteredListings} />
+          </div>
+        )}
         <div className="px-10">
           <Footer />
         </div>

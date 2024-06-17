@@ -5,7 +5,7 @@ import { LuPhoneCall } from "react-icons/lu";
 import { FaArrowAltCircleRight, FaArrowRight } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
-const InnerPageListingCard = () => {
+const InnerPageListingCard = ({ formData }) => {
   const listing = {
     id: 1,
     description:
@@ -52,8 +52,8 @@ const InnerPageListingCard = () => {
       <div className=" bg-white mr-7 border-[#D8D8D8] border w-2/3 max-h-[40rem] min-h-[25rem] h-full rounded-2xl shadow-md p-4 flex relative  mx-auto">
         <div className="relative min-w-[15rem]">
           <Image
-            src={thumbnailUrl}
-            alt={`${type} | ${industry}`}
+            src={formData.image}
+            alt={`${formData.businessType} | ${formData.industryType}`}
             width={254}
             height={560}
             className="rounded-2xl h-full overflow-hidden"
@@ -62,30 +62,21 @@ const InnerPageListingCard = () => {
 
         <div className="flex flex-col  max-w-[70rem] ml-4 overflow-hidden">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-gilroy-bold">{`${type} | ${industry}`}</h3>
+            <h3 className="text-lg font-gilroy-bold">{`${formData.businessType} | ${formData.industryType}`}</h3>
           </div>
           <div className="flex items-center mt-2 space-x-2">
-            {isNew && (
+            {formData.tags && (
               <div className="flex items-center bg-white border border-gray-300 px-4 py-2 rounded-full text-s italic">
                 <img
                   src="/images/newicon.svg"
                   alt="New"
                   className="w-4 h-4 mr-2"
                 />
-                New
+                {formData.tags}
               </div>
             )}
-            {topRated && (
-              <div className="flex items-center bg-white border border-gray-300 px-4 py-2 rounded-full text-s italic">
-                <img
-                  src="/images/newicon.svg"
-                  alt="Top Rated"
-                  className="w-4 h-4 mr-2"
-                />
-                Top Rated
-              </div>
-            )}
-            {verified && (
+            
+            {formData.isVerified && (
               <div className="flex items-center bg-white border border-gray-300 px-4 py-2 rounded-full text-s italic">
                 <img
                   src="/images/tick.svg"
@@ -105,14 +96,14 @@ const InnerPageListingCard = () => {
                 />
               </div>
             )}
-            {location && (
+            {formData.location && (
               <div className="flex items-center bg-white border border-gray-300 px-4 py-2 rounded-full text-s italic">
                 <img
                   src="/images/location.svg"
                   alt="Location"
                   className="w-4 h-4 mr-2"
                 />
-                {location}
+                {formData.location}
               </div>
             )}
           </div>
@@ -123,7 +114,7 @@ const InnerPageListingCard = () => {
                 {parseInt(profit) >= 0 ? (
                   <>
                     <p className={`font-gilroy-bold text-green-600`}>
-                      {profit}
+                      {formData.netprofitpercentage}
                     </p>
                     <img
                       src="/images/uparrow.svg"
@@ -157,7 +148,7 @@ const InnerPageListingCard = () => {
                 {parseInt(revenue) >= 0 ? (
                   <>
                     <p className={`font-gilroy-bold text-green-600`}>
-                      {revenue}
+                      {formData.netrevenuepercentage}
                     </p>
                     <img
                       src="/images/uparrow.svg"
@@ -191,7 +182,7 @@ const InnerPageListingCard = () => {
                 {parseInt(traffic) >= 0 ? (
                   <>
                     <p className={`font-gilroy-bold text-green-600`}>
-                      {traffic}
+                      {formData.trafficpercentage}
                     </p>
                     <img
                       src="/images/uparrow.svg"
@@ -213,7 +204,7 @@ const InnerPageListingCard = () => {
             </div>
           </div>
           <div className="mt-4">
-            <p className="text-gray-600 text-[16px]">{description}</p>
+            <p className="text-gray-600 text-[16px]">{formData.description}</p>
           </div>
           <div className="flex justify-between mb-5 items-end h-full pr-5">
             <div className="space-y-5">
@@ -227,7 +218,7 @@ const InnerPageListingCard = () => {
                     />
                     <p className="text-[14px] text-gray-500 ml-1">Type</p>
                   </div>
-                  <p className="font-gilroy-bold ml-1">{type}</p>
+                  <p className="font-gilroy-bold ml-1">{formData.businessType}</p>
                 </div>
               </div>
               <div>
@@ -241,7 +232,7 @@ const InnerPageListingCard = () => {
                     Monthly Net Profit
                   </p>
                 </div>
-                <p className="font-gilroy-bold ml-1">${monthlyNetProfit}</p>
+                <p className="font-gilroy-bold ml-1">${formData.monthlynetprofit}</p>
               </div>
             </div>
 
@@ -281,7 +272,7 @@ const InnerPageListingCard = () => {
                       />
                       <p className="text-[14px] text-gray-500 ml-1">Industry</p>
                     </div>
-                    <p className="font-gilroy-bold ml-1">{industry}</p>
+                    <p className="font-gilroy-bold ml-1">{formData.industryType}</p>
                   </div>
                 </div>
                 <div>
@@ -295,7 +286,7 @@ const InnerPageListingCard = () => {
                       Monthly Revenue
                     </p>
                   </div>
-                  <p className="font-gilroy-bold ml-1">${monthlyRevenue}</p>
+                  <p className="font-gilroy-bold ml-1">${formData.monthlyrevenue}</p>
                 </div>
               </div>
             </div>
@@ -337,7 +328,7 @@ const InnerPageListingCard = () => {
                         User Acquisition
                       </p>
                     </div>
-                    <p className="font-gilroy-bold ml-1">{monetization}</p>
+                    <p className="font-gilroy-bold ml-1">{formData.userAcquisition}</p>
                   </div>
                 </div>
                 <div>
@@ -351,7 +342,7 @@ const InnerPageListingCard = () => {
                       Monthly Multiple
                     </p>
                   </div>
-                  <p className="font-gilroy-bold ml-1">${monthlyMultiple}x</p>
+                  <p className="font-gilroy-bold ml-1">${formData.monthlymultiple}x</p>
                 </div>
               </div>
             </div>
@@ -362,7 +353,7 @@ const InnerPageListingCard = () => {
         <div>
           <div className=" font-gilroy-medium text-xl">Asking Price</div>
           <div className=" font-gilroy-bold text-5xl text-[#7850FF]">
-            ${price}
+            ${formData.askingprice}
           </div>
         </div>
         <div className="absolute bottom-4 flex  justify-between">

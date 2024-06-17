@@ -109,12 +109,12 @@ const Filters = ({ onApplyFilters, onSearch }) => {
 
   useEffect(() => {
     const handleClickOutsideForPrice = (event) => {
-      if (!dropdownRefPrice.current.contains(event.target)) {
+      if (!dropdownRefPrice?.current?.contains(event.target)) {
         setShowPriceRange(false);
       }
     };
     const handleClickOutside = (event) => {
-      if (!dropdownRef.current.contains(event.target)) {
+      if (!dropdownRef?.current?.contains(event.target)) {
         setShowAssetTypes(false);
       }
     };

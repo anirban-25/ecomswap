@@ -1,6 +1,6 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-
+import { RxTriangleRight } from "react-icons/rx";
 const AdminListing = () => {
   const lists = [
     {
@@ -30,48 +30,55 @@ const AdminListing = () => {
       <div className="text-2xl lg:text-4xl font-gilroy-bold text-center">
         Our Latest Listings
       </div>
-      <div className="lg:px-20 mt-10">
-        <div className="flex justify-between text-[#8D8D8D] font-gilroy-bold text-base">
-          <div className="w-1/5 text-xs lg:text-base flex justify-center">Monetization</div>
-          <div className="w-1/5 hidden lg:flex text-center">Niche</div>
-          <div className="w-1/5 hidden lg:flex text-center">Listing</div>
-          <div className="w-1/5 text-xs lg:text-base text-center">Monthly Net Profit</div>
-          <div className="w-1/5 text-xs lg:text-base flex justify-center">Price</div>
+      <div className=" mt-10 ">
+        <div className="">
+          <div className=" text-[#8D8D8D] text-lg font-gilroy-bold py-3 mt-3  px-2  grid grid-cols-5 lg:mt-5  text-center  ">
+            <div className="  ">Industry</div>
+            <div className="  ">Business Type</div>
+            <div className="  ">Listing</div>
+            <div className="  ">Monthly Net Profit</div>
+            <div className="  ">Price</div>
+          </div>
         </div>
         <div className="">
           {lists.map((list) => (
             <div className="">
-              <div className="bg-white py-3 mt-3 lg:py-5 border-dotted border-2 px-2 lg:px-10 lg:mt-5 flex text-center rounded-md shadow-sm justify-between">
-                <div className="flex justify-start lg:px-10 lg:w-1/5 font-gilroy-bold text-sm lg:text-lg ">
-                  {list.type}
-                </div>
-                <div className=" text-center lg:w-1/5 ">
-                  <div className="hidden lg:flex justify-center">
-                    <div className="border-[#7850FF] p-2 border-2 rounded-2xl text-[#7850FF] font-gilroy-bold">
+              <div className="bg-white relative">
+                <div className="bg-white py-3 mt-3 border-dotted border-2 px-2  grid grid-cols-5 lg:mt-5  text-center rounded-md shadow-sm ">
+                  <div className=" text-lg font-gilroy-bold capitalize">
+                    {list.type}
+                  </div>
+                  <div>
+                    <div className="text-[#7850FF] p-2 font-gilroy-medium rounded-3xl border border-[#7850FF]">
                       {list.niche}
                     </div>
                   </div>
+                  <div>{list.listing}</div>
+                  <div className=" font-gilroy-medium">
+                    {list.monthlyIncome}
+                  </div>
+                  <div className="text-[#7850FF] text-lg font-gilroy-bold">
+                    {list.price}
+                  </div>
                 </div>
-                <div className=" hidden lg:flex text-center lg:w-1/5 font-gilroy-medium">{list.listing}</div>
-                <div className="lg:w-1/5 text-center font-gilroy-medium text-sm lg:text-base">{list.monthlyIncome}</div>
-                <div className="lg:w-1/5 flex justify-end lg:px-10 text-center font-gilroy-bold text-sm lg:text-lg text-[#7850FF] ">
-                  {list.price}
+                <div className=" absolute top-5 right-5 ">
+                  <RxTriangleRight  size={30}/>
                 </div>
               </div>
             </div>
           ))}
         </div>
         <div>
-        <div className="flex justify-center mt-10">
-          <div className="bg-[#190041] p-2 rounded-full px-4 flex justify-center">
-            <div className="flex items-center text-white space-x-2 ">
-              <div className="font-gilroy-bold ">View Listings</div>
-              <div className="text-[#DCFD82]">
-                <FaArrowRight />
+          <div className="flex justify-center mt-10">
+            <div className="bg-[#190041] p-2 rounded-full px-4 flex justify-center">
+              <div className="flex items-center text-white space-x-2 ">
+                <div className="font-gilroy-bold ">View Listings</div>
+                <div className="text-[#DCFD82]">
+                  <FaArrowRight />
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
