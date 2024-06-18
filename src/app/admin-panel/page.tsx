@@ -5,7 +5,6 @@ type Props = {};
 
 const Page: React.FC<Props> = () => {
   
-  useEffect(() => {}, []);
   return (
     <div>
       <AdminPanel/>

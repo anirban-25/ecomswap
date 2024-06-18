@@ -35,13 +35,17 @@ import {
 import {
   addDoc,
   collection,
+  deleteDoc,
   getDocs,
   serverTimestamp,
+  setDoc,
+  doc,
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import SignUp from "@/adminPageComponents/SignUp";
 import Link from "next/link";
 const AdminPanel = () => {
+  const routes = ["/admin-panel/home-page-listings","/admin-panel", "#", "#"];
   const [loader, setLoader] = useState(false);
   const router = useRouter();
   const [addList, setAddList] = useState("");
@@ -387,6 +391,9 @@ const AdminPanel = () => {
     try {
       await deleteDoc(doc(db, "admin", id));
       setDataFrom((prevData) => prevData.filter((item) => item.id !== id));
+      try {
+        await deleteDoc(doc(db, "homepageListings", id));
+      } catch (error) {}
     } catch (error) {
       console.error("Error deleting document:", error);
     }
@@ -458,16 +465,19 @@ const AdminPanel = () => {
                 style={{ marginLeft: 25, marginTop: 10 }}
               />
               <List>
-                {["Listings", "Offers", "Logout"].map((text, index) => (
-                  <ListItem component="a" href="#" key={text}>
-                    <ListItemIcon>
-                      {index === 0 ? <ListAlt /> : null}
-                      {index === 1 ? <Settings /> : null}
-                      {index === 2 ? <ExitToApp /> : null}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                ))}
+                {["HomePage Listings", "All Listings", "Offers", "Logout"].map(
+                  (text, index) => (
+                    <ListItem component="a" href={routes[index]} key={text}>
+                      <ListItemIcon>
+                        {index === 0 ? <ListAlt /> : null}
+                        {index === 1 ? <ListAlt /> : null}
+                        {index === 2 ? <Settings /> : null}
+                        {index === 3 ? <ExitToApp /> : null}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItem>
+                  )
+                )}
               </List>
             </Box>
           </Drawer>
@@ -512,33 +522,30 @@ const AdminPanel = () => {
                 }}
               />
             </Box>
-            <Box sx={{ height: 400, width: "100%" }}>
-              <DataGrid
-                rows={dataFrom}
-                columns={columns}
-                initialState={{
-                  pagination: {
-                    paginationModel: {
-                      pageSize: 5,
+            <div className=" max-w-[80vw]">
+              <Box>
+                <DataGrid
+                  rows={dataFrom}
+                  columns={columns}
+                  initialState={{
+                    pagination: {
+                      paginationModel: {
+                        pageSize: 5,
+                      },
                     },
-                  },
-                }}
-                pageSizeOptions={[5, 10, 20]}
-                checkboxSelection
-                onRowSelectionModelChange={(newSelection) => {
-                  console.log("Selected rows:", newSelection);
-                  setSelectedRows(newSelection);
-                }}
-                rowSelectionModel={selectedRows}
-              />
-            </Box>
-            <Button
-              variant="contained"
-              startIcon={<Person />}
-              onClick={handleAddToHomepage}
-            >
-              Add to Homepage
-            </Button> 
+                  }}
+                  className=" overflow-auto"
+                  pageSizeOptions={[5, 10, 20]}
+                  checkboxSelection
+                  onRowSelectionModelChange={(newSelection) => {
+                    console.log("Selected rows:", newSelection);
+                    setSelectedRows(newSelection);
+                  }}
+                  rowSelectionModel={selectedRows}
+                />
+              </Box>
+            </div>
+            
           </Box>
         </Box>
       )}
