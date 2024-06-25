@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from 'react';
 import Header from "@/components/Header";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
@@ -7,7 +8,16 @@ import BuyerSection from "@/homePageComponents/BuyerSection";
 import SellerSection from "@/homePageComponents/SellerSection";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import dynamic from 'next/dynamic';
+const LineTo = dynamic(() => import('react-lineto'), { ssr: false });
 const page = () => {
+  
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    
+    setMounted(true);
+    console.log('fucker');
+  }, []);
   const reviewList = [
     {
       image: "/images/person1.png",
@@ -209,14 +219,17 @@ const page = () => {
           </div>
         </div>
         <div className="lg:flex relative justify-between  mt-10">
-          <div className=" items-center block">
+          <div className="relative items-center block" id="card1"
+          style={{ position: 'relative', width: '350px', height: '350px', border: '1px solid red', margin: '0 auto' }}
+          >
             <Image
               src="/images/card1.png"
+              
               height={350}
               width={350}
               alt="Mockup"
             />
-            <div>
+            <div >
               <div className="flex justify-center font-gilroy-bold text-xl lg:text-2xl">
                 Sellers
               </div>
@@ -235,7 +248,8 @@ const page = () => {
               alt="left-side"
             />
           </div>
-          <div className="items-center block">
+          <div className="relative items-center block" id="card2"
+          style={{ position: 'relative', width: '350px', height: '350px', border: '1px solid red', margin: '0 auto' }}>
             <Image
               src="/images/card2.png"
               height={350}
@@ -254,7 +268,8 @@ const page = () => {
               </div>
             </div>
           </div>
-          <div className="block items-center">
+          <div className="relative block items-center" id="card3"
+          style={{ position: 'relative', width: '350px', height: '350px', border: '1px solid red', margin: '0 auto' }}>
             <Image
               src="/images/card3.png"
               height={350}
@@ -273,6 +288,32 @@ const page = () => {
             </div>
           </div>
         </div>
+        {mounted && (
+        <>
+          <LineTo
+            from="card1"
+            to="card2"
+            fromAnchor="right center"
+            toAnchor="bottom center"
+            borderColor="black"
+            borderStyle="dashed"
+            borderWidth={2}
+            className="custom-line"
+          />
+          <LineTo
+            from="card2"
+            to="card3"
+            fromAnchor="bottom center"
+            toAnchor="left center"
+            borderColor="black"
+            borderStyle="dashed"
+            borderWidth={2}
+            className="custom-line"
+          />
+        </>
+      )}
+
+
         <AdminListing />
         <BuyerSection />
         <SellerSection />
