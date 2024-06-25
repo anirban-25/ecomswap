@@ -4,9 +4,9 @@ const Help = () => {
   return (
     <div className="help-section">
       <h2 className="help-title text-center">
-        We help you every step of the way. Whether you're a buyer or founder, <span className="highlight">Ecomswap.com</span> helps you succeed.
+        We help you every step of the way. Whether you&apos;re a buyer or founder, <span className="highlight">Ecomswap.com</span> helps you succeed.
       </h2>
-      <p style={{ margin: '10px 0' }}></p>
+      <p style={{ margin: '60px 0' }}></p>
       <div className="help-features">
         <div className="feature-item">
           <div className="feature-number-box">
@@ -14,7 +14,7 @@ const Help = () => {
           </div>
           <h3 className="feature-title">Entrepreneurship</h3>
           <p className="feature-description">
-            We’re advocates of entrepreneurs everywhere, supporting your wins, big and small.
+            We&apos;re advocates of entrepreneurs everywhere, supporting your wins, big and small.
           </p>
         </div>
         <div className="feature-item">
@@ -23,7 +23,7 @@ const Help = () => {
           </div>
           <h3 className="feature-title">Trust</h3>
           <p className="feature-description">
-            We’re there for you every step of the acquisition process, guaranteed.
+            We&apos;re there for you every step of the acquisition process, guaranteed.
           </p>
         </div>
         <div className="feature-item">
